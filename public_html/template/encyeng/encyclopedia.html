@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Did You Know?</title>
+<link rel="shortcut icon" href="uzaylogo.ico">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{background-image:url("../static/resim1.jpg");background-repeat:no-repeat;background-attachment:fixed;background-size:cover;}
+.menubuton{background-color:red;color:#fff;padding:16px;font-size:16px;border:none;cursor:pointer;border-radius:8px;}
+.menu{position:relative;display:inline-block;font-family:Arial;font-size:15px;z-index:1000;}
+.menu-icerik{display:none;position:absolute;background-color:#f9f9f9;min-width:160px;box-shadow:0 8px 16px 0 rgba(0,0,0,.2);border-radius:8px;z-index:2000;}
+.menu-icerik a{color:#000;padding:12px 16px;text-decoration:none;display:block;}
+.menu-icerik a:hover{background-color:#73B9FF;}
+.menu:hover .menu-icerik{display:block;}
+.menu:hover .menubuton{background-color:#000040;}
+.bbm-wrap{max-width:980px;margin:0 auto;}
+.bbm-card{border:1px solid rgba(110,200,255,.25);border-radius:18px;overflow:hidden;background:rgba(0,0,0,.25);box-shadow:0 12px 30px rgba(0,0,0,.35);display:grid;grid-template-columns:1.1fr 1fr;}
+@media (max-width:900px){.bbm-card{grid-template-columns:1fr;}}
+.bbm-media{position:relative;background:rgba(0,0,0,.35);min-height:320px;}
+.bbm-img{width:100%;height:100%;object-fit:cover;display:block;}
+.bbm-body{position:relative;padding:22px 22px 18px 22px;display:flex;flex-direction:column;gap:12px;}
+.bbm-toggle{position:absolute;top:18px;right:18px;min-width:48px;}
+.bbm-kicker{font-size:14px;opacity:.9;letter-spacing:.2px;}
+.bbm-title{margin:0;font-size:28px;line-height:1.15;}
+.bbm-text{margin:0;font-size:16px;line-height:1.65;opacity:.95;}
+.bbm-controls{margin-top:auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;}
+.bbm-btn{border:1px solid rgba(110,200,255,.35);background:rgba(0,0,0,.35);color:#6ec8ff;padding:10px 14px;border-radius:12px;cursor:pointer;font-size:16px;min-width:48px;transition:transform .06s ease,background .2s ease,border-color .2s ease;}
+.bbm-btn:hover{background:rgba(110,200,255,.08);border-color:rgba(110,200,255,.6);}
+.bbm-btn:active{transform:scale(.98);}
+.bbm-progress{display:flex;flex-direction:column;gap:8px;}
+.bbm-bar{height:10px;border-radius:999px;background:rgba(110,200,255,.12);border:1px solid rgba(110,200,255,.25);overflow:hidden;}
+.bbm-bar-fill{height:100%;width:0%;background:rgba(110,200,255,.55);}
+.bbm-hint{font-size:12px;opacity:.7;}
+</style>
+</head>
+<body>
+
+<div class="menu">
+  <button class="menubuton">Did You Know?</button>
+  <div class="menu-icerik">
+    <a href="/encyclopedia">Did You Know?</a>
+    <a href="/encyclopedia/@/explosions">Explosions</a>
+    <a href="/encyclopedia/@/zodiac_mythology">Zodiac and Mythology</a>
+    <a href="/encyclopedia/@/historical_events">Historical Events</a>
+    <a href="/encyclopedia/@/accidents">Accidents</a>
+    <a href="/encyclopedia/@/meteors_meteorites">Meteors and Meteorites</a>
+    <a href="/encyclopedia/@">Games</a>
+    <a href="/">Space Area</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Nebulae</button>
+  <div class="menu-icerik">
+    <a href="/encyclopedia/nebulae">What is it?</a>
+    <a href="/encyclopedia/nebulae/formation">Formation</a>
+    <a href="/encyclopedia/nebulae/emission">Emission Nebula</a>
+    <a href="/encyclopedia/nebulae/dark">Dark Nebulae</a>
+    <a href="/encyclopedia/nebulae/reflection">Reflection Nebula</a>
+    <a href="/encyclopedia/nebulae/planetary">Planetary Nebula</a>
+    <a href="/encyclopedia/nebulae/supernova">Supernova Remnants</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Planets</button>
+  <div class="menu-icerik">
+    <a href="/encyclopedia/planets/what">What is it?</a>
+    <a href="/encyclopedia/planets/formation">Formation</a>
+    <a href="/encyclopedia/planets/solar_system">Solar System</a>
+    <a href="/encyclopedia/planets">Planets</a>
+    <a href="/encyclopedia/planets/dwarf_planets">Dwarf Planets</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Stars</button>
+  <div class="menu-icerik">
+    <a href="/encyclopedia/stars">What is it?</a>
+    <a href="/encyclopedia/stars/formation">Formation</a>
+    <a href="/encyclopedia/stars/m_type">M Type</a>
+    <a href="/encyclopedia/stars/k_type">K Type</a>
+    <a href="/encyclopedia/stars/a_f_type">A and F Type</a>
+    <a href="/encyclopedia/stars/o_b_type">O and B Type</a>
+    <a href="/encyclopedia/stars/giant_stars">Giant Stars</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Constellations</button>
+  <div class="menu-icerik">
+    <a href="/encyclopedia/constellations/what">What is it?</a>
+    <a href="/encyclopedia/constellations/formation">Formation</a>
+    <a href="/encyclopedia/constellations">Constellations</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Comets</button>
+  <div class="menu-icerik">
+    <a href="/encyclopedia/comets">What is it?</a>
+    <a href="/encyclopedia/comets/formation">Formation</a>
+    <a href="/encyclopedia/comets/jupiter_family">Jupiter-family Comets</a>
+    <a href="/encyclopedia/comets/halley_type">Halley-type Comets</a>
+    <a href="/encyclopedia/comets/long_period">Long-period Comets</a>
+    <a href="/encyclopedia/comets/by_orbit">Comets by Orbit</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Neutron Stars</button>
+  <div class="menu-icerik">
+    <a href="/encyclopedia/neutron_stars">What is it?</a>
+    <a href="/encyclopedia/neutron_stars/formation">Formation</a>
+    <a href="/encyclopedia/neutron_stars/pulsars">Pulsars</a>
+    <a href="/encyclopedia/neutron_stars/magnetars">Magnetars</a>
+    <a href="/encyclopedia/neutron_stars/quark_exotic">Quark and Exotic Stars</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Galaxies</button>
+  <div class="menu-icerik">
+    <a href="/encyclopedia/galaxies">What is it?</a>
+    <a href="/encyclopedia/galaxies/formation">Formation</a>
+    <a href="/encyclopedia/galaxies/elliptical">Elliptical</a>
+    <a href="/encyclopedia/galaxies/spiral">Spiral</a>
+    <a href="/encyclopedia/galaxies/barred_spiral">Barred Spiral</a>
+    <a href="/encyclopedia/galaxies/irregular">Irregular</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Black Holes</button>
+  <div class="menu-icerik">
+    <a href="/encyclopedia/black_holes">What is it?</a>
+    <a href="/encyclopedia/black_holes/formation">Formation</a>
+    <a href="/encyclopedia/black_holes/stellar">Stellar Black Holes</a>
+    <a href="/encyclopedia/black_holes/supermassive">Supermassive Black Holes</a>
+    <a href="/encyclopedia/black_holes/intermediate">Intermediate-mass Black Holes</a>
+    <a href="/encyclopedia/black_holes/primordial">Primordial Black Holes</a>
+  </div>
+</div>
+
+<div class="container" style="margin-top:50px">
+  <h3></h3>
+  <font color="white">
+
+    <div id="bbm-wrap" class="bbm-wrap">
+      <div class="bbm-card" id="bbm-card">
+        <div class="bbm-media">
+          <img id="bbm-img" class="bbm-img" src="" alt="">
+        </div>
+        <div class="bbm-body">
+          <div class="bbm-kicker">
+            <span id="bbm-index">1 / 38</span>
+          </div>
+          <h2 id="bbm-title" class="bbm-title"></h2>
+          <p id="bbm-text" class="bbm-text"></p>
+
+          <div class="bbm-controls">
+            <button id="bbm-prev" class="bbm-btn" type="button" aria-label="Previous">←</button>
+            <div class="bbm-progress">
+              <div class="bbm-bar">
+                <div id="bbm-bar-fill" class="bbm-bar-fill"></div>
+              </div>
+              <div id="bbm-hint" class="bbm-hint">You can also navigate using the arrow keys.</div>
+            </div>
+            <button id="bbm-next" class="bbm-btn" type="button" aria-label="Next">→</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3></h3>
+  </font>
+</div>
+
+<script>
+  const cards = [
+    { title: "The 1054 Supernova (Crab Nebula)", img: "template/ency/static/ency/biliyormuydun1_1.png",
+      text: "The supernova that exploded in 1054 was reportedly bright enough to be seen even during the day. Today, we observe the remnant of this explosion as the Crab Nebula." },
+
+    { title: "The 1908 Tunguska Event", img: "template/ency/static/ency/biliyormuydun1_2.png",
+      text: "A massive explosion in Siberia flattened thousands of square kilometers of forest without leaving a clear crater. The strongest explanation is that the object exploded in the atmosphere." },
+
+    { title: "The 2013 Chelyabinsk Meteor", img: "template/ency/static/ency/biliyormuydun1_3.png",
+      text: "The object that exploded in the atmosphere over Chelyabinsk shattered thousands of windows with its shockwave. This event showed how impactful even relatively small space objects can be." },
+
+    { title: "Gamma-Ray Bursts (GRBs)", img: "template/ency/static/ency/biliyormuydun1_4.png",
+      text: "Some gamma-ray bursts release unimaginable amounts of energy in just seconds. These events are often linked to massive star collapses or neutron star mergers." },
+
+    { title: "SN 1987A", img: "template/ency/static/ency/biliyormuydun1_5.png",
+      text: "SN 1987A is one of the most studied supernovae of the modern era. The structure formed after the explosion clearly reveals the star’s mass loss before its death." },
+
+    { title: "The Chicxulub Impact", img: "template/ency/static/ency/biliyormuydun1_6.png",
+      text: "The Chicxulub impact about 66 million years ago dramatically changed Earth’s climate. This event is the leading candidate linked to the extinction of the dinosaurs." },
+
+    { title: "The Carrington Event (1859)", img: "template/ency/static/ency/biliyormuydun1_7.png",
+      text: "The extreme solar storm of 1859 caused failures and fires in telegraph systems. A similar event today could have severe consequences for global infrastructure." },
+
+    { title: "The Asteroid Apophis", img: "template/ency/static/ency/biliyormuydun1_8.png",
+      text: "Apophis once drew attention due to its potential impact risk, but later orbital measurements showed the risk had decreased. Its close approaches still serve as important tests for planetary defense." },
+
+    { title: "The Sun Is Actually a Small Star", img: "template/ency/static/ency/biliyormuydun1_9.png",
+      text: "Compared to most stars, the Sun is neither among the largest nor the smallest. Still, when compared to giant stars, it is considered relatively small." },
+
+    { title: "The Enormous Size of UY Scuti", img: "template/ency/static/ency/biliyormuydun1_10.png",
+      text: "Red supergiants like UY Scuti can reach unimaginable radii compared to the Sun. If placed at the Sun’s position, such a star could engulf the inner planets." },
+
+    { title: "Betelgeuse Will Explode One Day", img: "template/ency/static/ency/biliyormuydun1_11.png",
+      text: "Betelgeuse is a supergiant in an advanced stage of stellar evolution. When it explodes, it could appear in the sky as an extraordinarily bright ‘new star’." },
+
+    { title: "The Density of Neutron Stars", img: "template/ency/static/ency/biliyormuydun1_12.png",
+      text: "Neutron star matter is extraordinarily dense. A common comparison suggests that even a tiny amount would correspond to an incredible mass on Earth." },
+
+    { title: "The Black Hole at the Center of the Milky Way (Sagittarius A*)", img: "template/ency/static/ency/biliyormuydun1_13.png",
+      text: "At the center of the Milky Way lies Sagittarius A*. The orbits of stars strongly indicate the presence of an extremely massive object there." },
+
+    { title: "Black Holes May Not Look Completely ‘Black’", img: "template/ency/static/ency/biliyormuydun1_14.png",
+      text: "Black holes emit no light themselves, but surrounding matter can glow. The bright ring around the event horizon can reveal the black hole’s silhouette." },
+
+    { title: "Hawking Radiation", img: "template/ency/static/ency/biliyormuydun1_15.png",
+      text: "Theoretically, black holes can lose energy over extremely long timescales. This process suggests that black holes may not remain unchanged forever." },
+
+    { title: "Spaghettification", img: "template/ency/static/ency/biliyormuydun1_16.png",
+      text: "As an object approaches a black hole, tidal forces can increase dramatically. This effect stretches the object lengthwise into a thin, noodle-like shape." },
+
+    { title: "The Milky Way–Andromeda Collision", img: "template/ency/static/ency/biliyormuydun1_17.png",
+      text: "The Milky Way and Andromeda are moving toward each other. In the distant future, a possible merger could radically reshape both galaxies." },
+
+    { title: "The Universe Is Expanding at an Accelerating Rate", img: "template/ency/static/ency/biliyormuydun1_18.png",
+      text: "Observations show that the universe is not only expanding, but that this expansion is accelerating. This strongly supports the idea of dark energy." },
+
+    { title: "Distant Galaxies Are Views into the Past", img: "template/ency/static/ency/biliyormuydun1_19.png",
+      text: "Seeing a distant galaxy means seeing it as it was in the past. Its light has traveled for billions of years to reach us." },
+
+    { title: "Galaxies Grow with Black Holes", img: "template/ency/static/ency/biliyormuydun1_20.png",
+      text: "Many galaxies host massive black holes at their centers. These cores may be more tightly linked to galactic evolution than previously thought." },
+
+    { title: "Olbers’ Paradox (Why Is the Night Sky Dark?)", img: "template/ency/static/ency/biliyormuydun1_21.png",
+      text: "If the universe were infinite and filled with stars everywhere, the sky would be bright. The darkness of night provides deep clues about the universe’s structure and age." },
+
+    { title: "The Age of the Universe Is ~13.8 Billion Years", img: "template/ency/static/ency/biliyormuydun1_22.png",
+      text: "Cosmological measurements place the age of the universe at about 13.8 billion years. This value is understood alongside the universe’s expansion history." },
+
+    { title: "The Cosmic Microwave Background (CMB)", img: "template/ency/static/ency/biliyormuydun1_23.png",
+      text: "The CMB is seen as a ‘heat signature’ left over from the universe’s infancy. This faint radiation is one of the strongest pillars of modern cosmology." },
+
+    { title: "Time Slows Near a Black Hole", img: "template/ency/static/ency/biliyormuydun1_24.png",
+      text: "Strong gravity affects the flow of time. Near regions of intense gravitational fields, time can pass differently compared to distant areas." },
+
+    { title: "The 1910 Halley’s Comet Panic", img: "template/ency/static/ency/biliyormuydun1_25.png",
+      text: "During its 1910 passage, some people feared that gases from the comet would be dangerous. The event is a striking example of the social impact of celestial phenomena." },
+
+    { title: "Venus Transits Are Very Rare", img: "template/ency/static/ency/biliyormuydun1_26.png",
+      text: "Transits of Venus occur in pairs separated by long intervals. As a result, many people will see only one—or none—during their lifetime." },
+
+    { title: "The Meteor Storm of 1833", img: "template/ency/static/ency/biliyormuydun1_27.png",
+      text: "The meteor storm of 1833 filled the sky with thousands of meteors. It demonstrated just how intense meteor showers can become." },
+
+    { title: "Dark Matter Holds a Major Share", img: "template/ency/static/ency/biliyormuydun1_28.png",
+      text: "The rotation speeds and mass distributions of galaxies point to an unseen form of matter. This component may make up a large fraction of the universe’s total mass." },
+
+    { title: "Empty Space Is Not Truly Empty", img: "template/ency/static/ency/biliyormuydun1_29.png",
+      text: "Even regions we call ‘empty space’ can contain fields, particles, and effects. The universe’s invisible processes often operate within this background." },
+
+    { title: "Up to 95% of the Universe May Be Unknown", img: "template/ency/static/ency/biliyormuydun1_30.png",
+      text: "Observations suggest that the matter we see accounts for only a small fraction of the total. Dark matter and dark energy remain the greatest mysteries." },
+
+    { title: "Space Is Silent", img: "template/ency/static/ency/biliyormuydun1_31.png",
+      text: "Sound requires a medium to travel, and space lacks a dense medium. That is why the idea of hearing explosions in space is not realistic." },
+
+    { title: "The Moon Is Drifting Away Each Year", img: "template/ency/static/ency/biliyormuydun1_32.png",
+      text: "The Moon is slowly moving away from Earth. This process is linked to tidal interactions and can be measured over long timescales." },
+
+    { title: "Earth’s Rotation Is Slowing Down", img: "template/ency/static/ency/biliyormuydun1_33.png",
+      text: "Tides and internal dynamics subtly affect Earth’s rotation rate. These changes can cause small variations in the length of a day." },
+
+    { title: "The Sun Will One Day Become a Red Giant", img: "template/ency/static/ency/biliyormuydun1_34.png",
+      text: "When the Sun exhausts its fuel, its outer layers will expand and it will enter the red giant phase. This will dramatically alter the inner Solar System." },
+
+    { title: "Hypervelocity Stars Escaping the Galaxy", img: "template/ency/static/ency/biliyormuydun1_35.png",
+      text: "Some stars can be accelerated to such extreme speeds that they escape their galaxy’s gravitational pull. This acceleration is often linked to intense gravitational interactions." },
+
+    { title: "Rogue Planets", img: "template/ency/static/ency/biliyormuydun1_36.png",
+      text: "Some planets wander through space without being bound to a star. These worlds may have been ejected from their systems or formed independently." },
+
+    { title: "Gold May Be Produced in Neutron Star Mergers", img: "template/ency/static/ency/biliyormuydun1_37.png",
+      text: "The origins of some heavy elements are tied to extreme cosmic events. Neutron star mergers are among the strongest candidate processes for producing heavy elements." },
+
+    { title: "The Universe May End in Darkness (Heat Death)", img: "template/ency/static/ency/biliyormuydun1_38.png",
+      text: "In the far future, star formation may cease and the universe could gradually fade. In this scenario, energy differences diminish and the cosmos approaches a dark, static state." }
+  ];
+  
+  function shuffle(array){for(let j=array.length-1;j>0;j--){const k=Math.floor(Math.random()*(j+1));[array[j],array[k]]=[array[k],array[j]];}}
+  shuffle(cards);
+  let i=0;let autoInterval=null;const intervalTime=5000;
+  const elImg=document.getElementById("bbm-img");const elTitle=document.getElementById("bbm-title");const elText=document.getElementById("bbm-text");const elIndex=document.getElementById("bbm-index");const elPrev=document.getElementById("bbm-prev");const elNext=document.getElementById("bbm-next");const elFill=document.getElementById("bbm-bar-fill");
+  const toggleBtn=document.createElement("button");toggleBtn.textContent="⏸";toggleBtn.className="bbm-btn bbm-toggle";document.querySelector(".bbm-body").appendChild(toggleBtn);
+  function render(idx){const c=cards[idx];elImg.src=c.img;elImg.alt=c.title;elTitle.textContent=c.title;elText.textContent=c.text;elIndex.textContent=(idx+1)+" / "+cards.length;elFill.style.width=((idx+1)/cards.length*100)+"%";}
+  function next(){i=(i+1)%cards.length;render(i);}
+  function prev(){i=(i-1+cards.length)%cards.length;render(i);}
+  function startAuto(){stopAuto();autoInterval=setInterval(next,intervalTime);toggleBtn.textContent="⏸";}
+  function stopAuto(){if(autoInterval){clearInterval(autoInterval);autoInterval=null;}toggleBtn.textContent="▶";}
+  function manualAction(callback){stopAuto();callback();}
+  toggleBtn.addEventListener("click",()=>{if(autoInterval){stopAuto();}else{startAuto();}});
+  elNext.addEventListener("click",()=>manualAction(next));
+  elPrev.addEventListener("click",()=>manualAction(prev));
+  document.addEventListener("keydown",(e)=>{if(e.key==="ArrowRight")manualAction(next);if(e.key==="ArrowLeft")manualAction(prev);});
+  render(i);
+  startAuto();
+</script>
+
+</body>
+</html>

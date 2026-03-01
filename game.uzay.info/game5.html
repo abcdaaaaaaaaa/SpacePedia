@@ -1,0 +1,173 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="uzaylogo.ico">
+<title>Multidimensional Viewer</title>
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {display:flex;flex-direction:column;align-items:center;min-height:100vh;background:#000;color:#fff;font-family:Arial,sans-serif;}
+header {position:fixed;top:0;left:0;width:100%;height:80px;display:flex;justify-content:space-between;align-items:center;padding:0 20px;background:linear-gradient(90deg,#6600ff,#9933ff);color:#fff;font-weight:700;font-size:22px;text-shadow:0 0 12px #6600ff;z-index:1000;transition:all 0.3s;}
+header:hover {text-shadow:0 0 24px #9933ff, 0 0 48px #6600ff;}
+.header-left {font-size:22px;text-shadow:0 0 6px #6600ff;}
+.header-right {display:flex;gap:20px;align-items:center;}
+label {font-size:14px;color:#fff;}
+select,input[type=range] {padding:5px 10px;font-size:14px;border-radius:6px;border:none;background:#330099;color:#fff;box-shadow:0 0 10px #6600ff;}
+select:hover,input[type=range]:hover {box-shadow:0 0 20px #9933ff;}
+.cube-container {perspective:1000px;flex:1;display:flex;justify-content:center;align-items:center;width:100%;margin-top:80px;}
+.shape {position:relative;display:flex;justify-content:center;align-items:center;transition:all 0.3s;}
+.shape:hover {filter:drop-shadow(0 0 20px #6600ff);}
+.point {width:20px;height:20px;border-radius:50%;}
+.line {height:5px;}
+.square {}
+.cube {position:relative;width:200px;height:200px;transform-style:preserve-3d;}
+.cube-face {position:absolute;inset:0;width:100%;height:100%;transform-style:preserve-3d;}
+.cube-face span {position:absolute;inset:0;width:100%;height:100%;transform: rotateY(calc(90deg * var(--i))) translateZ(100px);}
+.inner-cube {position:absolute;inset:40px;transform-style:preserve-3d;}
+.inner-cube span {position:absolute;inset:0;width:100%;height:100%;transform:rotateY(calc(90deg * var(--i))) translateZ(40px);}
+.edge {stroke-width:2;fill:none;filter:url(#glow);}
+.surface {fill:rgba(102,0,255,0.2);stroke:none;}
+@keyframes rotateOuter {0% {transform: rotateX(-30deg) rotateY(0deg);}100% {transform: rotateX(-30deg) rotateY(180deg);}}
+</style>
+</head>
+<body>
+<audio id="bgMusic" src="dimension.mp3" autoplay loop></audio>
+<header>
+  <div class="header-left" id="headerTitle">0D Glimmering Point</div>
+  <div class="header-right">
+    <label for="dimensionSelect">Dimension:</label>
+    <select id="dimensionSelect">
+      <option value="0">0D (Point)</option>
+      <option value="1">1D (Line)</option>
+      <option value="2">2D (Square)</option>
+      <option value="3">3D (Cube)</option>
+      <option value="4" selected>4D (Tesseract)</option>
+    </select>
+    <label for="toneSlider">Tone:</label>
+    <input type="range" id="toneSlider" min="0" max="100" value="50">
+  </div>
+</header>
+<div class="cube-container" id="container"></div>
+<script>
+const dimensionSelect=document.getElementById('dimensionSelect');
+const headerTitle=document.getElementById('headerTitle');
+const container=document.getElementById('container');
+const toneSlider=document.getElementById('toneSlider');
+
+const cubeCorners=[[-1,-1,-1],[1,-1,-1],[-1,1,-1],[1,1,-1],[-1,-1,1],[1,-1,1],[-1,1,1],[1,1,1]];
+
+function createShape(dim){
+  container.innerHTML='';
+  const tone=toneSlider.value/100;
+  headerTitle.textContent=dim===0?'0D Glimmering Point':dim===1?'1D Luminous Line':dim===2?'2D Radiant Square':dim===3?'3D Glowing Dramatic Cube':'4D Hyperspace Tesseract';
+  if(dim===0){
+    const p=document.createElement('div');p.className='shape point';
+    p.style.background=`rgba(102,0,255,${tone})`;
+    p.style.boxShadow=`0 0 ${20*tone}px #6600ff`;
+    container.appendChild(p);
+  }
+  else if(dim===1){
+    const l=document.createElement('div');l.className='shape line';
+    l.style.background=`rgba(102,0,255,${tone})`;
+    l.style.width='150px';
+    l.style.boxShadow=`0 0 ${20*tone}px #6600ff`;
+    container.appendChild(l);
+  }
+  else if(dim===2){
+    const s=document.createElement('div');s.className='shape square';
+    s.style.width='150px'; s.style.height='150px';
+    s.style.background=`linear-gradient(#220066, rgba(102,0,255,${tone}))`;
+    s.style.boxShadow=`0 0 ${20*tone}px #6600ff`;
+    container.appendChild(s);
+  }
+  else if(dim===3){
+    const cube=document.createElement('div');cube.className='shape cube';
+    const face=document.createElement('div');face.className='cube-face';
+    for(let i=0;i<4;i++){
+      const span=document.createElement('span');span.style.setProperty('--i',i);
+      span.style.background=`linear-gradient(#220066, rgba(102,0,255,${tone}))`;
+      span.style.boxShadow=`0 0 ${20*tone}px #6600ff`;
+      face.appendChild(span);
+    }
+    cube.appendChild(face);
+    cube.style.animation='rotateOuter 4s linear infinite';
+    container.appendChild(cube);
+  }
+  else if(dim===4){
+    const svgNS="http://www.w3.org/2000/svg";
+    const W=400,H=400,cx=W/2,cy=H/2,perspective=400;
+    const big=80,small=40;
+    const edges=[[0,1],[1,3],[3,2],[2,0],[4,5],[5,7],[7,6],[6,4],[0,4],[1,5],[2,6],[3,7]];
+    const faces=[[0,1,3,2],[4,5,7,6],[0,1,5,4],[2,3,7,6],[0,2,6,4],[1,3,7,5]];
+    const svg=document.createElementNS(svgNS,"svg");
+    svg.setAttribute("width",W);svg.setAttribute("height",H);
+    container.appendChild(svg);
+    const defs=document.createElementNS(svgNS,"defs");
+    const filter=document.createElementNS(svgNS,"filter");
+    filter.setAttribute("id","glow");
+    const feGaussian=document.createElementNS(svgNS,"feGaussianBlur");
+    feGaussian.setAttribute("stdDeviation","3");
+    feGaussian.setAttribute("result","blur");
+    const feMerge=document.createElementNS(svgNS,"feMerge");
+    const feMergeNode1=document.createElementNS(svgNS,"feMergeNode"); feMergeNode1.setAttribute("in","blur");
+    const feMergeNode2=document.createElementNS(svgNS,"feMergeNode"); feMergeNode2.setAttribute("in","SourceGraphic");
+    feMerge.appendChild(feMergeNode1); feMerge.appendChild(feMergeNode2);
+    filter.appendChild(feGaussian); filter.appendChild(feMerge); defs.appendChild(filter); svg.appendChild(defs);
+    const makeLine=(cls)=>{const l=document.createElementNS(svgNS,"line");l.setAttribute("class",cls);svg.appendChild(l);return l;}
+    const makePolygon=(cls)=>{const p=document.createElementNS(svgNS,"polygon");p.setAttribute("class",cls);svg.appendChild(p);return p;}
+    const bigEdges=edges.map(()=>makeLine("edge")); 
+    const smallEdges=edges.map(()=>makeLine("edge")); 
+    const connectors=Array.from({length:8},()=>makeLine("edge"));
+    const bigFaces=faces.map(()=>makePolygon("surface")); 
+    const smallFaces=faces.map(()=>makePolygon("surface"));
+    const rotate=(p,ax,ay,az)=>{let x=p[0],y=p[1],z=p[2];let rx=ax*Math.PI/180,ry=ay*Math.PI/180,rz=az*Math.PI/180;let ca=Math.cos(rx),sa=Math.sin(rx);let y1=y*ca-z*sa;let z1=y*sa+z*ca;let cb=Math.cos(ry),sb=Math.sin(ry);let x2=x*cb+z1*sb;let z2=-x*sb+z1*cb;let cc=Math.cos(rz),sc=Math.sin(rz);let x3=x2*cc-y1*sc;let y3=x2*sc+y1*cc;return [x3,y3,z2];};
+    const project=(p)=>{const scale=perspective/(perspective-p[2]);return [cx+p[0]*scale,cy-p[1]*scale];};
+    const update= t => {
+      const ax=(t*0.02)%360,ay=(t*0.015)%360,az=(t*0.01)%360;
+      const bigPts=cubeCorners.map(c=>[c[0]*big,c[1]*big,c[2]*big]);
+      const smallPts=cubeCorners.map(c=>[c[0]*small,c[1]*small,c[2]*small]);
+      const bigProjected=bigPts.map(p=>project(rotate(p,ax,ay,az)));
+      const smallProjected=smallPts.map(p=>project(rotate(p,ax,ay,az)));
+      edges.forEach((e,i)=>{
+        const a=bigProjected[e[0]],b=bigProjected[e[1]],el=bigEdges[i];
+        el.setAttribute("x1",a[0]);el.setAttribute("y1",a[1]);el.setAttribute("x2",b[0]);el.setAttribute("y2",b[1]);
+        el.setAttribute("stroke",`rgba(102,0,255,${tone})`);
+      });
+      edges.forEach((e,i)=>{
+        const a=smallProjected[e[0]],b=smallProjected[e[1]],el=smallEdges[i];
+        el.setAttribute("x1",a[0]);el.setAttribute("y1",a[1]);el.setAttribute("x2",b[0]);el.setAttribute("y2",b[1]);
+        el.setAttribute("stroke",`rgba(102,0,255,${tone})`);
+      });
+      for(let i=0;i<8;i++){
+        const a=bigProjected[i],b=smallProjected[i],el=connectors[i];
+        el.setAttribute("x1",a[0]);el.setAttribute("y1",a[1]);
+        el.setAttribute("x2",b[0]);el.setAttribute("y2",b[1]);
+        el.setAttribute("stroke",`rgba(102,0,255,${tone})`);
+      }
+      faces.forEach((f,i)=>{
+        const computeBrightness = pts => {
+          let avgZ = pts.reduce((sum,p)=>sum+p[2],0)/pts.length;
+          return Math.min(Math.max((avgZ/big)*0.5+0.5,0),1)*tone;
+        };
+        const bigFacePts=f.map(idx=>bigProjected[idx].join(',')).join(' ');
+        const brightnessBig=computeBrightness(bigPts.filter((_,i)=>f.includes(i)));
+        bigFaces[i].setAttribute("points",bigFacePts);
+        bigFaces[i].setAttribute("fill",`rgba(102,0,255,${0.2+0.6*brightnessBig})`);
+        const smallFacePts=f.map(idx=>smallProjected[idx].join(',')).join(' ');
+        const brightnessSmall=computeBrightness(smallPts.filter((_,i)=>f.includes(i)));
+        smallFaces[i].setAttribute("points",smallFacePts);
+        smallFaces[i].setAttribute("fill",`rgba(102,0,255,${0.2+0.6*brightnessSmall})`);
+      });
+      requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+}
+
+dimensionSelect.addEventListener('change',()=>createShape(parseInt(dimensionSelect.value)));
+toneSlider.addEventListener('input',()=>createShape(parseInt(dimensionSelect.value)));
+createShape(parseInt(dimensionSelect.value));
+</script>
+</body>
+</html>

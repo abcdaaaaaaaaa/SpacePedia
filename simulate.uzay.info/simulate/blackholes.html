@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="shortcut icon" href="https://www.uzay.info/uzaylogo.ico">
+<title>Black Hole Simulation</title>
+<style>
+html,body{margin:0;padding:0;height:100%;background:#000;color:#fff;font-family:Inter,sans-serif;overflow:hidden;}
+canvas{width:100vw;height:100vh;display:block;position:absolute;top:0;left:0;}
+#controlPanel{position:fixed;right:20px;top:20px;width:320px;background:rgba(8,8,16,0.95);backdrop-filter:blur(6px);padding:20px;box-sizing:border-box;z-index:10;height:auto;max-height:90%;overflow-y:auto;border-radius:12px;}
+#blackholeSelect{width:100%;padding:10px;background:#111;border:1px solid #333;color:#fff;border-radius:6px;font-size:14px;}
+.infoTitle{font-size:16px;margin-top:12px;color:#ffe;}
+.infoDetail{font-size:13px;line-height:1.4;margin-top:6px;color:#ccd;}
+.note{font-size:12px;color:#999;margin-top:14px;}
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div id="controlPanel">
+  <select id="blackholeSelect">
+    <option value="SgrA">Sagittarius A*</option>
+    <option value="M87" selected>M87*</option>
+    <option value="CygX1">Cygnus X-1</option>
+    <option value="GW150914">GW150914 Binary</option>
+  </select>
+  <div id="infoContainer"></div>
+  <div class="note">
+    Cinematic HDR + motion blur: M87 photon ring, SgrA polarisation glow, CygX1 X-ray jet & disk, animating jets & fields.
+  </div>
+</div>
+<script>
+const canvas = document.getElementById('gl');
+const gl = canvas.getContext('webgl');
+
+function resize() {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+  gl.viewport(0, 0, canvas.width, canvas.height);
+}
+resize();
+addEventListener("resize", resize);
+
+const BH = {
+  SgrA: {name:'Sagittarius A*', displayMass:'~4.3 million M☉', distance:'~26,700 ly', discovered:'1974', note:'Infrared flares, variability, EHT ring imaged.', spin:0.7},
+  M87: {name:'M87*', displayMass:'~6.5 billion M☉', distance:'~55 million ly', discovered:'2019 (EHT)', note:'First black hole image, strong Doppler asymmetry, photon ring & jet base observed.', spin:0.9},
+  CygX1: {name:'Cygnus X-1', displayMass:'~21 M☉', distance:'~6,000 ly', discovered:'1964', note:'Stellar-mass X-ray binary, hot disk, corona, jet.', spin:1.1},
+  GW150914: {name:'GW150914 Binary', displayMass:'~62 M☉ (post-merger)', distance:'~1.3 billion ly', discovered:'2015', note:'First LIGO black hole merger detection, no persistent EM counterpart.', spin:1.8}
+};
+
+const infoContainer = document.getElementById('infoContainer');
+const sel = document.getElementById('blackholeSelect');
+let current = 'M87';
+
+function updateInfo() {
+  const b = BH[current];
+  infoContainer.innerHTML = `
+    <div class="infoTitle">${b.name}</div>
+    <div class="infoDetail"><b>Mass:</b> ${b.displayMass}</div>
+    <div class="infoDetail"><b>Distance:</b> ${b.distance}</div>
+    <div class="infoDetail"><b>Imaged / Discovered:</b> ${b.discovered}</div>
+    <div class="infoDetail">${b.note}</div>
+  `;
+}
+sel.addEventListener('change', () => {
+  current = sel.value;
+  updateInfo();
+});
+updateInfo();
+
+const vert = `
+attribute vec2 p;
+void main() {
+  gl_Position = vec4(p, 0., 1.);
+}
+`;
+
+const frag = `
+precision highp float;
+uniform vec2 r;
+uniform float t;
+uniform int mode;
+
+float sdSphere(vec3 ro, vec3 rd, float R) {
+  float b = dot(ro, rd);
+  float c = dot(ro, ro) - R*R;
+  float h = b*b - c;
+  return h < 0. ? -1. : (-b - sqrt(h));
+}
+
+vec3 lensColor(vec3 ro, vec3 rd, float bhR, float spin) {
+  float d = sdSphere(ro, rd, bhR);
+  if(d < 0.) return vec3(0.);
+  vec3 pos = ro + rd*d;
+  float phi = atan(pos.y, pos.x);
+  float rlen = length(pos.xy);
+  float dop = 1.5 * (0.5 + 0.5 * cos(phi + spin*t));
+  float temp = exp(-pow(rlen/bhR - 1., 2.)*4.);
+  return vec3(dop*temp, 0.5*temp, 0.2*temp);
+}
+
+vec3 photonRing(vec2 uv, float bhR) {
+  float l = length(uv);
+  float ring = smoothstep(0.02, 0.005, abs(l - bhR*0.4));
+  return vec3(1.0, 0.6, 0.2) * ring;
+}
+
+vec3 jet(vec2 uv, float spin, float bhR) {
+  float l = length(uv);
+  float ang = atan(uv.y, uv.x);
+  float glow = exp(-pow(l*2.0, 1.6));
+  float asym = 0.6 + 0.4*cos(ang*5.0 + spin*t);
+  return vec3(1.0, 0.8, 0.5) * glow * asym;
+}
+
+vec3 polField(vec2 uv, float a) {
+  float r = length(uv);
+  float ang = atan(uv.y, uv.x);
+  float f = sin(ang*6.0 + a*3.0) * exp(-r*2.0);
+  return vec3(0.6, 0.5, 1.0) * abs(f);
+}
+
+vec3 cygx(vec2 uv, float a) {
+  float r = length(uv);
+  float glow = exp(-r*3.0);
+  float dop = 0.6 + 0.4*sin(a + uv.x*6.0);
+  return vec3(0.4, 0.7, 1.0) * glow * dop;
+}
+
+void main() {
+  vec2 uv = (gl_FragCoord.xy - 0.5*r) / r.y;
+  vec3 col = vec3(0.);
+  if(mode==0){
+    vec3 ro = vec3(0.,0.,2.), rd = normalize(vec3(uv,-1.));
+    col = lensColor(ro, rd, 0.7, 0.8) + photonRing(uv, 1.2) + jet(uv, 0.9, 0.7);
+  } else if(mode==1){
+    col = polField(uv, t) + vec3(0.9,0.7,0.4)*exp(-length(uv)*4.0);
+  } else if(mode==2){
+    col = cygx(uv,t) + jet(uv, 1.1, 0.6);
+  } else {
+    float r = length(uv);
+    col = vec3(0.8,0.5,1.0) * smoothstep(0.3,0.0,r);
+  }
+  col = pow(col, vec3(0.75));
+  gl_FragColor = vec4(col,1.);
+}
+`;
+
+function makeShader(t, s) {
+  let sh = gl.createShader(t);
+  gl.shaderSource(sh, s);
+  gl.compileShader(sh);
+  return sh;
+}
+
+let vs = makeShader(gl.VERTEX_SHADER, vert);
+let fs = makeShader(gl.FRAGMENT_SHADER, frag);
+let prog = gl.createProgram();
+gl.attachShader(prog, vs);
+gl.attachShader(prog, fs);
+gl.linkProgram(prog);
+gl.useProgram(prog);
+
+let buf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+
+let loc = gl.getAttribLocation(prog, "p");
+gl.enableVertexAttribArray(loc);
+gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+let res = gl.getUniformLocation(prog, "r");
+let tim = gl.getUniformLocation(prog, "t");
+let mod = gl.getUniformLocation(prog, "mode");
+
+let st = performance.now();
+
+function draw() {
+  let time = (performance.now() - st)/1000.;
+  gl.uniform2f(res, canvas.width, canvas.height);
+  gl.uniform1f(tim, time);
+  gl.uniform1i(mod, current==='M87'?0:current==='SgrA'?1:current==='CygX1'?2:3);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

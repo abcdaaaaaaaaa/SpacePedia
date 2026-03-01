@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="shortcut icon" href="https://www.uzay.info/uzaylogo.ico">
+<title>Frontal Deep Space Simulation</title>
+<style>
+html, body { height: 100%; margin: 0; overflow: hidden; background: black; font-family: Inter,sans-serif; color: white }
+#ui { position: fixed; top: 20px; left: 20px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 10px }
+label { font-size: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px }
+input[type=range] { width: 120px }
+button { padding: 6px 10px; border: none; border-radius: 6px; background: rgba(255,255,255,0.2); color: white; cursor: pointer }
+canvas { display: block }
+</style>
+</head>
+<body>
+<div id="ui">
+<div style="font-size:18px;font-weight:bold;margin-bottom:6px;">Frontal Deep Space Simulation</div>
+<label>Star Count <input id="starCount" type="range" min="200" max="3000" value="1500"></label>
+<label>Nebula Intensity <input id="nebulaIntensity" type="range" min="0" max="1" step="0.01" value="0.3"></label>
+<label>Comet Count <input id="cometCount" type="range" min="0" max="50" value="10"></label>
+<label>Speed <input id="speed" type="range" min="0.1" max="2" step="0.1" value="1"></label>
+<button id="pauseBtn">Pause</button>
+<button id="resetBtn">Reset</button>
+<button id="screenshotBtn">Screenshot</button>
+</div>
+<canvas id="space"></canvas>
+<audio id="bgm" src="https://cdn.pixabay.com/audio/2021/09/30/audio_96d4be91c1.mp3" autoplay loop></audio>
+<script>
+const canvas = document.getElementById('space'),
+      ctx = canvas.getContext('2d');
+
+let w, h, stars = [], comets = [], t = 0, paused = false;
+
+const bgm = document.getElementById('bgm');
+
+function resize() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
+}
+
+window.addEventListener('resize', resize);
+resize();
+
+function rand(a, b) { return Math.random() * (b - a) + a; }
+
+function initStars(n) {
+    stars = [];
+    for (let i = 0; i < n; i++) {
+        stars.push({ x: rand(0, w), y: rand(0, h), z: rand(0, w), r: Math.random() });
+    }
+}
+
+function initComets(n) {
+    comets = [];
+    for (let i = 0; i < n; i++) {
+        comets.push({ x: rand(0, w), y: rand(0, h), dx: rand(-2, 2), dy: rand(-2, 2), trail: [] });
+    }
+}
+
+function drawNebula(intensity) {
+    let grad = ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,h/1.5);
+    grad.addColorStop(0, `rgba(100,0,255,${intensity})`);
+    grad.addColorStop(0.5, `rgba(0,150,255,${intensity/2})`);
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,w,h);
+}
+
+function animate() {
+    if (!paused) {
+        t += 0.001 * speed;
+        ctx.fillStyle = 'rgba(0,0,10,0.3)';
+        ctx.fillRect(0,0,w,h);
+        drawNebula(nebulaIntensity);
+
+        for (let s of stars) {
+            s.z -= speed;
+            if (s.z <= 0) s.z = w;
+            let k = 128 / s.z;
+            let x = w/2 + (s.x - w/2) * k;
+            let y = h/2 + (s.y - h/2) * k;
+            let r = (1 - s.z / w) * 2;
+            ctx.fillStyle = `rgba(255,255,255,${s.r})`;
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI*2);
+            ctx.fill();
+        }
+
+        for (let c of comets) {
+            c.x += c.dx * speed;
+            c.y += c.dy * speed;
+            if (c.x < 0 || c.x > w) c.dx *= -1;
+            if (c.y < 0 || c.y > h) c.dy *= -1;
+
+            c.trail.push({ x: c.x, y: c.y });
+            if (c.trail.length > 20) c.trail.shift();
+
+            for (let i = 0; i < c.trail.length; i++) {
+                let p = c.trail[i];
+                ctx.fillStyle = `rgba(255,255,255,${i/20})`;
+                ctx.fillRect(p.x,p.y,2,2);
+            }
+        }
+    }
+    requestAnimationFrame(animate);
+}
+
+let starCount = document.getElementById('starCount').value,
+    nebulaIntensity = parseFloat(document.getElementById('nebulaIntensity').value),
+    cometCount = document.getElementById('cometCount').value,
+    speed = parseFloat(document.getElementById('speed').value);
+
+initStars(starCount);
+initComets(cometCount);
+
+function updateValues() {
+    starCount = document.getElementById('starCount').value;
+    nebulaIntensity = parseFloat(document.getElementById('nebulaIntensity').value);
+    cometCount = document.getElementById('cometCount').value;
+    speed = parseFloat(document.getElementById('speed').value);
+    initStars(starCount);
+    initComets(cometCount);
+}
+
+document.getElementById('ui').addEventListener('input', updateValues);
+
+document.getElementById('pauseBtn').addEventListener('click', () => {
+    paused = !paused;
+    document.getElementById('pauseBtn').textContent = paused ? 'Resume' : 'Pause';
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+    updateValues();
+});
+
+document.getElementById('screenshotBtn').addEventListener('click', () => {
+    const data = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = data;
+    a.download = 'deep-space-snapshot.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+});
+
+animate();
+</script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title>Constellations</title>
+ <link rel="shortcut icon" href="https://spacepedia.info/uzaylogo.ico">
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" href="https://spacepedia.info/template/encyclopedia.css">
+ <script src="https://spacepedia.info/template/boostrap.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: rgba(102,0,255,0.8)"> 
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://spacepedia.info">SpacePedia</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Did You Know?<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia">Did You Know?</a></li>
+          <li><a href="/encyclopedia/@/explosions">Explosions</a></li>
+          <li><a href="/encyclopedia/@/zodiac_mythology">Zodiac and Mythology</a></li>
+          <li><a href="/encyclopedia/@/historical_events">Historical Events</a></li>
+          <li><a href="/encyclopedia/@/accidents">Accidents</a></li>
+          <li><a href="/encyclopedia/@/meteors_meteorites">Meteors and Meteorites</a></li>
+          <li><a href="/encyclopedia/@">Games</a></li>
+          <li><a href="/">Space Area</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nebulae<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/nebulae">What is it?</a></li>
+          <li><a href="/encyclopedia/nebulae/formation">Formation</a></li>
+          <li><a href="/encyclopedia/nebulae/emission">Emission Nebula</a></li>
+          <li><a href="/encyclopedia/nebulae/dark">Dark Nebulae</a></li>
+          <li><a href="/encyclopedia/nebulae/reflection">Reflection Nebula</a></li>
+          <li><a href="/encyclopedia/nebulae/planetary">Planetary Nebula</a></li>
+          <li><a href="/encyclopedia/nebulae/supernova">Supernova Remnants</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Planets<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/planets/what">What is it?</a></li>
+          <li><a href="/encyclopedia/planets/formation">Formation</a></li>
+          <li><a href="/encyclopedia/planets/solar_system">Solar System</a></li>
+          <li><a href="/encyclopedia/planets">Planets</a></li>
+          <li><a href="/encyclopedia/planets/dwarf_planets">Dwarf Planets</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stars<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/stars">What is it?</a></li>
+          <li><a href="/encyclopedia/stars/formation">Formation</a></li>
+          <li><a href="/encyclopedia/stars/m_type">M Type</a></li>
+          <li><a href="/encyclopedia/stars/k_type">K Type</a></li>
+          <li><a href="/encyclopedia/stars/a_f_type">A and F Type</a></li>
+          <li><a href="/encyclopedia/stars/o_b_type">O and B Type</a></li>
+          <li><a href="/encyclopedia/stars/giant_stars">Giant Stars</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Constellations<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/constellations/what">What is it?</a></li>
+          <li><a href="/encyclopedia/constellations/formation">Formation</a></li>
+          <li><a href="/encyclopedia/constellations">Constellations</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Comets<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/comets">What is it?</a></li>
+          <li><a href="/encyclopedia/comets/formation">Formation</a></li>
+          <li><a href="/encyclopedia/comets/jupiter_family">Jupiter-family Comets</a></li>
+          <li><a href="/encyclopedia/comets/halley_type">Halley-type Comets</a></li>
+          <li><a href="/encyclopedia/comets/long_period">Long-period Comets</a></li>
+          <li><a href="/encyclopedia/comets/by_orbit">Comets by Orbit</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Neutron Stars<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/neutron_stars">What is it?</a></li>
+          <li><a href="/encyclopedia/neutron_stars/formation">Formation</a></li>
+          <li><a href="/encyclopedia/neutron_stars/pulsars">Pulsars</a></li>
+          <li><a href="/encyclopedia/neutron_stars/magnetars">Magnetars</a></li>
+          <li><a href="/encyclopedia/neutron_stars/quark_exotic">Quark and Exotic Stars</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Galaxies<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/galaxies">What is it?</a></li>
+          <li><a href="/encyclopedia/galaxies/formation">Formation</a></li>
+          <li><a href="/encyclopedia/galaxies/elliptical">Elliptical</a></li>
+          <li><a href="/encyclopedia/galaxies/spiral">Spiral</a></li>
+          <li><a href="/encyclopedia/galaxies/barred_spiral">Barred Spiral</a></li>
+          <li><a href="/encyclopedia/galaxies/irregular">Irregular</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Black Holes<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/black_holes">What is it?</a></li>
+          <li><a href="/encyclopedia/black_holes/formation">Formation</a></li>
+          <li><a href="/encyclopedia/black_holes/stellar">Stellar Black Holes</a></li>
+          <li><a href="/encyclopedia/black_holes/supermassive">Supermassive Black Holes</a></li>
+          <li><a href="/encyclopedia/black_holes/intermediate">Intermediate-mass Black Holes</a></li>
+          <li><a href="/encyclopedia/black_holes/primordial">Primordial Black Holes</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container" style="margin-top:50px">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> Constellations</h1>
+        Constellations are regions of the sky that emerge when stars that appear close to one another are connected by people with imaginary lines to form meaningful shapes. These stars are not physically connected; they only seem to lie along the same line of sight when viewed from Earth. Even so, constellations have been used for thousands of years to describe the sky, find directions, and distinguish the seasons.
+    </font>
+</div>
+<br>
+<div class="container">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> Ursa Major and Ursa Minor</h1>
+        <img src="https://www.spacepedia.info/template/ency/static/tky3.png" height="200">
+        <br><br>
+        The constellations Ursa Major and Ursa Minor are among the most recognizable and most important constellations in the northern hemisphere sky. Throughout history, these two constellations have played a vital role especially for navigation. To an observer looking up at the sky, they function almost like a celestial compass.
+        <br><br>
+        Ursa Major covers a wide area of the sky and contains one of the easiest star patterns to recognize. This pattern is commonly known as the “Big Dipper.” The seven bright stars that form the Dipper stand out clearly in a dark sky. These stars are actually only the most striking part of a much larger constellation.
+        <br><br>
+        One of the most important features of Ursa Major is its use for finding direction. The two bright stars at the outer edge of the Dipper’s “bowl,” when extended with an imaginary line, point toward the north. This line leads the observer directly to Ursa Minor and to its brightest star. This relationship turns Ursa Major from a purely aesthetic sky figure into a practical tool.
+        <br><br>
+        Ursa Minor is smaller than Ursa Major and is made up of fainter stars. Despite that, its importance in the sky is enormous. At the end of Ursa Minor lies one of the most critical stars in the sky. Because this star sits very close to Earth’s rotational axis, it appears almost fixed in the sky. Thanks to this feature, it has historically served as a fundamental reference point for determining direction.
+        <br><br>
+        Ursa Minor’s shape also resembles a dipper, but it is smaller than Ursa Major and its stars are dimmer. For this reason, it can be difficult to notice in areas with strong light pollution. However, it can be found easily using the imaginary guiding line from Ursa Major. The relationship between these two constellations is a basic starting point for anyone learning the sky map.
+        <br><br>
+        Ursa Major and Ursa Minor are significant not only for navigation but also culturally and historically. Since ancient times, different civilizations have assigned different meanings to these star patterns. For hunters, sailors, and travelers, these constellations were reliable guides during nighttime journeys. This use continued until modern navigation instruments became widespread.
+        <br><br>
+        These two constellations are also used to understand the seasonal motion of the sky. Although their positions seem to shift over the year, they never sink completely below the horizon. Because of this, they are called “circumpolar constellations.” This means they can be observed in every season.
+        <br><br>
+        Ursa Major and Ursa Minor clearly show that constellations are not merely visual patterns, but key foundations of humanity’s long relationship with the night sky. Through these two structures, the sky becomes not an abstract emptiness, but a meaningful and readable map.
+        <h3></h3>
+    </font>
+</div>
+<br>
+<div class="container">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> The Hunter (Orion)</h1>
+        <img src="https://www.spacepedia.info/template/ency/static/tky4.png" height="200">
+        <br><br>
+        Orion is one of the most recognizable and easiest constellations to distinguish in the sky. Known by its Latin name Orion, this constellation draws the attention of almost anyone who looks up at the northern hemisphere sky, especially in winter. With its bright stars, clear geometric form, and central position in the sky, it serves as a natural starting point for beginners in astronomy. Orion represents one of the most important regions of the sky not only visually, but also scientifically and culturally.
+        <br><br>
+        The most distinctive feature of Orion is the trio of bright stars aligned side by side, known as “Orion’s Belt.” These three stars lie along an almost perfect line and are easy to notice on a dark night. The Belt represents Orion’s torso and acts as a natural reference line for finding the rest of the constellation. The most practical way to recognize Orion is to identify these three stars first.
+        <br><br>
+        The stars that make up Orion show great variety in brightness and physical properties. The stars that represent Orion’s shoulders and feet stand out with different color tones in the sky. This makes Orion not only a pattern, but also a kind of sky laboratory where different star types can be seen together. Within the same constellation, both very hot and cooler stars are present, and their differences can be noticed even with the naked eye through color contrast.
+        <br><br>
+        Orion’s position is highly strategic on sky maps. Because it lies close to the celestial equator, it can be observed from both the northern and southern hemispheres. This has allowed Orion to be recognized and named across many different cultures around the world. A large number of ancient civilizations associated Orion with a powerful figure and attributed mythological meaning to it.
+        <br><br>
+        Another important feature of Orion is that it hosts deep-sky objects. Just below Orion’s Belt, there is a region that can appear as a faint, hazy patch even to the naked eye. This area is a rich cosmic environment where star formation is actively taking place. In this sense, Orion is not merely a constellation of star patterns, but also a window into processes of stellar birth.
+        <br><br>
+        Orion is also highly important for seasonal observing. In the northern hemisphere, it rises higher in the night sky from late autumn to early spring, reaching its most impressive appearance during winter. In these months, Orion becomes one of the dominant figures of the night sky. This is why Orion has historically been closely associated with the winter season.
+        <br><br>
+        Culturally, Orion represents one of the oldest examples of humanity’s relationship with the sky. Different societies interpreted this star pattern as a hunter, a warrior, or a celestial hero. The common thread in these interpretations is that Orion is perceived as a strong, dynamic, and central figure. Its very clear and symmetrical shape in the sky makes such interpretations easy to form.
+        <br><br>
+        Orion’s position in the sky has also been used for navigation and for dividing the sky into regions. When Orion’s Belt is extended as an imaginary line, it helps lead the eye toward other important areas of the sky. This turns Orion into more than a standalone constellation and makes it one of the central reference points on the sky map.
+        <br><br>
+        Orion also helps develop a sense of scale in the sky. The fact that its stars lie at different distances clearly shows that the patterns we see are two-dimensional projections of a three-dimensional universe. Looking at Orion makes it clear that stars only appear together, while in reality they can be extremely far apart in the depths of space.
+        <br><br>
+        In conclusion, Orion is one of the strongest examples showing that constellations are not merely imaginary drawings, but structures that bring together the physical, cultural, and historical layers of the sky. With its bright stars, easily recognized shape, connection to star-forming regions, and place in human history, Orion is an indispensable reference point for anyone learning to read the night sky.
+        <h3></h3>
+    </font>
+</div>
+<br>
+<div class="container">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> Cassiopeia</h1>
+        <img src="https://www.spacepedia.info/template/ency/static/tky5.png" height="200">
+        <br><br>
+        Cassiopeia is one of the most distinctive and easiest constellations to recognize in the northern hemisphere sky. Because of its prominent shape resembling the letter “W” (or from some angles an “M”), it can be noticed easily even by observers who are not familiar with star charts. This characteristic appearance makes Cassiopeia almost like a signature in the sky and gives it great value for navigation and learning the sky.
+        <br><br>
+        Cassiopeia’s position in the sky is one of the most important features that makes it special. This constellation lies close to the north celestial pole. For that reason, it can be observed throughout the year and never fully sets below the horizon. This places Cassiopeia among the key circumpolar constellations. Although its orientation and “stance” seem to change with the seasons, it always remains in the northern sky.
+        <br><br>
+        Cassiopeia forms a reference system together with Ursa Major and Ursa Minor. Especially when Ursa Major is low on the horizon or hard to see, Cassiopeia provides a reliable alternative for finding north. Because of this, it has historically been extremely important for sailors and travelers. Recognizing Cassiopeia in the sky also means, indirectly, recognizing the direction of north.
+        <br><br>
+        The stars that form this constellation are moderately bright, but they are easy to distinguish from one another thanks to their regular arrangement. The W shape created by five main stars is Cassiopeia’s defining signature. Even if these stars are not individually very bright, the pattern they create together produces a strong visual effect. This highlights the basic logic of constellations: what matters is not the individual stars, but the structured relationship between them.
+        <br><br>
+        Cassiopeia’s sky location is directly connected to the Milky Way. The constellation lies in front of one of the Milky Way’s dense star fields. For this reason, the sky around Cassiopeia is extremely rich in stars. Even to the naked eye, the region around Cassiopeia can appear more densely populated with stars than many other areas. This makes Cassiopeia an important region for deep-sky observing as well.
+        <br><br>
+        Cassiopeia also has a strong cultural and mythological background. In ancient times it was often interpreted as a celestial figure representing a proud queen. In these stories, Cassiopeia is depicted as a queen seated on her throne in the sky. This mythological narrative fits well with the constellation’s clear and symmetrical structure and gives meaning to its appearance. Different cultures have produced similar yet distinct interpretations of Cassiopeia.
+        <br><br>
+        Cassiopeia’s shape helps develop a sense of direction in the sky. The W form can be easily distinguished from other more irregular star groupings. For this reason, Cassiopeia is frequently used in the early stages of learning the sky. Especially for children and beginners, Cassiopeia serves as a gateway into more complex sky maps.
+        <br><br>
+        Seasonally, Cassiopeia’s orientation in the sky changes throughout the year. In winter, the W shape may appear more upright, while in summer it can look more horizontal or even inverted. This change is a result of Earth’s rotation and the way the sky appears to shift over time. Observing Cassiopeia’s changing orientation is instructive for understanding that the sky is not static, but constantly changing.
+        <br><br>
+        The sky region where Cassiopeia is located also contains traces of major stellar explosions that occurred in the past. This makes Cassiopeia more than an aesthetic constellation and turns it into an area that holds parts of the sky’s history. This feature further increases Cassiopeia’s scientific importance.
+        <br><br>
+        In conclusion, Cassiopeia is a strong example of why constellations are not merely imaginary shapes, but also fundamental tools that help us interpret the sky. With its distinctive W shape, its northern position, its relationship with the Milky Way, and its historical significance, Cassiopeia is an indispensable reference point for anyone learning to read the night sky.
+        <h3></h3>
+    </font>
+</div>
+<br>
+<div class="container">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> Lyra</h1>
+        <img src="https://www.spacepedia.info/template/ency/static/tky6.png" height="200">
+        <br><br>
+        Lyra is a constellation that covers a relatively small area of the sky, yet it holds great importance both scientifically and historically. In the northern hemisphere it is especially prominent during the summer months and it hosts one of the brightest stars in the night sky. For this reason, Lyra may be modest in size, but it is easy to notice and memorable.
+        <br><br>
+        The most striking feature of Lyra is Vega, an extremely bright star. Vega stands out as one of the brightest stars in the night sky and in summer nights it almost immediately draws the eye. Its brightness makes Lyra easy to identify. Vega’s position is used as a primary reference point on sky maps to locate Lyra.
+        <br><br>
+        Lyra’s shape is formed by a small, orderly geometric pattern of fainter stars around Vega. Because this arrangement resembles a lyre or harp in some traditions, the constellation received its name. This symbolic shape is a good example of humanity’s tendency to assign cultural and artistic meanings to stars in the sky. Lyra appears as a figure that is both aesthetic and rich with meaning.
+        <br><br>
+        Lyra’s location makes it one of the essential building blocks of the summer sky. The constellation lies near regions where the Milky Way’s star fields are dense. For this reason, the sky around Lyra has a star-rich background. On a dark night, the faint, misty glow of the Milky Way can sometimes be noticed behind Lyra. This makes Lyra interesting for deep-sky observation as well.
+        <br><br>
+        Lyra is also important for navigation and for dividing the sky into regions. Vega acts like a benchmark in the summer sky. An observer who finds Vega can more easily identify other summer constellations nearby. This practical feature makes Lyra a convenient starting point for learning the night sky.
+        <br><br>
+        Historically and culturally, Lyra represents the symbolic side of humanity’s relationship with the sky. In ancient narratives, Lyra was associated with music and harmony. These interpretations show that stars were perceived not only as physical objects, but also as symbols carrying cultural meaning. In this respect, Lyra is one of the constellations that reflects the artistic face of the sky.
+        <br><br>
+        Lyra’s movement across the sky can also be used to observe the changing seasons. In summer, Lyra rises high in the sky, and as autumn approaches it gradually shifts position. This change is a natural result of Earth’s orbit around the Sun. Lyra’s seasonal motion provides an instructive example for understanding the dynamic nature of the sky.
+        <br><br>
+        Although Lyra is small, its bright star and strategic location give it a strong presence in the sky. For both amateur observers and those studying the sky systematically, Lyra is an indispensable reference point. It clearly shows how a small group of stars can carry great visual and scientific value under the right conditions.
+        <br><br>
+        In conclusion, Lyra proves that constellations do not need to cover large areas to be significant; sometimes a small pattern of just a few stars can carry major meaning in the sky. With its bright star, elegant shape, connection to the Milky Way, and cultural background, Lyra stands out as one of the most special and recognizable constellations of the summer sky.
+        <h3></h3>
+    </font>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="shortcut icon" href="https://www.uzay.info/uzaylogo.ico">
+<title>Neutron Simulation</title>
+<style>
+:root{--bg:#02010a;--panel:rgba(255,255,255,0.04);--accent:linear-gradient(90deg,#ff8a00,#ff005e)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(ellipse at 20% 10%,#071021 0%,#02010a 30%,#000 100%);color:#e6eef8}
+.container{display:grid;grid-template-columns:360px 1fr;gap:20px;height:100vh;padding:24px}
+.panel{background:var(--panel);backdrop-filter:blur(6px);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.header{font-size:18px;font-weight:700}
+.select, .info {background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px;border-radius:8px;color:inherit}
+.label{font-size:12px;color:rgba(230,238,248,0.7);margin-bottom:6px}
+.stat{display:flex;justify-content:space-between;padding:8px 10px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)}
+.canvasWrap{position:relative;border-radius:14px;overflow:hidden}
+canvas{width:100%;height:100%;display:block}
+.legend{font-size:13px;color:rgba(230,238,248,0.85)}
+.controls{display:flex;gap:8px}
+.button{padding:8px 12px;border-radius:10px;border:none;cursor:pointer}
+.small{font-size:13px}
+.footer{margin-top:auto;font-size:12px;color:rgba(230,238,248,0.6)}
+.features{margin-top:12px;font-size:13px;color:rgba(230,238,248,0.8)}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="panel">
+<div class="header">Neutron Star Explorer</div>
+
+<div>
+<div class="label">Select neutron star</div>
+<select id="starSelect" class="select">
+<option value="crab">Crab Pulsar (PSR B0531+21)</option>
+<option value="vela">Vela Pulsar (PSR B0833-45)</option>
+<option value="psr1937">PSR B1937+21</option>
+<option value="magnetar">Magnetar SGR 1806-20</option>
+<option value="rx">RX J1856.5-3754</option>
+</select>
+</div>
+
+<div>
+<div class="label">Properties</div>
+<div id="props" class="info">
+<div class="stat"><div class="small">Radius</div><div id="radius">12 km</div></div>
+<div class="stat"><div class="small">Rotation Period</div><div id="period">0.033 s</div></div>
+<div class="stat"><div class="small">Magnetic Field</div><div id="mag">1e12 G</div></div>
+<div class="stat"><div class="small">Surface Temp</div><div id="temp">1e6 K</div></div>
+<div id="features" class="features">The Crab Pulsar is the remnant of a supernova observed in 1054 AD. It emits powerful pulses of radiation 30 times per second and powers the bright Crab Nebula.</div>
+</div>
+</div>
+
+<div>
+<div class="label">View</div>
+<div class="controls">
+<button id="toggleJets" class="button">Toggle Jets</button>
+<button id="toggleField" class="button">Toggle Field Lines</button>
+<button id="reset" class="button">Reset Camera</button>
+</div>
+</div>
+
+<div>
+<div class="label">Notes</div>
+<div class="legend">Use mouse drag to rotate, scroll to zoom. Pulses are simulated by rotating hotspots and relativistic beaming approximation for visual effect. This is an educational, not physically exact, visualization.</div>
+</div>
+</div>
+
+<div class="canvasWrap panel">
+<canvas id="c"></canvas>
+</div>
+</div>
+
+<script>
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+let w=0,h=0;
+function resize(){w=canvas.width=Math.floor(canvas.clientWidth*devicePixelRatio);h=canvas.height=Math.floor(canvas.clientHeight*devicePixelRatio);ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
+window.addEventListener('resize',resize);resize();
+
+const stars={
+crab:{name:'Crab Pulsar',radius:12,period:0.033,mag:4.0e12,temp:1.1e6,color:320,hasJets:true,fieldLines:12,features:"The Crab Pulsar is the remnant of a supernova observed in 1054 AD. It emits powerful pulses of radiation 30 times per second and powers the bright Crab Nebula."},
+vela:{name:'Vela Pulsar',radius:11.5,period:0.089,mag:3.4e12,temp:9e5,color:210,hasJets:true,fieldLines:10,features:"The Vela Pulsar produces bright gamma-ray emissions and is known for its regular glitches—sudden increases in rotation speed due to internal rearrangements."},
+psr1937:{name:'PSR B1937+21',radius:10.8,period:0.001557,mag:1e8,temp:6e5,color:180,hasJets:false,fieldLines:6,features:"PSR B1937+21 was the first millisecond pulsar discovered, rotating over 640 times per second, pushing the limits of neutron star stability."},
+magnetar:{name:'SGR 1806-20',radius:12.5,period:7.56,mag:2e15,temp:2e6,color:280,hasJets:false,fieldLines:30,features:"SGR 1806-20 is one of the most magnetic objects known, capable of releasing more energy in a fraction of a second than the Sun emits in 100,000 years."},
+rx:{name:'RX J1856.5-3754',radius:14,period:7.1,mag:1e11,temp:5e5,color:40,hasJets:false,fieldLines:8,features:"RX J1856.5-3754 is one of the closest known neutron stars, notable for its featureless X-ray spectrum suggesting a thin hydrogen atmosphere."}
+};
+
+let state=Object.assign({},stars.crab);
+let angle=0,zoom=1,camX=0,camY=0,dragging=false,lastX=0,lastY=0,showJets=true,showField=true;
+const select=document.getElementById('starSelect');
+const radiusEl=document.getElementById('radius');
+const periodEl=document.getElementById('period');
+const magEl=document.getElementById('mag');
+const tempEl=document.getElementById('temp');
+const featuresEl=document.getElementById('features');
+
+select.addEventListener('change',e=>{
+    state=Object.assign({},stars[e.target.value]);
+    updateProps();
+});
+
+function updateProps(){
+    radiusEl.textContent=state.radius+' km';
+    periodEl.textContent=state.period+' s';
+    magEl.textContent=Number(state.mag).toExponential(2)+' G';
+    tempEl.textContent=Number(state.temp).toExponential(2)+' K';
+    featuresEl.textContent=state.features;
+}
+
+updateProps();
+
+canvas.addEventListener('wheel',e=>{
+    e.preventDefault();
+    const delta=Math.sign(e.deltaY);
+    zoom*=delta>0?0.95:1.05;
+    zoom=Math.max(0.3,Math.min(3,zoom))
+});
+canvas.addEventListener('mousedown',e=>{
+    dragging=true;lastX=e.clientX;lastY=e.clientY
+});
+window.addEventListener('mouseup',()=>dragging=false);
+window.addEventListener('mousemove',e=>{
+    if(!dragging) return;
+    const dx=(e.clientX-lastX); const dy=(e.clientY-lastY);
+    camX+=dx*0.5; camY+=dy*0.5;
+    lastX=e.clientX; lastY=e.clientY;
+});
+
+document.getElementById('toggleJets').addEventListener('click',()=>{showJets=!showJets});
+document.getElementById('toggleField').addEventListener('click',()=>{showField=!showField});
+document.getElementById('reset').addEventListener('click',()=>{zoom=1;camX=0;camY=0});
+
+function drawStar(cx,cy,r,hue,t){
+    const g=ctx.createRadialGradient(cx,cy,r*0.05,cx,cy,r);
+    g.addColorStop(0,'hsla('+hue+',100%,'+Math.min(60,40+20*Math.sin(t*3))+'%,1)');
+    g.addColorStop(0.4,'hsla('+hue+',90%,20%,0.95)');
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();
+    for(let i=0;i<6;i++){
+        const glowRadius=r*(1+0.08*i);
+        ctx.globalAlpha=0.06/(i+1);
+        ctx.beginPath();
+        ctx.arc(cx,cy,glowRadius,0,Math.PI*2);
+        ctx.fillStyle='hsla('+hue+',100%,60%,0.06)';ctx.fill();
+    }
+    ctx.globalAlpha=1;
+}
+
+function drawFieldLines(cx,cy,r,hue,lines,rot){
+    ctx.save();
+    ctx.globalCompositeOperation='lighter';
+    for(let i=0;i<lines;i++){
+        const theta=i*(Math.PI*2/lines)+rot;
+        ctx.beginPath();
+        for(let t=0;t<1.0001;t+=0.02){
+            const a=theta+t*4;
+            const x=cx+Math.cos(a)*(r*(1+t*2))*Math.cos(t*Math.PI*0.5);
+            const y=cy+Math.sin(a)*(r*(1+t*2))*Math.sin(t*Math.PI*0.5);
+            if(t===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        }
+        ctx.strokeStyle='hsla('+((hue+40+i*8)%360)+',90%,60%,0.09)';
+        ctx.lineWidth=1;
+        ctx.stroke();
+    }
+    ctx.restore();
+}
+
+function drawJet(cx,cy,r,hue,rot,dir){
+    ctx.save();
+    ctx.globalCompositeOperation='screen';
+    const len=r*6; const spread=1.2;
+    for(let i=0;i<8;i++){
+        const t=i/8;
+        ctx.beginPath();
+        ctx.moveTo(cx,cy);
+        const angle=rot+dir*(Math.PI*0.02+i*0.03);
+        const x=cx+Math.cos(angle)*len*(1+t*spread);
+        const y=cy+Math.sin(angle)*len*(1+t*spread);
+        ctx.quadraticCurveTo(cx+Math.cos(angle)*r*1.2,cx+Math.sin(angle)*r*1.2,x,y);
+        ctx.lineTo(x,y);
+        ctx.strokeStyle='hsla('+hue+',100%,'+(40-20*t)+'%,'+(0.08+0.12*(1-t))+')';
+        ctx.lineWidth=2;
+        ctx.stroke();
+    }
+    for(let p=0;p<120;p++){
+        const dist=Math.random()*len;
+        const ang=rot+dir*(0.02*(Math.random()-0.5));
+        const x=cx+Math.cos(ang)*dist;
+        const y=cy+Math.sin(ang)*dist;
+        ctx.globalAlpha=0.8*Math.random();
+        ctx.fillStyle='hsla('+hue+',100%,'+(80*Math.random())+'%,'+(0.6*Math.random())+')';
+        ctx.beginPath();ctx.arc(x,y,Math.random()*2+0.3,0,Math.PI*2);ctx.fill();
+    }
+    ctx.restore();
+}
+
+function drawHotspot(cx,cy,r,hue,phase){
+    ctx.save();
+    ctx.globalCompositeOperation='lighter';
+    const ang=phase;
+    const hotspotX=cx+Math.cos(ang)*r*0.5;
+    const hotspotY=cy+Math.sin(ang)*r*0.5;
+    const grad=ctx.createRadialGradient(hotspotX,hotspotY,r*0.02,hotspotX,hotspotY,r*0.9);
+    grad.addColorStop(0,'rgba(255,255,255,1)');
+    grad.addColorStop(0.2,'hsla('+hue+',100%,70%,0.9)');
+    grad.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grad;ctx.beginPath();ctx.arc(hotspotX,hotspotY,r*0.9,0,Math.PI*2);ctx.fill();
+    ctx.restore();
+}
+
+function frame(t){
+    ctx.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
+    const cx=canvas.clientWidth/2+camX;
+    const cy=canvas.clientHeight/2+camY;
+    const baseRadius=Math.min(canvas.clientWidth,canvas.clientHeight)*0.12*zoom;
+    const r=baseRadius*(state.radius/12);
+    angle+=0.002*Math.max(0.1,1/state.period);
+    const rot=angle*0.8;
+    drawStar(cx,cy,r,state.color,t*0.001);
+    if(showField) drawFieldLines(cx,cy,r,state.color,state.fieldLines,rot*0.6);
+    if(showJets && state.hasJets){drawJet(cx,cy,r,(state.color+20)%360,rot,-1);drawJet(cx,cy,r,(state.color+100)%360,rot,1);}
+    const pulsePhase=(t*0.001*(2*Math.PI)/state.period)%(Math.PI*2);
+    drawHotspot(cx,cy,r,state.color,pulsePhase);
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate(rot*0.05);
+    ctx.globalCompositeOperation='lighter';
+    ctx.beginPath();ctx.arc(0,0,r*0.98,0,Math.PI*2);
+    ctx.strokeStyle='rgba(255,255,255,0.02)';ctx.lineWidth=2;ctx.stroke();
+    ctx.restore();
+    requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

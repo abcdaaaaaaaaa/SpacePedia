@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title>Planets - Formation</title>
+ <link rel="shortcut icon" href="https://spacepedia.info/uzaylogo.ico">
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" href="https://spacepedia.info/template/encyclopedia.css">
+ <script src="https://spacepedia.info/template/boostrap.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: rgba(102,0,255,0.8)"> 
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://spacepedia.info">SpacePedia</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Did You Know?<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia">Did You Know?</a></li>
+          <li><a href="/encyclopedia/@/explosions">Explosions</a></li>
+          <li><a href="/encyclopedia/@/zodiac_mythology">Zodiac and Mythology</a></li>
+          <li><a href="/encyclopedia/@/historical_events">Historical Events</a></li>
+          <li><a href="/encyclopedia/@/accidents">Accidents</a></li>
+          <li><a href="/encyclopedia/@/meteors_meteorites">Meteors and Meteorites</a></li>
+          <li><a href="/encyclopedia/@">Games</a></li>
+          <li><a href="/">Space Area</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nebulae<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/nebulae">What is it?</a></li>
+          <li><a href="/encyclopedia/nebulae/formation">Formation</a></li>
+          <li><a href="/encyclopedia/nebulae/emission">Emission Nebula</a></li>
+          <li><a href="/encyclopedia/nebulae/dark">Dark Nebulae</a></li>
+          <li><a href="/encyclopedia/nebulae/reflection">Reflection Nebula</a></li>
+          <li><a href="/encyclopedia/nebulae/planetary">Planetary Nebula</a></li>
+          <li><a href="/encyclopedia/nebulae/supernova">Supernova Remnants</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Planets<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/planets/what">What is it?</a></li>
+          <li><a href="/encyclopedia/planets/formation">Formation</a></li>
+          <li><a href="/encyclopedia/planets/solar_system">Solar System</a></li>
+          <li><a href="/encyclopedia/planets">Planets</a></li>
+          <li><a href="/encyclopedia/planets/dwarf_planets">Dwarf Planets</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stars<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/stars">What is it?</a></li>
+          <li><a href="/encyclopedia/stars/formation">Formation</a></li>
+          <li><a href="/encyclopedia/stars/m_type">M Type</a></li>
+          <li><a href="/encyclopedia/stars/k_type">K Type</a></li>
+          <li><a href="/encyclopedia/stars/a_f_type">A and F Type</a></li>
+          <li><a href="/encyclopedia/stars/o_b_type">O and B Type</a></li>
+          <li><a href="/encyclopedia/stars/giant_stars">Giant Stars</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Constellations<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/constellations/what">What is it?</a></li>
+          <li><a href="/encyclopedia/constellations/formation">Formation</a></li>
+          <li><a href="/encyclopedia/constellations">Constellations</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Comets<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/comets">What is it?</a></li>
+          <li><a href="/encyclopedia/comets/formation">Formation</a></li>
+          <li><a href="/encyclopedia/comets/jupiter_family">Jupiter-family Comets</a></li>
+          <li><a href="/encyclopedia/comets/halley_type">Halley-type Comets</a></li>
+          <li><a href="/encyclopedia/comets/long_period">Long-period Comets</a></li>
+          <li><a href="/encyclopedia/comets/by_orbit">Comets by Orbit</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Neutron Stars<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/neutron_stars">What is it?</a></li>
+          <li><a href="/encyclopedia/neutron_stars/formation">Formation</a></li>
+          <li><a href="/encyclopedia/neutron_stars/pulsars">Pulsars</a></li>
+          <li><a href="/encyclopedia/neutron_stars/magnetars">Magnetars</a></li>
+          <li><a href="/encyclopedia/neutron_stars/quark_exotic">Quark and Exotic Stars</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Galaxies<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/galaxies">What is it?</a></li>
+          <li><a href="/encyclopedia/galaxies/formation">Formation</a></li>
+          <li><a href="/encyclopedia/galaxies/elliptical">Elliptical</a></li>
+          <li><a href="/encyclopedia/galaxies/spiral">Spiral</a></li>
+          <li><a href="/encyclopedia/galaxies/barred_spiral">Barred Spiral</a></li>
+          <li><a href="/encyclopedia/galaxies/irregular">Irregular</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Black Holes<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/black_holes">What is it?</a></li>
+          <li><a href="/encyclopedia/black_holes/formation">Formation</a></li>
+          <li><a href="/encyclopedia/black_holes/stellar">Stellar Black Holes</a></li>
+          <li><a href="/encyclopedia/black_holes/supermassive">Supermassive Black Holes</a></li>
+          <li><a href="/encyclopedia/black_holes/intermediate">Intermediate-mass Black Holes</a></li>
+          <li><a href="/encyclopedia/black_holes/primordial">Primordial Black Holes</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container" style="margin-top:50px">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> How Do Planets Form?</h1>
+        <img src="https://www.spacepedia.info/template/ency/static/gezegenler2.png">
+        <br><br>
+        The formation of planets is a complex process that begins with the birth of stars and continues for millions of years. A planet never forms independently; its existence is directly tied to the formation of a star. This process begins when cold and dense gas clouds within galaxies start collapsing under their own gravity. As the collapse occurs, most of the material gathers at the center to form a new star, while the remaining matter continues orbiting around it.
+        <br><br>
+        The gas and dust remaining around the newly formed star gradually flatten into a disk-shaped structure known as a protoplanetary disk. The material within this disk initially consists of extremely small particles—microscopic dust grains freely moving in space. The rotational motion of the disk prevents these particles from dispersing randomly and keeps them in organized orbits. This creates the stable environment necessary for planet formation.
+        <br><br>
+        In the next stage of planetary formation, dust grains begin colliding and sticking together. At first, these collisions are slow and weak. Over time, however, larger fragments form, and these growing bodies more easily attract surrounding particles. Gravity becomes increasingly effective, leading to the formation of objects measuring centimeters, meters, and eventually much larger sizes.
+        <br><br>
+        As growth continues, larger bodies known as planetesimals form. Planetesimals are the direct precursors of planets. As their mass increases, they attract surrounding material more strongly. Gas and dust accumulate around them, forming the fundamental building blocks of planets. At this stage, the disk is no longer uniform and begins to show clear gaps and dense regions.
+        <br><br>
+        The type of planet that forms depends largely on where in the disk the process occurs. In regions close to the central star, temperatures are high. Light gases cannot remain in these hot regions, so only rocks and metals combine to form solid, terrestrial planets. In more distant regions, temperatures are lower, allowing light gases such as hydrogen and helium to be retained. This leads to the formation of massive, gas-rich planets.
+        <br><br>
+        As planet formation progresses, the material in the disk gradually becomes depleted. Some of it is incorporated into planets, some falls into the central star, and some is expelled from the system by stellar winds. Once this process concludes, planets settle into more stable orbits. However, stability is not immediate. Young planets may experience gravitational interactions, orbital shifts, and even collisions that result in mergers. This turbulent phase ultimately determines the final architecture of the planetary system.
+        <br><br>
+        Over time, planets cool, their internal structures differentiate, and their surfaces begin to evolve. Massive planets retain thick gaseous envelopes, while smaller planets lose internal heat and develop solid crusts. Atmospheres may form, transform, or disappear. All these processes define the physical and chemical characteristics we observe today.
+        <br><br>
+        In conclusion, planet formation is a natural continuation of star formation. Beginning with gas and dust, gravity and time transform this material into complex and organized planetary systems. The diversity of planets reflects the diversity of their formation environments. Understanding this process means understanding not only the origin of planets but also how star systems take shape and why such a wide variety of worlds exist in the universe.
+        <h3></h3>
+    </font>
+</div>
+
+</body>
+</html>

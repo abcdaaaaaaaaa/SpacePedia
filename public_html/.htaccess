@@ -1,0 +1,828 @@
+    RewriteEngine on
+    AddHandler application/x-httpd-ea-php74 .php .php7 .phtml
+
+    RewriteRule ^simulate$ https://simulate.uzay.info/ [L,NC]
+    RewriteRule ^oyunlar$ https://game.uzay.info/ [L,NC]
+    RewriteRule ^games$ https://game.uzay.info/ [L,NC]
+    RewriteRule ^eng$ https://spacepedia.info/ [R=301,L]
+    RewriteRule ^tr$ https://uzay.info/ [R=301,L]
+
+    RewriteRule ^ansiklopedi$                     template/ency/ansiklopedi.html     [L,NC]
+    RewriteRule ^ansiklopedi/@/patlamalar$        template/ency/patlamalar.html      [L,NC]
+    RewriteRule ^ansiklopedi/@/burclarvemitoloji$ template/ency/burcvemito.html      [L,NC]
+    RewriteRule ^ansiklopedi/@/tarihiolaylar$     template/ency/tarihiolaylar.html   [L,NC]
+    RewriteRule ^ansiklopedi/@/kazalar$           template/ency/kazalar.html         [L,NC]
+    RewriteRule ^ansiklopedi/@/meteorvegoktasi$   template/ency/meteorvegoktasi.html [L,NC]
+    RewriteRule ^ansiklopedi/@$                   https://game.uzay.info/       [L,NC]
+    
+    RewriteRule ^ansiklopedi/bulutsular$             template/ency/bulutsular1.html [L,NC]
+    RewriteRule ^ansiklopedi/bulutsular/nasilolusur$ template/ency/bulutsular2.html [L,NC]
+    RewriteRule ^ansiklopedi/bulutsular/salma$       template/ency/bulutsular3.html [L,NC]
+    RewriteRule ^ansiklopedi/bulutsular/karanlik$    template/ency/bulutsular4.html [L,NC]
+    RewriteRule ^ansiklopedi/bulutsular/yansima$     template/ency/bulutsular5.html [L,NC]
+    RewriteRule ^ansiklopedi/bulutsular/gezegenimsi$ template/ency/bulutsular6.html [L,NC]
+    RewriteRule ^ansiklopedi/bulutsular/supernova$   template/ency/bulutsular7.html [L,NC]
+    
+    RewriteRule ^ansiklopedi/galaksiler$               template/ency/galaksi1.html    [L,NC]
+    RewriteRule ^ansiklopedi/galaksiler/nasilolusur$   template/ency/galaksi2.html    [L,NC]
+    RewriteRule ^ansiklopedi/galaksiler/eliptik$       template/ency/galaksiler1.html [L,NC]
+    RewriteRule ^ansiklopedi/galaksiler/sarmal$        template/ency/galaksiler2.html [L,NC]
+    RewriteRule ^ansiklopedi/galaksiler/cubuklusarmal$ template/ency/galaksiler3.html [L,NC]
+    RewriteRule ^ansiklopedi/galaksiler/düzensiz$      template/ency/galaksiler4.html [L,NC]
+    
+    RewriteRule ^ansiklopedi/gezegenler/nedir$          template/ency/gezegenler1.html [L,NC]
+    RewriteRule ^ansiklopedi/gezegenler/nasilolusur$    template/ency/gezegenler2.html [L,NC]
+    RewriteRule ^ansiklopedi/gezegenler/gunessistemi$   template/ency/gezegenler3.html [L,NC]
+    RewriteRule ^ansiklopedi/gezegenler$                template/ency/gezegenler4.html [L,NC]
+    RewriteRule ^ansiklopedi/gezegenler/cucegezegenler$ template/ency/gezegenler5.html [L,NC]
+    
+    RewriteRule ^ansiklopedi/yildizlar$              template/ency/yildizlar1.html [L,NC]
+    RewriteRule ^ansiklopedi/yildizlar/nasilolusur$  template/ency/yildizlar2.html [L,NC]
+    RewriteRule ^ansiklopedi/yildizlar/mtayf$        template/ency/yildizlar3.html [L,NC]
+    RewriteRule ^ansiklopedi/yildizlar/ktayf$        template/ency/yildizlar4.html [L,NC]
+    RewriteRule ^ansiklopedi/yildizlar/aveftayf$     template/ency/yildizlar5.html [L,NC]
+    RewriteRule ^ansiklopedi/yildizlar/ovebtayf$     template/ency/yildizlar6.html [L,NC]
+    RewriteRule ^ansiklopedi/yildizlar/devyildizlar$ template/ency/yildizlar7.html [L,NC]
+    
+    RewriteRule ^ansiklopedi/takimyildizlari/nedir$       template/ency/tky1.html [L,NC]
+    RewriteRule ^ansiklopedi/takimyildizlari/nasilolusur$ template/ency/tky2.html [L,NC]
+    RewriteRule ^ansiklopedi/takimyildizlari$             template/ency/tky3.html [L,NC]
+    
+    RewriteRule ^ansiklopedi/kuyrukluyildizlar$               template/ency/ky1.html [L,NC]
+    RewriteRule ^ansiklopedi/kuyrukluyildizlar/nasilolusur$   template/ency/ky2.html [L,NC]
+    RewriteRule ^ansiklopedi/kuyrukluyildizlar/jupiterailesi$ template/ency/ky3.html [L,NC]
+    RewriteRule ^ansiklopedi/kuyrukluyildizlar/halleysinifi$  template/ency/ky4.html [L,NC]
+    RewriteRule ^ansiklopedi/kuyrukluyildizlar/uzunsureli$    template/ency/ky5.html [L,NC]
+    RewriteRule ^ansiklopedi/kuyrukluyildizlar/yorunge$       template/ency/ky6.html [L,NC]
+    
+    RewriteRule ^ansiklopedi/notron$               template/ency/notron1.html [L,NC]
+    RewriteRule ^ansiklopedi/notron/nasilolusur$   template/ency/notron2.html [L,NC]
+    RewriteRule ^ansiklopedi/notron/atarca$        template/ency/notron3.html [L,NC]
+    RewriteRule ^ansiklopedi/notron/magnetar$      template/ency/notron4.html [L,NC]
+    RewriteRule ^ansiklopedi/notron/kuarkvegzotik$ template/ency/notron5.html [L,NC]
+    
+    RewriteRule ^ansiklopedi/karadelikler$             template/ency/karadelik1.html    [L,NC]
+    RewriteRule ^ansiklopedi/karadelikler/nasilolusur$ template/ency/karadelik2.html    [L,NC]
+    RewriteRule ^ansiklopedi/karadelikler/yildizsal$   template/ency/karadelikler1.html [L,NC]
+    RewriteRule ^ansiklopedi/karadelikler/dev$         template/ency/karadelikler2.html [L,NC]
+    RewriteRule ^ansiklopedi/karadelikler/ortakutleli$ template/ency/karadelikler3.html [L,NC]
+    RewriteRule ^ansiklopedi/karadelikler/ilksel$      template/ency/karadelikler4.html [L,NC]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/ansiklopedi\.html[\s?] [NC]
+    RewriteRule ^template/ency/ansiklopedi\.html$ /ansiklopedi [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/patlamalar\.html[\s?] [NC]
+    RewriteRule ^template/ency/patlamalar\.html$ /ansiklopedi/@/patlamalar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/burcvemito\.html[\s?] [NC]
+    RewriteRule ^template/ency/burcvemito\.html$ /ansiklopedi/@/burclarvemitoloji [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/tarihiolaylar\.html[\s?] [NC]
+    RewriteRule ^template/ency/tarihiolaylar\.html$ /ansiklopedi/@/tarihiolaylar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/kazalar\.html[\s?] [NC]
+    RewriteRule ^template/ency/kazalar\.html$ /ansiklopedi/@/kazalar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/meteorvegoktasi\.html[\s?] [NC]
+    RewriteRule ^template/ency/meteorvegoktasi\.html$ /ansiklopedi/@/meteorvegoktasi [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/bulutsular1\.html[\s?] [NC]
+    RewriteRule ^template/ency/bulutsular1\.html$ /ansiklopedi/bulutsular [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/bulutsular2\.html[\s?] [NC]
+    RewriteRule ^template/ency/bulutsular2\.html$ /ansiklopedi/bulutsular/nasilolusur [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/bulutsular3\.html[\s?] [NC]
+    RewriteRule ^template/ency/bulutsular3\.html$ /ansiklopedi/bulutsular/salma [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/bulutsular4\.html[\s?] [NC]
+    RewriteRule ^template/ency/bulutsular4\.html$ /ansiklopedi/bulutsular/karanlik [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/bulutsular5\.html[\s?] [NC]
+    RewriteRule ^template/ency/bulutsular5\.html$ /ansiklopedi/bulutsular/yansima [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/bulutsular6\.html[\s?] [NC]
+    RewriteRule ^template/ency/bulutsular6\.html$ /ansiklopedi/bulutsular/gezegenimsi [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/bulutsular7\.html[\s?] [NC]
+    RewriteRule ^template/ency/bulutsular7\.html$ /ansiklopedi/bulutsular/supernova [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/galaksi1\.html[\s?] [NC]
+    RewriteRule ^template/ency/galaksi1\.html$ /ansiklopedi/galaksiler [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/galaksi2\.html[\s?] [NC]
+    RewriteRule ^template/ency/galaksi2\.html$ /ansiklopedi/galaksiler/nasilolusur [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/galaksiler1\.html[\s?] [NC]
+    RewriteRule ^template/ency/galaksiler1\.html$ /ansiklopedi/galaksiler/eliptik [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/galaksiler2\.html[\s?] [NC]
+    RewriteRule ^template/ency/galaksiler2\.html$ /ansiklopedi/galaksiler/sarmal [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/galaksiler3\.html[\s?] [NC]
+    RewriteRule ^template/ency/galaksiler3\.html$ /ansiklopedi/galaksiler/cubuklusarmal [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/galaksiler4\.html[\s?] [NC]
+    RewriteRule ^template/ency/galaksiler4\.html$ /ansiklopedi/galaksiler/düzensiz [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/yildizlar1\.html[\s?] [NC]
+    RewriteRule ^template/ency/yildizlar1\.html$ /ansiklopedi/yildizlar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/yildizlar2\.html[\s?] [NC]
+    RewriteRule ^template/ency/yildizlar2\.html$ /ansiklopedi/yildizlar/nasilolusur [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/yildizlar3\.html[\s?] [NC]
+    RewriteRule ^template/ency/yildizlar3\.html$ /ansiklopedi/yildizlar/mtayf [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/yildizlar4\.html[\s?] [NC]
+    RewriteRule ^template/ency/yildizlar4\.html$ /ansiklopedi/yildizlar/ktayf [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/yildizlar5\.html[\s?] [NC]
+    RewriteRule ^template/ency/yildizlar5\.html$ /ansiklopedi/yildizlar/aveftayf [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/yildizlar6\.html[\s?] [NC]
+    RewriteRule ^template/ency/yildizlar6\.html$ /ansiklopedi/yildizlar/ovebtayf [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/yildizlar7\.html[\s?] [NC]
+    RewriteRule ^template/ency/yildizlar7\.html$ /ansiklopedi/yildizlar/devyildizlar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/tky1\.html[\s?] [NC]
+    RewriteRule ^template/ency/tky1\.html$ /ansiklopedi/takimyildizlari/nedir [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/tky2\.html[\s?] [NC]
+    RewriteRule ^template/ency/tky2\.html$ /ansiklopedi/takimyildizlari/nasilolusur [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/tky3\.html[\s?] [NC]
+    RewriteRule ^template/ency/tky3\.html$ /ansiklopedi/takimyildizlari [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/ky1\.html[\s?] [NC]
+    RewriteRule ^template/ency/ky1\.html$ /ansiklopedi/kuyrukluyildizlar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/ky2\.html[\s?] [NC]
+    RewriteRule ^template/ency/ky2\.html$ /ansiklopedi/kuyrukluyildizlar/nasilolusur [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/ky3\.html[\s?] [NC]
+    RewriteRule ^template/ency/ky3\.html$ /ansiklopedi/kuyrukluyildizlar/jupiterailesi [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/ky4\.html[\s?] [NC]
+    RewriteRule ^template/ency/ky4\.html$ /ansiklopedi/kuyrukluyildizlar/halleysinifi [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/ky5\.html[\s?] [NC]
+    RewriteRule ^template/ency/ky5\.html$ /ansiklopedi/kuyrukluyildizlar/uzunsureli [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/ky6\.html[\s?] [NC]
+    RewriteRule ^template/ency/ky6\.html$ /ansiklopedi/kuyrukluyildizlar/yorunge [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/notron1\.html[\s?] [NC]
+    RewriteRule ^template/ency/notron1\.html$ /ansiklopedi/notron [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/notron2\.html[\s?] [NC]
+    RewriteRule ^template/ency/notron2\.html$ /ansiklopedi/notron/nasilolusur [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/notron3\.html[\s?] [NC]
+    RewriteRule ^template/ency/notron3\.html$ /ansiklopedi/notron/atarca [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/notron4\.html[\s?] [NC]
+    RewriteRule ^template/ency/notron4\.html$ /ansiklopedi/notron/magnetar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/notron5\.html[\s?] [NC]
+    RewriteRule ^template/ency/notron5\.html$ /ansiklopedi/notron/kuarkvegzotik [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/karadelik1\.html[\s?] [NC]
+    RewriteRule ^template/ency/karadelik1\.html$ /ansiklopedi/karadelikler [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/karadelik2\.html[\s?] [NC]
+    RewriteRule ^template/ency/karadelik2\.html$ /ansiklopedi/karadelikler/nasilolusur [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/karadelikler1\.html[\s?] [NC]
+    RewriteRule ^template/ency/karadelikler1\.html$ /ansiklopedi/karadelikler/yildizsal [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/karadelikler2\.html[\s?] [NC]
+    RewriteRule ^template/ency/karadelikler2\.html$ /ansiklopedi/karadelikler/dev [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/karadelikler3\.html[\s?] [NC]
+    RewriteRule ^template/ency/karadelikler3\.html$ /ansiklopedi/karadelikler/ortakutleli [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ency/karadelikler4\.html[\s?] [NC]
+    RewriteRule ^template/ency/karadelikler4\.html$ /ansiklopedi/karadelikler/ilksel [R=301,L]
+
+    RewriteRule ^encyclopedia$                     template/encyeng/encyclopedia.html     [L,NC]
+    RewriteRule ^encyclopedia/@/explosions$        template/encyeng/explosions.html      [L,NC]
+    RewriteRule ^encyclopedia/@/zodiac_mythology$  template/encyeng/zodiac_mythology.html      [L,NC]
+    RewriteRule ^encyclopedia/@/historical_events$ template/encyeng/historical_events.html   [L,NC]
+    RewriteRule ^encyclopedia/@/accidents$         template/encyeng/accidents.html         [L,NC]
+    RewriteRule ^encyclopedia/@/meteors_meteorites$ template/encyeng/meteors_meteorites.html [L,NC]
+    RewriteRule ^encyclopedia/@$                   https://game.uzay.info/       [L,NC]
+    
+    RewriteRule ^encyclopedia/nebulae$             template/encyeng/nebulae1.html [L,NC]
+    RewriteRule ^encyclopedia/nebulae/formation$   template/encyeng/nebulae2.html [L,NC]
+    RewriteRule ^encyclopedia/nebulae/emission$    template/encyeng/nebulae3.html [L,NC]
+    RewriteRule ^encyclopedia/nebulae/dark$        template/encyeng/nebulae4.html [L,NC]
+    RewriteRule ^encyclopedia/nebulae/reflection$  template/encyeng/nebulae5.html [L,NC]
+    RewriteRule ^encyclopedia/nebulae/planetary$   template/encyeng/nebulae6.html [L,NC]
+    RewriteRule ^encyclopedia/nebulae/supernova$   template/encyeng/nebulae7.html [L,NC]
+    
+    RewriteRule ^encyclopedia/galaxies$               template/encyeng/galaxy1.html    [L,NC]
+    RewriteRule ^encyclopedia/galaxies/formation$     template/encyeng/galaxy2.html    [L,NC]
+    RewriteRule ^encyclopedia/galaxies/elliptical$    template/encyeng/galaxies1.html [L,NC]
+    RewriteRule ^encyclopedia/galaxies/spiral$        template/encyeng/galaxies2.html [L,NC]
+    RewriteRule ^encyclopedia/galaxies/barred_spiral$ template/encyeng/galaxies3.html [L,NC]
+    RewriteRule ^encyclopedia/galaxies/irregular$     template/encyeng/galaxies4.html [L,NC]
+    
+    RewriteRule ^encyclopedia/planets/what$          template/encyeng/planets1.html [L,NC]
+    RewriteRule ^encyclopedia/planets/formation$     template/encyeng/planets2.html [L,NC]
+    RewriteRule ^encyclopedia/planets/solar_system$  template/encyeng/planets3.html [L,NC]
+    RewriteRule ^encyclopedia/planets$               template/encyeng/planets4.html [L,NC]
+    RewriteRule ^encyclopedia/planets/dwarf_planets$ template/encyeng/planets5.html [L,NC]
+    
+    RewriteRule ^encyclopedia/stars$               template/encyeng/stars1.html [L,NC]
+    RewriteRule ^encyclopedia/stars/formation$     template/encyeng/stars2.html [L,NC]
+    RewriteRule ^encyclopedia/stars/m_type$        template/encyeng/stars3.html [L,NC]
+    RewriteRule ^encyclopedia/stars/k_type$        template/encyeng/stars4.html [L,NC]
+    RewriteRule ^encyclopedia/stars/a_f_type$      template/encyeng/stars5.html [L,NC]
+    RewriteRule ^encyclopedia/stars/o_b_type$      template/encyeng/stars6.html [L,NC]
+    RewriteRule ^encyclopedia/stars/giant_stars$   template/encyeng/stars7.html [L,NC]
+    
+    RewriteRule ^encyclopedia/constellations/what$       template/encyeng/constellations1.html [L,NC]
+    RewriteRule ^encyclopedia/constellations/formation$  template/encyeng/constellations2.html [L,NC]
+    RewriteRule ^encyclopedia/constellations$            template/encyeng/constellations3.html [L,NC]
+    
+    RewriteRule ^encyclopedia/comets$               template/encyeng/comets1.html [L,NC]
+    RewriteRule ^encyclopedia/comets/formation$     template/encyeng/comets2.html [L,NC]
+    RewriteRule ^encyclopedia/comets/jupiter_family$ template/encyeng/comets3.html [L,NC]
+    RewriteRule ^encyclopedia/comets/halley_type$   template/encyeng/comets4.html [L,NC]
+    RewriteRule ^encyclopedia/comets/long_period$   template/encyeng/comets5.html [L,NC]
+    RewriteRule ^encyclopedia/comets/by_orbit$      template/encyeng/comets6.html [L,NC]
+    
+    RewriteRule ^encyclopedia/neutron_stars$            template/encyeng/neutron_stars1.html [L,NC]
+    RewriteRule ^encyclopedia/neutron_stars/formation$  template/encyeng/neutron_stars2.html [L,NC]
+    RewriteRule ^encyclopedia/neutron_stars/pulsars$    template/encyeng/neutron_stars3.html [L,NC]
+    RewriteRule ^encyclopedia/neutron_stars/magnetars$  template/encyeng/neutron_stars4.html [L,NC]
+    RewriteRule ^encyclopedia/neutron_stars/quark_exotic$ template/encyeng/neutron_stars5.html [L,NC]
+    
+    RewriteRule ^encyclopedia/black_holes$              template/encyeng/black_holes1.html [L,NC]
+    RewriteRule ^encyclopedia/black_holes/formation$    template/encyeng/black_holes2.html [L,NC]
+    RewriteRule ^encyclopedia/black_holes/stellar$      template/encyeng/black_holes3.html [L,NC]
+    RewriteRule ^encyclopedia/black_holes/supermassive$ template/encyeng/black_holes4.html [L,NC]
+    RewriteRule ^encyclopedia/black_holes/intermediate$ template/encyeng/black_holes5.html [L,NC]
+    RewriteRule ^encyclopedia/black_holes/primordial$   template/encyeng/black_holes6.html [L,NC]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/encyclopedia\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/encyclopedia\.html$ /encyclopedia [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/explosions\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/explosions\.html$ /encyclopedia/@/explosions [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/zodiac_mythology\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/zodiac_mythology\.html$ /encyclopedia/@/zodiac_mythology [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/historical_events\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/historical_events\.html$ /encyclopedia/@/historical_events [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/accidents\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/accidents\.html$ /encyclopedia/@/accidents [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/meteors_meteorites\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/meteors_meteorites\.html$ /encyclopedia/@/meteors_meteorites [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/nebulae1\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/nebulae1\.html$ /encyclopedia/nebulae [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/nebulae2\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/nebulae2\.html$ /encyclopedia/nebulae/formation [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/nebulae3\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/nebulae3\.html$ /encyclopedia/nebulae/emission [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/nebulae4\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/nebulae4\.html$ /encyclopedia/nebulae/dark [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/nebulae5\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/nebulae5\.html$ /encyclopedia/nebulae/reflection [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/nebulae6\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/nebulae6\.html$ /encyclopedia/nebulae/planetary [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/nebulae7\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/nebulae7\.html$ /encyclopedia/nebulae/supernova [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/galaxy1\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/galaxy1\.html$ /encyclopedia/galaxies [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/galaxy2\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/galaxy2\.html$ /encyclopedia/galaxies/formation [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/galaxies1\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/galaxies1\.html$ /encyclopedia/galaxies/elliptical [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/galaxies2\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/galaxies2\.html$ /encyclopedia/galaxies/spiral [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/galaxies3\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/galaxies3\.html$ /encyclopedia/galaxies/barred_spiral [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/galaxies4\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/galaxies4\.html$ /encyclopedia/galaxies/irregular [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/planets1\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/planets1\.html$ /encyclopedia/planets/what [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/planets2\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/planets2\.html$ /encyclopedia/planets/formation [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/planets3\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/planets3\.html$ /encyclopedia/planets/solar_system [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/planets4\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/planets4\.html$ /encyclopedia/planets [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/planets5\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/planets5\.html$ /encyclopedia/planets/dwarf_planets [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/stars1\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/stars1\.html$ /encyclopedia/stars [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/stars2\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/stars2\.html$ /encyclopedia/stars/formation [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/stars3\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/stars3\.html$ /encyclopedia/stars/m_type [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/stars4\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/stars4\.html$ /encyclopedia/stars/k_type [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/stars5\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/stars5\.html$ /encyclopedia/stars/a_f_type [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/stars6\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/stars6\.html$ /encyclopedia/stars/o_b_type [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/stars7\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/stars7\.html$ /encyclopedia/stars/giants [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/constellation1\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/constellation1\.html$ /encyclopedia/constellation/what [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/constellation2\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/constellation2\.html$ /encyclopedia/constellation/formation [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/constellation3\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/constellation3\.html$ /encyclopedia/constellation [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/comets1\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/comets1\.html$ /encyclopedia/comets [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/comets2\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/comets2\.html$ /encyclopedia/comets/formation [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/comets3\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/comets3\.html$ /encyclopedia/comets/jupiter_family [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/comets4\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/comets4\.html$ /encyclopedia/comets/halley_type [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/comets5\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/comets5\.html$ /encyclopedia/comets/long_period [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/comets6\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/comets6\.html$ /encyclopedia/comets/by_orbit [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/neutron_stars1\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/neutron_stars1\.html$ /encyclopedia/neutron_stars [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/neutron_stars2\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/neutron_stars2\.html$ /encyclopedia/neutron_stars/formation [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/neutron_stars3\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/neutron_stars3\.html$ /encyclopedia/neutron_stars/pulsars [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/neutron_stars4\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/neutron_stars4\.html$ /encyclopedia/neutron_stars/magnetars [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/neutron_stars5\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/neutron_stars5\.html$ /encyclopedia/neutron_stars/exotic [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/blackhole1\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/blackhole1\.html$ /encyclopedia/black_holes [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/blackhole2\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/blackhole2\.html$ /encyclopedia/black_holes/formation [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/blackholes1\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/blackholes1\.html$ /encyclopedia/black_holes/stellar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/blackholes2\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/blackholes2\.html$ /encyclopedia/black_holes/supermassive [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/blackholes3\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/blackholes3\.html$ /encyclopedia/black_holes/intermediate [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/encyeng/blackholes4\.html[\s?] [NC]
+    RewriteRule ^template/encyeng/blackholes4\.html$ /encyclopedia/black_holes/primordial [R=301,L]
+
+    RewriteRule ^yenigelismeler$          template/yenigelismeler.html         [L,NC]
+    RewriteRule ^yeniforum$               template/yeniforum.php               [L,NC]
+    RewriteRule ^yeniakademikmakale$      template/yeniakademikmakale.php      [L,NC]
+    RewriteRule ^yeniogreticimakale$      template/yeniogreticimakale.php      [L,NC]
+    RewriteRule ^yeniekitap$              template/yeniekitap.php              [L,NC]
+    RewriteRule ^yenikurs$                template/yenikurs.php                [L,NC]
+    RewriteRule ^yenisimulasyon$          template/yenisimulasyon.php          [L,NC]
+    RewriteRule ^yeniozguransiklopedi$    template/yeniozguransiklopedi.php    [L,NC]
+    RewriteRule ^ogreticimakaleler$       template/ogreticimakaleler.php       [L,NC]
+    RewriteRule ^ogreticimakaledetay$     template/ogreticimakaledetay.php     [L,NC]
+    RewriteRule ^akademikmakaleler$       template/akademikmakaleler.php       [L,NC]
+    RewriteRule ^forumlar$                template/forumlar.php                [L,NC]
+    RewriteRule ^forumdetay$              template/forumdetay.php              [L,NC]
+    RewriteRule ^editmessage$             template/editmessage.php             [L,NC]
+    RewriteRule ^ekitapviewer$            template/ekitapviewer.php            [L,NC]
+    RewriteRule ^ekitaplar$               template/ekitaplar.php               [L,NC]
+    RewriteRule ^kurslar$                 template/kurslar.php                 [L,NC]
+    RewriteRule ^kursdetay$               template/kursdetay.php               [L,NC]
+    RewriteRule ^kurstanitim$             template/kurstanitim.php             [L,NC]
+    RewriteRule ^simulasyonlar$           template/simulasyonlar.php           [L,NC]
+    RewriteRule ^simulasyondetay$         template/simulasyondetay.php         [L,NC]
+    RewriteRule ^ozguransiklopediler$     template/ozguransiklopediler.php     [L,NC]
+    RewriteRule ^ozguransiklopedidetay$   template/ozguransiklopedidetay.php   [L,NC]
+    RewriteRule ^duzenleozguransiklopedi$ template/duzenleozguransiklopedi.php [L,NC]
+    RewriteRule ^uzayarenası$             template/bilgi.html                  [L,NC]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/yenigelismeler\.html[\s?] [NC]
+    RewriteRule ^template/yenigelismeler\.html$ /yenigelismeler [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/yeniforum\.php[\s?] [NC]
+    RewriteRule ^template/yeniforum\.php$ /yeniforum [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/yeniakademikmakale\.php[\s?] [NC]
+    RewriteRule ^template/yeniakademikmakale\.php$ /yeniakademikmakale [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/yeniogreticimakale\.php[\s?] [NC]
+    RewriteRule ^template/yeniogreticimakale\.php$ /yeniogreticimakale [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/yeniekitap\.php[\s?] [NC]
+    RewriteRule ^template/yeniekitap\.php$ /yeniekitap [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/yenikurs\.php[\s?] [NC]
+    RewriteRule ^template/yenikurs\.php$ /yenikurs [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/yenisimulasyon\.php[\s?] [NC]
+    RewriteRule ^template/yenisimulasyon\.php$ /yenisimulasyon [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/yeniozguransiklopedi\.php[\s?] [NC]
+    RewriteRule ^template/yeniozguransiklopedi\.php$ /yeniozguransiklopedi [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ogreticimakaleler\.php[\s?] [NC]
+    RewriteRule ^template/ogreticimakaleler\.php$ /ogreticimakaleler [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ogreticimakaledetay\.php[\s?] [NC]
+    RewriteRule ^template/ogreticimakaledetay\.php$ /ogreticimakaledetay [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/akademikmakaleler\.php[\s?] [NC]
+    RewriteRule ^template/akademikmakaleler\.php$ /akademikmakaleler [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/forumlar\.php[\s?] [NC]
+    RewriteRule ^template/forumlar\.php$ /forumlar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/forumdetay\.php[\s?] [NC]
+    RewriteRule ^template/forumdetay\.php$ /forumdetay [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/editmessage\.php[\s?] [NC]
+    RewriteRule ^template/editmessage\.php$ /editmessage [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ekitapviewer\.php[\s?] [NC]
+    RewriteRule ^template/ekitapviewer\.php$ /ekitapviewer [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ekitaplar\.php[\s?] [NC]
+    RewriteRule ^template/ekitaplar\.php$ /ekitaplar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/kurslar\.php[\s?] [NC]
+    RewriteRule ^template/kurslar\.php$ /kurslar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/kursdetay\.php[\s?] [NC]
+    RewriteRule ^template/kursdetay\.php$ /kursdetay [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/kurstanitim\.php[\s?] [NC]
+    RewriteRule ^template/kurstanitim\.php$ /kurstanitim [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/simulasyonlar\.php[\s?] [NC]
+    RewriteRule ^template/simulasyonlar\.php$ /simulasyonlar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/simulasyondetay\.php[\s?] [NC]
+    RewriteRule ^template/simulasyondetay\.php$ /simulasyondetay [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ozguransiklopediler\.php[\s?] [NC]
+    RewriteRule ^template/ozguransiklopediler\.php$ /ozguransiklopediler [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/ozguransiklopedidetay\.php[\s?] [NC]
+    RewriteRule ^template/ozguransiklopedidetay\.php$ /ozguransiklopedidetay [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/duzenleozguransiklopedi\.php[\s?] [NC]
+    RewriteRule ^template/duzenleozguransiklopedi\.php$ /duzenleozguransiklopedi [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/bilgi\.html[\s?] [NC]
+    RewriteRule ^template/bilgi\.html$ /uzayarenası [R=301,L]
+    
+    RewriteRule ^login$        login.php        [L,NC]
+    RewriteRule ^register$     register.php     [L,NC]
+    RewriteRule ^logout$       logout.php       [L,NC]
+    RewriteRule ^profile_edit$ profile_edit.php [L,NC]
+    RewriteRule ^terms$        terms.php        [L,NC]
+    RewriteRule ^privacy$      privacy.php      [L,NC]
+
+    RewriteRule ^resend_activation$ template/resend_activation.php [L,NC]
+    RewriteRule ^check_activation$  template/check_activation.php  [L,NC]
+    RewriteRule ^check_password$    template/check_password.php    [L,NC]
+    RewriteRule ^reset_password$    template/reset_password.php    [L,NC]
+    RewriteRule ^change_email$      template/change_email.php      [L,NC]
+    RewriteRule ^check_email$       template/check_email.php       [L,NC]
+    RewriteRule ^verify$            template/verify.php            [L,NC]
+    RewriteRule ^reset$             template/reset.php             [L,NC]
+    RewriteRule ^email$             template/email.php             [L,NC]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/resend_activation\.php[\s?] [NC]
+    RewriteRule ^template/resend_activation\.php$ /resend_activation [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/check_activation\.php[\s?] [NC]
+    RewriteRule ^template/check_activation\.php$ /check_activation [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/check_password\.php[\s?] [NC]
+    RewriteRule ^template/check_password\.php$ /check_password [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/reset_password\.php[\s?] [NC]
+    RewriteRule ^template/reset_password\.php$ /reset_password [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/change_email\.php[\s?] [NC]
+    RewriteRule ^template/change_email\.php$ /change_email [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/check_email\.php[\s?] [NC]
+    RewriteRule ^template/check_email\.php$ /check_email [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/verify\.php[\s?] [NC]
+    RewriteRule ^template/verify\.php$ /verify [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/reset\.php[\s?] [NC]
+    RewriteRule ^template/reset\.php$ /reset [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/email\.php[\s?] [NC]
+    RewriteRule ^template/email\.php$ /email [R=301,L]
+
+    #  RewriteCond %{REQUEST_FILENAME} !-f
+    #  RewriteCond %{REQUEST_FILENAME} !-d
+    #  RewriteRule ^(.*)$ 404notfound.php [L]
+
+    RewriteRule ^@/([a-zA-Z0-9_-]+)$ profile.php?username=$1
+    #  RewriteRule ^@/([A-Za-z0-9_-]+)$ profile.php?username=$1 [L]
+    
+    RewriteRule ^@/([^/]+)/ogreticimakaleler$ template/kullaniciogreticimakale.php?username=$1 [L,QSA]
+    RewriteRule ^@/([^/]+)/akademikmakaleler$ template/kullaniciakademikmakale.php?username=$1 [L,QSA]
+    RewriteRule ^@/([^/]+)/ekitaplar$         template/kullaniciekitap.php?username=$1         [L,QSA]
+    RewriteRule ^@/([^/]+)/kurslar$           template/kullanicikurs.php?username=$1           [L,QSA]
+    RewriteRule ^@/([^/]+)/simulasyonlar$     template/kullanicisimulasyon.php?username=$1     [L,QSA]
+
+    RewriteCond %{THE_REQUEST} \s/+template/kullaniciogreticimakale\.php\?username=([^&\s]+) [NC]
+    RewriteRule ^template/kullaniciogreticimakale\.php$ /@/%1/ogreticimakaleler [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/kullaniciakademikmakale\.php\?username=([^&\s]+) [NC]
+    RewriteRule ^template/kullaniciakademikmakale\.php$ /@/%1/akademikmakaleler [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/kullaniciekitap\.php\?username=([^&\s]+) [NC]
+    RewriteRule ^template/kullaniciekitap\.php$ /@/%1/ekitaplar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/kullanicikurs\.php\?username=([^&\s]+) [NC]
+    RewriteRule ^template/kullanicikurs\.php$ /@/%1/kurslar [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/kullanicisimulasyon\.php\?username=([^&\s]+) [NC]
+    RewriteRule ^template/kullanicisimulasyon\.php$ /@/%1/simulasyonlar [R=301,L]
+
+RewriteRule ^@/([^/]+)/tutorial_articles$ template/eng/user_tutorial_article.php?username=$1 [L,QSA]
+RewriteRule ^@/([^/]+)/academic_articles$ template/eng/user_academic_article.php?username=$1 [L,QSA]
+RewriteRule ^@/([^/]+)/ebooks$            template/eng/user_ebook.php?username=$1            [L,QSA]
+RewriteRule ^@/([^/]+)/courses$           template/eng/user_course.php?username=$1           [L,QSA]
+RewriteRule ^@/([^/]+)/simulations$       template/eng/user_simulation.php?username=$1       [L,QSA]
+
+
+RewriteCond %{THE_REQUEST} \s/+template/eng/user_tutorial_article\.php\?username=([^&\s]+) [NC]
+RewriteRule ^template/eng/user_tutorial_article\.php$ /@/%1/tutorial_articles [R=301,L]
+
+RewriteCond %{THE_REQUEST} \s/+template/eng/user_academic_article\.php\?username=([^&\s]+) [NC]
+RewriteRule ^template/eng/user_academic_article\.php$ /@/%1/academic_articles [R=301,L]
+
+RewriteCond %{THE_REQUEST} \s/+template/eng/user_ebook\.php\?username=([^&\s]+) [NC]
+RewriteRule ^template/eng/user_ebook\.php$ /@/%1/ebooks [R=301,L]
+
+RewriteCond %{THE_REQUEST} \s/+template/eng/user_course\.php\?username=([^&\s]+) [NC]
+RewriteRule ^template/eng/user_course\.php$ /@/%1/courses [R=301,L]
+
+RewriteCond %{THE_REQUEST} \s/+template/eng/user_simulation\.php\?username=([^&\s]+) [NC]
+RewriteRule ^template/eng/user_simulation\.php$ /@/%1/simulations [R=301,L]
+
+    RewriteRule ^simulate/planets$        https://simulate.uzay.info/planets        [L,NC]
+    RewriteRule ^simulate/stars$          https://simulate.uzay.info/stars          [L,NC]
+    RewriteRule ^simulate/galaxies$       https://simulate.uzay.info/galaxies       [L,NC]
+    RewriteRule ^simulate/blackholes$     https://simulate.uzay.info/blackholes     [L,NC]
+    RewriteRule ^simulate/nebulas$        https://simulate.uzay.info/nebulas        [L,NC]
+    RewriteRule ^simulate/comets$         https://simulate.uzay.info/comets         [L,NC]
+    RewriteRule ^simulate/neutrons$       https://simulate.uzay.info/neutrons       [L,NC]
+    RewriteRule ^simulate/deepspace$      https://simulate.uzay.info/deepspace      [L,NC]
+    RewriteRule ^simulate/constellations$ https://simulate.uzay.info/constellations [L,NC]
+    
+    RewriteRule ^simulate/deepspace/lateral$ https://simulate.uzay.info/deepspace1 [L,NC]
+    RewriteRule ^simulate/deepspace/frontal$ https://simulate.uzay.info/deepspace2 [L,NC]
+    
+    RewriteRule ^support$         template/support.php         [L,NC]
+    RewriteRule ^support_success$ template/support_success.php [L,NC]
+    RewriteRule ^ads$             template/watchads.php        [L,NC]
+    RewriteRule ^contact$         template/contact.php         [L,NC]
+    RewriteRule ^settings$        template/settings.php        [L,NC]
+
+    RewriteCond %{THE_REQUEST} \s/+template/support\.php[\s?] [NC]
+    RewriteRule ^template/support\.php$ /support [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/support_success\.php[\s?] [NC]
+    RewriteRule ^template/support_success\.php$ /support_success [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/watchads\.php[\s?] [NC]
+    RewriteRule ^template/watchads\.php$ /ads [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/contact\.php[\s?] [NC]
+    RewriteRule ^template/contact\.php$ /contact [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/settings\.php[\s?] [NC]
+    RewriteRule ^template/settings\.php$ /settings [R=301,L]
+    
+    RewriteRule ^close_account$         template/close_account.php         [L,NC]
+    RewriteRule ^reopen_account$        template/reopen_account.php        [L,NC]
+    RewriteRule ^reopen_account_verify$ template/reopen_account_verify.php [L,NC]
+    RewriteRule ^check_reopen$          template/check_reopen.php          [L,NC]
+
+    RewriteCond %{THE_REQUEST} \s/+template/close_account\.php[\s?] [NC]
+    RewriteRule ^template/close_account\.php$ /close_account [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/reopen_account\.php[\s?] [NC]
+    RewriteRule ^template/reopen_account\.php$ /reopen_account [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/reopen_account_verify\.php[\s?] [NC]
+    RewriteRule ^template/reopen_account_verify\.php$ /reopen_account_verify [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/check_reopen\.php[\s?] [NC]
+    RewriteRule ^template/check_reopen\.php$ /check_reopen [R=301,L]
+    
+    RewriteRule ^new_updates$ template/eng/new_updates.html [L,NC]
+    RewriteRule ^new_forum$ template/eng/new_forum.php [L,NC]
+    RewriteRule ^new_academic_article$ template/eng/new_academic_article.php [L,NC]
+    RewriteRule ^new_tutorial_article$ template/eng/new_tutorial_article.php [L,NC]
+    RewriteRule ^new_ebook$ template/eng/new_ebook.php [L,NC]
+    RewriteRule ^new_course$ template/eng/new_course.php [L,NC]
+    RewriteRule ^new_simulation$ template/eng/new_simulation.php [L,NC]
+    RewriteRule ^new_free_encyclopedia$ template/eng/new_free_encyclopedia.php [L,NC]
+    
+    RewriteRule ^academic_articles$ template/eng/academic_articles.php [L,NC]
+    RewriteRule ^tutorial_articles$ template/eng/tutorial_articles.php [L,NC]
+    RewriteRule ^tutorial_article_detail$ template/eng/tutorial_article_detail.php [L,NC]
+    
+    RewriteRule ^forums$ template/eng/forums.php [L,NC]
+    RewriteRule ^forum_detail$ template/eng/forum_detail.php [L,NC]
+    RewriteRule ^editmessage$ template/eng/editmessage.php [L,NC]
+    
+    RewriteRule ^ebook_viewer$ template/eng/ebook_viewer.php [L,NC]
+    RewriteRule ^ebooks$ template/eng/ebooks.php [L,NC]
+    
+    RewriteRule ^courses$ template/eng/courses.php [L,NC]
+    RewriteRule ^course_detail$ template/eng/course_detail.php [L,NC]
+    RewriteRule ^course_promo$ template/eng/course_promo.php [L,NC]
+    
+    RewriteRule ^simulations$ template/eng/simulations.php [L,NC]
+    RewriteRule ^simulation_detail$ template/eng/simulation_detail.php [L,NC]
+    
+    RewriteRule ^free_encyclopedias$ template/eng/free_encyclopedias.php [L,NC]
+    RewriteRule ^free_encyclopedia_detail$ template/eng/free_encyclopedia_detail.php [L,NC]
+    RewriteRule ^edit_free_encyclopedia$ template/eng/edit_free_encyclopedia.php [L,NC]
+    
+    RewriteRule ^space_arena$ template/eng/info.html [L,NC]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/new_updates\.html[\s?] [NC]
+    RewriteRule ^template/eng/new_updates\.html$ /new_updates [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/new_forum\.php[\s?] [NC]
+    RewriteRule ^template/eng/new_forum\.php$ /new_forum [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/new_academic_article\.php[\s?] [NC]
+    RewriteRule ^template/eng/new_academic_article\.php$ /new_academic_article [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/new_tutorial_article\.php[\s?] [NC]
+    RewriteRule ^template/eng/new_tutorial_article\.php$ /new_tutorial_article [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/new_ebook\.php[\s?] [NC]
+    RewriteRule ^template/eng/new_ebook\.php$ /new_ebook [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/new_course\.php[\s?] [NC]
+    RewriteRule ^template/eng/new_course\.php$ /new_course [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/new_simulation\.php[\s?] [NC]
+    RewriteRule ^template/eng/new_simulation\.php$ /new_simulation [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/new_free_encyclopedia\.php[\s?] [NC]
+    RewriteRule ^template/eng/new_free_encyclopedia\.php$ /new_free_encyclopedia [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/academic_articles\.php[\s?] [NC]
+    RewriteRule ^template/eng/academic_articles\.php$ /academic_articles [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/tutorial_articles\.php[\s?] [NC]
+    RewriteRule ^template/eng/tutorial_articles\.php$ /tutorial_articles [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/tutorial_article_detail\.php[\s?] [NC]
+    RewriteRule ^template/eng/tutorial_article_detail\.php$ /tutorial_article_detail [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/forums\.php[\s?] [NC]
+    RewriteRule ^template/eng/forums\.php$ /forums [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/forum_detail\.php[\s?] [NC]
+    RewriteRule ^template/eng/forum_detail\.php$ /forum_detail [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/editmessage\.php[\s?] [NC]
+    RewriteRule ^template/eng/editmessage\.php$ /editmessage [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/ebook_viewer\.php[\s?] [NC]
+    RewriteRule ^template/eng/ebook_viewer\.php$ /ebook_viewer [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/ebooks\.php[\s?] [NC]
+    RewriteRule ^template/eng/ebooks\.php$ /ebooks [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/courses\.php[\s?] [NC]
+    RewriteRule ^template/eng/courses\.php$ /courses [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/course_detail\.php[\s?] [NC]
+    RewriteRule ^template/eng/course_detail\.php$ /course_detail [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/course_promo\.php[\s?] [NC]
+    RewriteRule ^template/eng/course_promo\.php$ /course_promo [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/simulations\.php[\s?] [NC]
+    RewriteRule ^template/eng/simulations\.php$ /simulations [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/simulation_detail\.php[\s?] [NC]
+    RewriteRule ^template/eng/simulation_detail\.php$ /simulation_detail [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/free_encyclopedias\.php[\s?] [NC]
+    RewriteRule ^template/eng/free_encyclopedias\.php$ /free_encyclopedias [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/free_encyclopedia_detail\.php[\s?] [NC]
+    RewriteRule ^template/eng/free_encyclopedia_detail\.php$ /free_encyclopedia_detail [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/edit_free_encyclopedia\.php[\s?] [NC]
+    RewriteRule ^template/eng/edit_free_encyclopedia\.php$ /edit_free_encyclopedia [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+template/eng/info\.html[\s?] [NC]
+    RewriteRule ^template/eng/info\.html$ /space_arena [R=301,L]
+
+    ErrorDocument 404 /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+
+    RewriteCond %{THE_REQUEST} \s/+index\.php[\s?] [NC]
+    RewriteRule ^index\.php$ / [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+login\.php[\s?] [NC]
+    RewriteRule ^login\.php$ /login [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+register\.php[\s?] [NC]
+    RewriteRule ^register\.php$ /register [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+logout\.php[\s?] [NC]
+    RewriteRule ^logout\.php$ /logout [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+profile_edit\.php[\s?] [NC]
+    RewriteRule ^profile_edit\.php$ /profile_edit [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+terms\.php[\s?] [NC]
+    RewriteRule ^terms\.php$ /terms [R=301,L]
+    
+    RewriteCond %{THE_REQUEST} \s/+privacy\.php[\s?] [NC]
+    RewriteRule ^privacy\.php$ /privacy [R=301,L]
+
+    RewriteRule ^template/?$ - [R=404,L]
+    RewriteRule ^static/?$ - [R=404,L]
+
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+    
+    RewriteCond %{HTTP_HOST} ^spacepedia\.info$ [NC]
+    RewriteRule ^(.*)$ https://www.spacepedia.info/$1 [R=301,L]
+    RewriteCond %{HTTP_HOST} ^www\.spacepedia\.info$ [NC]
+
+    RewriteCond %{HTTPS} on
+    RewriteCond %{QUERY_STRING} !(^|&)lang= [NC]
+    RewriteRule ^(.*)$ $1?lang=en [QSA,NC]
+    RewriteCond %{HTTP_HOST} ^uzay\.info$ [NC]
+    RewriteRule ^(.*)$ https://www.uzay.info/$1 [R=301,L]
+    RewriteCond %{HTTP_HOST} ^www\.uzay\.info$ [NC]
+    RewriteCond %{HTTPS} on
+    RewriteCond %{QUERY_STRING} !(^|&)lang= [NC]
+    RewriteRule ^(.*)$ $1?lang=tr [QSA,NC]
+
+# BEGIN oPanel Denyip
+<RequireAll>
+	Require all granted
+</RequireAll>
+# END oPanel Denyip

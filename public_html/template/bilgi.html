@@ -1,0 +1,378 @@
+<html lang="TR"><head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>uzay.info</title>
+<link rel="shortcut icon" href="uzaylogo.ico">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" href="https://uzay.info/template/backgroundonly.css">
+
+<style>
+#basla_btn{
+position:absolute;
+top:45%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:2em;
+width:420px;
+height:150px;
+background:linear-gradient(135deg,#1e1e70,#3f37ff,#00b4d8);
+border:none;
+border-radius:50px;
+color:white;
+font-weight:bold;
+letter-spacing:1px;
+text-shadow:0 0 10px #00b4ff;
+box-shadow:0 0 30px #005eff;
+cursor:pointer;
+transition:all 0.4s ease;
+}
+#basla_btn:hover{
+background:linear-gradient(135deg,#00b4d8,#3f37ff,#1e1e70);
+color:#fff;
+transform:translate(-50%,-50%) scale(1.05);
+box-shadow:0 0 40px #00ffff;
+}
+#soru_kutusu{
+margin:auto;
+padding:2%;
+width:70%;
+height:55%;
+background:rgba(10,20,60,0.85);
+border-radius:30px;
+box-shadow:0 0 40px #3f37ff inset,0 0 20px #00ffff;
+display:none;
+position:relative;
+top:22%;
+backdrop-filter:blur(6px);
+}
+#soru_metni{
+margin:2%;
+padding:3%;
+font-size:1.5em;
+border-radius:20px;
+background:rgba(255,255,255,0.1);
+box-shadow:inset 0 0 20px #3f37ff;
+color:#e0e8ff;
+}
+#cevaplar{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin:20px auto;
+width:90%;
+text-align:center;
+}
+.secenek{
+padding:15px;
+font-size:1.2em;
+background:linear-gradient(135deg,#3f37ff,#00b4d8);
+border-radius:15px;
+cursor:pointer;
+box-shadow:0 0 15px #3f37ff;
+transition:all 0.3s ease;
+color:white;
+}
+.secenek:hover{
+background:linear-gradient(135deg,#00ffff,#3f37ff);
+box-shadow:0 0 25px #00ffff;
+transform:scale(1.05);
+}
+#skor_board{
+position:absolute;
+top:15px;
+right:15px;
+width:270px;
+padding:15px;
+background:rgba(0,10,40,0.8);
+border-radius:15px;
+text-align:center;
+box-shadow:0 0 25px #3f37ff;
+color:#fff;
+backdrop-filter:blur(4px);
+}
+#skor_board .d_y_baslik{
+font-size:1em;
+margin-top:5px;
+}
+#skor_board #d_sayisi,#y_sayisi{
+font-size:1.3em;
+margin:5px 0;
+}
+#skor_board #puan{
+margin-top:10px;
+font-size:1.8em;
+color:#00ffff;
+text-shadow:0 0 10px #00ffff;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="correctSound" src="https://learn.uzay.info/correctSound.mp3"></audio>
+<audio id="finishAllSound" src="https://learn.uzay.info/finishAllSound.mp3"></audio>
+
+<button id="basla_btn" onclick="soru_getir(0)">🚀 Uzay Arenası Yolculuğuna Başlayınız</button>
+
+<div id="skor_board">
+<div class="d_y_baslik">✅ Doğru Sayısı</div>
+<div id="d_sayisi">0</div>
+<div class="d_y_baslik">❌ Yanlış Sayısı</div>
+<div id="y_sayisi">0</div>
+<div id="puan">Puan: <span id="p_yazisi">0</span></div>
+</div>
+
+<div id="soru_kutusu">
+<div id="soru_metni" class="soru_baslik">1</div>
+<div id="cevaplar">
+<div id="a_sikki" data-sik="A" onclick="cevaplandi(this)" class="secenek"></div>
+<div id="b_sikki" data-sik="B" onclick="cevaplandi(this)" class="secenek"></div>
+<div id="c_sikki" data-sik="C" onclick="cevaplandi(this)" class="secenek"></div>
+<div id="d_sikki" data-sik="D" onclick="cevaplandi(this)" class="secenek"></div>
+</div>
+</div>
+
+<script>
+
+let sorular = [
+{
+"soru":"1) Merkürün kendisi koruyacak bir atmosferi olmadığından yüzeyi ... ile kaplıdır ",
+"a_sikki":" lavlar ",
+"b_sikki":" kraterler ",
+"c_sikki":" sular ",
+"d_sikki":" gök taşları ",
+"cevap":"B"
+},
+{
+"soru":"2) Güneşe en yakın gezegen olan ... gündüz ...C ile gece ...C  arasında değişir. ",
+"a_sikki":" Venüs 495 -100 ",
+"b_sikki":" Venüs 436 -89 ",
+"c_sikki":" Merkür 425 -75 ",
+"d_sikki":" Jüpiter 450 -89",
+"cevap":"C"
+},
+{
+"soru":"3) Aydan Sonra En Parlak Cisim ...",
+"a_sikki":" Venüs ",
+"b_sikki":" Merkür ",
+"c_sikki":" Mars ",
+"d_sikki":" Dünya",
+"cevap":"A"
+},
+{
+"soru":"4) Venüs ve Uranüs yörüngesinde ...  döner ",
+"a_sikki":" saat yönünün tersinden  ",
+"b_sikki":" saat yönünde ",
+"cevap":"B"
+},
+{
+"soru":"5) Dünyaya boyu en benzer gezegen ...",
+"a_sikki":" Venüs",
+"b_sikki":" Merkür ",
+"c_sikki":" Mars ",
+"d_sikki":" Neptün",
+"cevap":"A"
+},
+{
+"soru":"6)Venüs sadece ... ya da ... yakın vakitlerde dünyadan görülebilir",
+"a_sikki":" Mart ayı tamamen-akşam vaktine ",
+"b_sikki":" sabaha yakın-gece yarısna ",
+"c_sikki":" Gün doğumu-batımına ",
+"d_sikki":" Eylül ayı tamamen-sabah vaktine ",
+"cevap":"C"
+},
+{
+"soru":"7) Dünyanın Atmosferi ... azot ... oksjenden oluşur",
+"a_sikki":"%78-%21",
+"b_sikki":"%75-%25",
+"c_sikki":"%70-%30",
+"d_sikki":"%68-%32",
+"cevap":"A"
+},
+{
+"soru":"8)Dünya ... açı ile döner",
+"a_sikki":"27,5",
+"b_sikki":"24,5",
+"c_sikki":"23,5",
+"d_sikki":"26,5",
+"cevap":"C"
+},
+{
+"soru":"9)...... 'da eksen eğikliği çok az olduğu için mevsimler yoktur",
+"a_sikki":" Jüpiter ve Satürn ",
+"b_sikki":" Merkür ve Venüs ",
+"c_sikki":" Merkür ve Mars ",
+"d_sikki":" Mars ve Merkür ",
+"cevap":"B"
+},
+{
+"soru":"10)Dünyanın tek doğal uydusu olan Ay yaklaşık ... boyutundadır",
+"a_sikki":" Çin ",
+"b_sikki":" Kanada ",
+"c_sikki":" Rusya ",
+"d_sikki":" Avusturalya",
+"cevap":"D"
+},
+{
+"soru":"11)Ayın yer çekimi yaklaşık %...'dür (Dünya'ya Göre) ",
+"a_sikki":"17 ",
+"b_sikki":"19 ",
+"c_sikki":"21 ",
+"d_sikki":"23 ",
+"cevap":"A"
+},
+{
+"soru":"12)Ayın yılı günlerinden uzunmudur?",
+"a_sikki":"Evet ",
+"b_sikki":"Hayır ",
+"c_sikki":"- ",
+"d_sikki":"- ",
+"cevap":"B"
+},
+{
+"soru":"13)Ayın Günü ...  Ayın yılı ...'dür",
+"a_sikki":"29,5  26 gün ",
+"b_sikki":"29,5 27 gün ",
+"c_sikki":"25,5 24,5 gün",
+"d_sikki":"25,5 23,5 gün ",
+"cevap":"B"
+},
+{
+"soru":"14)Marsta bulunan ...km'lik ... gezegenin 1/5 boyunca uzanır",
+"a_sikki":"5000 Krater Kanyonu ",
+"b_sikki":"3600 Lav Kanyonu ",
+"c_sikki":"5600 Mariner Kanyonu ",
+"d_sikki":"4000 Mariner Kanyonu ",
+"cevap":"D"
+},
+{
+"soru":"15)Marsın korku ve dehşet anlamına gelen ... adında ... tane uydusu vardır",
+"a_sikki":"Phobos ve Demios , 2 ",
+"b_sikki":"Lashe ve Trashe 2 ",
+"c_sikki":"Prekos ve Lakakos ve Prokos  3 ",
+"d_sikki":"Domigos ve Radigonuz 2",
+"cevap":"A"
+},
+{
+"soru":"16) ... 'nın yerçekimi %... olarak birbirine eşittir",
+"a_sikki":"Mars ve Venüs 23 ",
+"b_sikki":"Merkür ve Mars 36 ",
+"c_sikki":"Merkür ve Venüs 23 ",
+"d_sikki":"Merkür ve Mars 38",
+"cevap":"D"
+},
+{
+"soru":"17)Marsın  yanardağsı ...km yüksekliğindedir  everst dağından 3 kat daha yüksektir",
+"a_sikki":"Büyük lav 24",
+"b_sikki":"Poseidon 24",
+"c_sikki":"Daniel 25",
+"d_sikki":"Olympus 27",
+"cevap":"D"
+},
+{
+"soru":"18)Mars ile Jüpiter yörüngeleri arasında bulunan  sürekli dönen bölgede milyonlarca bulunan büyük uzay kayaçlarına ... denir ",
+"a_sikki":"Asteroitler",
+"b_sikki":"Kızgın Kyaçlar ",
+"c_sikki":"Kraterler  ",
+"d_sikki":"Parçacıklar",
+"cevap":"A"
+},
+{
+"soru":"19) Güneş Sistmeminin en büyük gezegeni ...'dır dünyadan 10 kat daha büyüktür ... renkli bölgeler ve ... renkli şeritleri vardır",
+"a_sikki":"Jüpiter-açık kahverengi-soluk ",
+"b_sikki":"Satürn-koyu turuncu-soluk  ",
+"c_sikki":"Jüpiter-koyu kahverengi-kızgın ",
+"d_sikki":"Jüpiter-koyu kahverengi-soluk",
+"cevap":"D"
+},
+{
+"soru":"20)'Geceleri' gökyüzündeki en parlak gezegen ...",
+"a_sikki":"Merkür",
+"b_sikki":"Satürn",
+"c_sikki":"Jüpiter",
+"d_sikki":"Uranüs",
+"cevap":"C"
+},
+{
+"soru":"21)Jüpitere ... denir ancak büyük bir kısmı ... , ... ve ... atmosfer basıncıyla ... hale geçer ",
+"a_sikki":"gaz devi-sıvıdır-hidrojen-helyum-sıvı ",
+"b_sikki":"gaz devi-plazmadır-hidrojen-helyum-plazmatik",
+"c_sikki":"buz devi-sıvıdır-nitrojen-helyum-sıvı  ",
+"d_sikki":"buz devi-sıvıdır-nitrojen-azot-plazmatik",
+"cevap":"A"
+},
+{
+"soru":"22) Jüpiterde yer alan   ... aslında asırlardır süren kasırga ve dünyadan ... kat  daha büyüktür",
+"a_sikki":"Büyük kırmızı leke 3 ",
+"b_sikki":"Büyük kırmızı leke 2 ",
+"c_sikki":"Büyük kahverngi leke 2 ",
+"d_sikki":"Büyük kahverngi leke 3",
+"cevap":"B"
+}
+];
+
+let soru_numarasi=0,puan=0,dogru_sayisi=0,yanlis_sayisi=0,sorunun_cevabi="";
+
+function skor_yaz(){
+document.getElementById("d_sayisi").innerHTML=dogru_sayisi;
+document.getElementById("y_sayisi").innerHTML=yanlis_sayisi;
+document.getElementById("p_yazisi").innerHTML=puan;
+}
+
+function soru_getir(s_no){
+document.getElementById("basla_btn").style.display="none";
+document.getElementById("soru_kutusu").style.display="block";
+let s=sorular[s_no];
+document.getElementById("a_sikki").innerHTML=s.a_sikki;
+document.getElementById("b_sikki").innerHTML=s.b_sikki;
+document.getElementById("c_sikki").innerHTML=s.c_sikki;
+document.getElementById("d_sikki").innerHTML=s.d_sikki;
+document.getElementById("soru_metni").innerHTML=s.soru;
+sorunun_cevabi=s.cevap;
+}
+
+function cevaplandi(hangi_sik){
+let secim=hangi_sik.getAttribute("data-sik");
+
+if(secim==sorunun_cevabi){
+document.getElementById("correctSound").play();
+puan+=10;
+dogru_sayisi++;
+swal({title:"🚀 Doğru!",text:"Harika ilerliyorsun!",icon:"success",button:"Devam!"})
+.then(()=>{soru_ilerlet()});
+}
+else{
+yanlis_sayisi++;
+swal({title:"❌ Yanlış!",text:"Tekrar dene!",icon:"warning",button:"Devam!"})
+.then(()=>{soru_ilerlet()});
+}
+skor_yaz();
+}
+
+function soru_ilerlet(){
+soru_numarasi++;
+if(soru_numarasi>=sorular.length){
+document.getElementById("finishAllSound").play();
+swal({title:"🎉 Tüm Sorular Tamamlandı!",text:"Skor tablosuna bak!",icon:"info",button:"Başa Dön"})
+.then(()=>{basa_don()});
+}
+else{
+soru_getir(soru_numarasi);
+}
+}
+
+function basa_don(){
+document.getElementById("basla_btn").style.display="block";
+document.getElementById("soru_kutusu").style.display="none";
+soru_numarasi=0;
+puan=0;
+dogru_sayisi=0;
+yanlis_sayisi=0;
+sorunun_cevabi="";
+skor_yaz();
+}
+
+</script>
+</body>
+</html>

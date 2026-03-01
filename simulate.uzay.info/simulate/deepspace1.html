@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="shortcut icon" href="https://www.uzay.info/uzaylogo.ico">
+  <title>Lateral Deep Space Simulation</title>
+  <style>
+    :root{--bg:#02010a;--panel:rgba(255,255,255,0.04);--accent:linear-gradient(90deg,#7b61ff,#ff6a88);--glass:rgba(255,255,255,0.03);--text:#e6eef8}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(ellipse at 20% 10%,#071021 0%,#02010a 45%,#000 100%);color:var(--text);overflow:hidden}
+    #app{display:grid;grid-template-columns:1fr 340px;gap:18px;height:100vh;padding:18px}
+    .stage{position:relative;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.00));box-shadow:0 6px 30px rgba(0,0,0,0.6)}
+    canvas{display:block;width:100%;height:100%}
+    .panel{padding:18px;border-radius:14px;background:linear-gradient(180deg,var(--panel),rgba(255,255,255,0.02));backdrop-filter:blur(6px);box-shadow:0 6px 20px rgba(0,0,0,0.6)}
+    h1{font-size:20px;margin:0 0 8px 0}
+    label{display:block;font-size:13px;margin:12px 0 6px 0;color:#cfd8ea}
+    input[type=range]{width:100%}
+    .row{display:flex;gap:8px;align-items:center}
+    .btn{display:inline-block;padding:8px 12px;border-radius:8px;background:var(--glass);border:1px solid rgba(255,255,255,0.03);cursor:pointer;font-size:13px}
+    .select{width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
+    .small{font-size:12px;color:#9fb0d6}
+    .footer{position:absolute;left:18px;bottom:18px;font-size:12px;color:#9fb0d6}
+    .info{margin-top:14px;padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.015),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)}
+    .control-row{display:flex;gap:8px;align-items:center;justify-content:space-between}
+    @media (max-width:880px){#app{grid-template-columns:1fr;grid-template-rows:1fr auto}.panel{height:320px;overflow:auto}}
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="stage">
+      <canvas id="space"></canvas>
+      <div class="footer">Lateral Deep Space Simulation</div>
+    </div>
+    <div class="panel" aria-label="Controls">
+      <h1>Lateral Deep Space Simulation</h1>
+      <label for="preset">Nebula Preset</label>
+      <select id="preset" class="select">
+        <option value="orion">Orion-style (purple)</option>
+        <option value="sagittarius">Sagittarius Nebula (warm)</option>
+        <option value="crab">Crab-like (blue)</option>
+        <option value="aurora">Aurora Mist (green)</option>
+        <option value="none">No Nebula</option>
+      </select>
+      <label>Star Density <span class="small" id="sdVal">—</span></label>
+      <input id="starDensity" type="range" min="100" max="4000" value="1200">
+      <label>Star Speed <span class="small" id="ssVal">—</span></label>
+      <input id="starSpeed" type="range" min="0" max="3" step="0.01" value="1.0">
+      <label>Nebula Intensity <span class="small" id="niVal">—</span></label>
+      <input id="nebulaIntensity" type="range" min="0" max="1" step="0.01" value="0.45">
+      <label>Comet Count <span class="small" id="ccVal">—</span></label>
+      <input id="cometCount" type="range" min="0" max="12" value="3">
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button id="pauseBtn" class="btn">Pause</button>
+        <button id="resetBtn" class="btn">Reset</button>
+        <button id="screenshotBtn" class="btn">Screenshot</button>
+      </div>
+      <div class="info">
+        <div class="control-row"><strong>FPS</strong><span id="fps">—</span></div>
+        <div class="control-row"><strong>Active Stars</strong><span id="activeStars">—</span></div>
+        <div class="control-row"><strong>Comets</strong><span id="activeComets">—</span></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const canvas = document.getElementById('space');
+    const ctx = canvas.getContext('2d');
+    let W = canvas.width = Math.floor(canvas.clientWidth);
+    let H = canvas.height = Math.floor(canvas.clientHeight);
+    
+    const starDensityEl = document.getElementById('starDensity');
+    const starSpeedEl = document.getElementById('starSpeed');
+    const nebulaIntensityEl = document.getElementById('nebulaIntensity');
+    const cometCountEl = document.getElementById('cometCount');
+    const presetEl = document.getElementById('preset');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const screenshotBtn = document.getElementById('screenshotBtn');
+    
+    const sdVal = document.getElementById('sdVal');
+    const ssVal = document.getElementById('ssVal');
+    const niVal = document.getElementById('niVal');
+    const ccVal = document.getElementById('ccVal');
+    const fpsEl = document.getElementById('fps');
+    const activeStarsEl = document.getElementById('activeStars');
+    const activeCometsEl = document.getElementById('activeComets');
+    
+    let stars = [];
+    let comets = [];
+    let nebulaParticles = [];
+    let last = performance.now();
+    let fps = 0;
+    let paused = false;
+    
+    function resize() {
+        W = canvas.width = Math.floor(canvas.clientWidth * devicePixelRatio);
+        H = canvas.height = Math.floor(canvas.clientHeight * devicePixelRatio);
+        canvas.style.width = canvas.clientWidth + 'px';
+        canvas.style.height = canvas.clientHeight + 'px';
+        initScene(true);
+    }
+    
+    window.addEventListener('resize', () => {
+        clearTimeout(window._r);
+        window._r = setTimeout(resize, 120);
+    });
+    
+    function rand(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+    
+    function presets() {
+        return {
+            orion: { h: 270, s: 80, l: 55, spread: 0.45, glow: 0.9 },
+            sagittarius: { h: 20, s: 80, l: 55, spread: 0.6, glow: 0.9 },
+            crab: { h: 210, s: 70, l: 60, spread: 0.35, glow: 0.9 },
+            aurora: { h: 150, s: 70, l: 55, spread: 0.4, glow: 0.9 },
+            none: { h: 0, s: 0, l: 0, spread: 0, glow: 0 }
+        };
+    }
+    
+    function initScene(skipClear) {
+        const density = parseInt(starDensityEl.value, 10);
+        const cometCount = parseInt(cometCountEl.value, 10);
+    
+        stars = new Array(density).fill(0).map(() => ({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            z: Math.random(),
+            baseSize: Math.random() * 1.2 + 1,
+            twinkle: Math.random() * 0.6 + 0.4,
+            hue: rand(200, 60)
+        }));
+    
+        comets = new Array(cometCount).fill(0).map(() => ({
+            x: rand(-0.2 * W, 1.2 * W),
+            y: rand(-0.2 * H, 0.4 * H),
+            vx: rand(0.8, 3.2) * (Math.random() < 0.5 ? -1 : 1),
+            vy: rand(0.1, 0.6),
+            life: rand(1800, 4200),
+            tail: []
+        }));
+    
+        nebulaParticles = createNebulaParticles();
+        if (!skipClear) ctx.clearRect(0, 0, W, H);
+    }
+    
+    function createNebulaParticles() {
+        const arr = [];
+        const count = Math.max(60, Math.floor(W * H / 30000));
+        for (let i = 0; i < count; i++) {
+            arr.push({
+                x: Math.random() * W,
+                y: Math.random() * H * 0.9,
+                r: rand(80, 220) * (Math.random() * 0.8 + 0.4),
+                a: Math.random() * 0.6 + 0.05,
+                hueOffset: Math.random() * 40 - 20
+            });
+        }
+        return arr;
+    }
+    
+    function drawNebula() {
+        const p = presets()[presetEl.value] || presets().none;
+        const intensity = parseFloat(nebulaIntensityEl.value);
+        if (p.spread <= 0 || intensity <= 0) return;
+        nebulaParticles.forEach(np => {
+            const g = ctx.createRadialGradient(np.x, np.y, np.r * 0.02, np.x, np.y, np.r);
+            const h = (p.h + np.hueOffset + 360) % 360;
+            g.addColorStop(0, `hsla(${h},${p.s}%,${p.l}%,${np.a*intensity*p.glow})`);
+            g.addColorStop(0.6, `hsla(${h},${p.s}%,${p.l-10}%,${np.a*intensity*0.45})`);
+            g.addColorStop(1, `hsla(${h},${p.s}%,${p.l-20}%,0)`);
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.fillStyle = g;
+            ctx.beginPath();
+            ctx.arc(np.x, np.y, np.r, 0, Math.PI*2);
+            ctx.fill();
+        });
+        ctx.globalCompositeOperation = 'source-over';
+    }
+    
+    function drawStars(dt) {
+        const speedFactor = parseFloat(starSpeedEl.value);
+        ctx.save();
+        ctx.fillStyle = 'rgba(255,255,255,0.02)';
+        ctx.fillRect(0, 0, W, H);
+        for (let i = 0; i < stars.length; i++) {
+            const s = stars[i];
+            s.x += (0.2 + (1 - s.z) * 2.8) * speedFactor * dt * 0.06;
+            if (s.x > W + 40) s.x = -40;
+            const tw = Math.sin((performance.now()*0.001 + i) * s.twinkle) * 0.5 + 0.5;
+            const size = s.baseSize * (0.4 + tw * 0.9);
+            const alpha = 0.5 + tw * 0.5 * (1 - s.z);
+            ctx.beginPath();
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = 'white';
+            ctx.arc(s.x, s.y, size, 0, Math.PI*2);
+            ctx.fill();
+        }
+        ctx.restore();
+    }
+    
+    function drawComets(dt) {
+        for (let i = comets.length - 1; i >= 0; i--) {
+            const c = comets[i];
+            c.x += c.vx * dt * 0.06 * (parseFloat(starSpeedEl.value) || 1);
+            c.y += c.vy * dt * 0.06;
+            c.life -= dt;
+            c.tail.unshift({ x: c.x, y: c.y, life: Math.min(200, c.life) });
+            if (c.tail.length > 40) c.tail.pop();
+            ctx.save();
+            ctx.globalCompositeOperation = 'lighter';
+            for (let t = 0; t < c.tail.length; t++) {
+                const seg = c.tail[t];
+                const p = t / c.tail.length;
+                ctx.globalAlpha = Math.max(0, (1 - p) * 0.9);
+                ctx.beginPath();
+                ctx.arc(seg.x, seg.y, 1 + (1 - p) * 6, 0, Math.PI*2);
+                ctx.fill();
+            }
+            ctx.restore();
+            if (c.life <= 0 || c.x < -0.5*W || c.x > 1.5*W || c.y > 1.5*H) {
+                comets[i] = { x: rand(-0.2*W, 1.2*W), y: rand(-0.2*H, 0.4*H), vx: rand(0.8, 3.2)*(Math.random()<0.5?-1:1), vy: rand(0.1,0.6), life: rand(1800,4200), tail: [] };
+            }
+        }
+    }
+    
+    function loop(now) {
+        const dt = Math.min(40, now - last);
+        last = now;
+        fps = 1000 / (dt || 16.6);
+        if (!paused) {
+            ctx.setTransform(1,0,0,1,0,0);
+            ctx.clearRect(0,0,W,H);
+            const g2 = ctx.createLinearGradient(0,0,0,H);
+            g2.addColorStop(0,'rgba(10,12,20,0.3)');
+            g2.addColorStop(1,'rgba(0,0,0,0.6)');
+            ctx.fillStyle = g2;
+            ctx.fillRect(0,0,W,H);
+            drawNebula();
+            drawStars(dt);
+            drawComets(dt);
+        }
+        fpsEl.textContent = Math.round(fps);
+        activeStarsEl.textContent = stars.length;
+        activeCometsEl.textContent = comets.length;
+        requestAnimationFrame(loop);
+    }
+    
+    function wireUI() {
+        sdVal.textContent = starDensityEl.value;
+        ssVal.textContent = starSpeedEl.value;
+        niVal.textContent = nebulaIntensityEl.value;
+        ccVal.textContent = cometCountEl.value;
+    
+        starDensityEl.addEventListener('input', () => { sdVal.textContent = starDensityEl.value; initScene(); });
+        starSpeedEl.addEventListener('input', () => { ssVal.textContent = starSpeedEl.value; });
+        nebulaIntensityEl.addEventListener('input', () => { niVal.textContent = nebulaIntensityEl.value; });
+        cometCountEl.addEventListener('input', () => { ccVal.textContent = cometCountEl.value; initScene(); });
+        presetEl.addEventListener('change', () => { initScene(); });
+        pauseBtn.addEventListener('click', () => { paused = !paused; pauseBtn.textContent = paused ? 'Resume' : 'Pause'; });
+        resetBtn.addEventListener('click', () => { initScene(); });
+        screenshotBtn.addEventListener('click', takeScreenshot);
+    
+        window.addEventListener('keydown', e => {
+            if (e.key === ' ') { e.preventDefault(); paused = !paused; pauseBtn.textContent = paused ? 'Resume' : 'Pause'; }
+            if (e.key.toLowerCase() === 'r') { initScene(); }
+        });
+    }
+    
+    function takeScreenshot() {
+        const data = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = data;
+        a.download = 'deep-space-snapshot.png';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+    
+    wireUI();
+    resize();
+    initScene();
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

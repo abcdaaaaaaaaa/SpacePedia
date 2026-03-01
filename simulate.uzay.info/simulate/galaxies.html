@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="shortcut icon" href="https://www.uzay.info/uzaylogo.ico">
+  <title>Galaxy Simulation</title>
+  <style>
+    :root{--bg:#060616;--panel:rgba(255,255,255,0.05);--accent:#8ab4ff}
+    html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:#e6f0ff}
+    .app{display:grid;grid-template-columns:340px 1fr;gap:16px;height:100vh;padding:16px;box-sizing:border-box}
+    .panel{background:var(--panel);backdrop-filter:blur(6px);border-radius:12px;padding:12px}
+    h1{margin:4px 0 12px;font-size:18px}
+    label{display:block;font-size:13px;margin-top:8px}
+    input[type=range]{width:100%}
+    .buttons{display:flex;gap:8px;flex-wrap:wrap}
+    button{border:0;padding:8px 10px;border-radius:8px;background:#0f1724;color:#dfefff;cursor:pointer}
+    button.active{background:var(--accent);color:#001}
+    canvas{width:100%;height:100%;display:block;border-radius:12px}
+    .row{display:flex;gap:8px;align-items:center}
+    .small{font-size:12px;color:#bcd}
+    .footer{margin-top:12px;font-size:12px;color:#bcd}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="panel">
+      <h1>Galaxy Simulation</h1>
+      <div class="small">Common galaxy types: Spiral, Barred Spiral, Elliptical, Lenticular (S0), Irregular</div>
+
+      <label for="type">Type</label>
+      <div class="buttons" id="typeButtons">
+        <button data-type="spiral" class="active">Spiral</button>
+        <button data-type="barred">Barred Spiral</button>
+        <button data-type="elliptical">Elliptical</button>
+        <button data-type="lenticular">Lenticular (S0)</button>
+        <button data-type="irregular">Irregular</button>
+      </div>
+
+      <label>Star count: <span id="countLabel">2000</span></label>
+      <input id="count" type="range" min="200" max="8000" value="2000" />
+
+      <label>Number of arms (for spiral): <span id="armsLabel">3</span></label>
+      <input id="arms" type="range" min="1" max="6" value="3" />
+
+      <label>Disk radius (px): <span id="radiusLabel">220</span></label>
+      <input id="radius" type="range" min="50" max="600" value="220" />
+
+      <label>Spin speed: <span id="spinLabel">0.4</span></label>
+      <input id="spin" type="range" min="-2" max="2" step="0.01" value="0.4" />
+
+      <label>Brightness (average): <span id="brightnessLabel">0.9</span></label>
+      <input id="brightness" type="range" min="0.1" max="2" step="0.01" value="0.9" />
+
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <button id="generate">Generate</button>
+        <button id="presetBtn">Presets</button>
+        <button id="download">Save PNG</button>
+      </div>
+
+      <div class="footer">
+        <strong>Note:</strong> After choosing a type, press <em>Generate</em> to produce a new distribution. Use sliders to experiment.
+      </div>
+    </div>
+
+    <div class="panel" style="display:flex;flex-direction:column;">
+      <canvas id="c"></canvas>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width = canvas.clientWidth;
+  let H = canvas.height = canvas.clientHeight;
+  const typeButtons = document.getElementById('typeButtons');
+  const inputs = {
+    count: document.getElementById('count'),
+    arms: document.getElementById('arms'),
+    radius: document.getElementById('radius'),
+    spin: document.getElementById('spin'),
+    brightness: document.getElementById('brightness')
+  };
+  const labels = {
+    count: document.getElementById('countLabel'),
+    arms: document.getElementById('armsLabel'),
+    radius: document.getElementById('radiusLabel'),
+    spin: document.getElementById('spinLabel'),
+    brightness: document.getElementById('brightnessLabel')
+  };
+  const generateBtn = document.getElementById('generate');
+  const presetBtn = document.getElementById('presetBtn');
+  const downloadBtn = document.getElementById('download');
+  let type = 'spiral';
+  let stars = [];
+  let t = 0;
+  function resize(){
+    W = canvas.width = canvas.clientWidth;
+    H = canvas.height = canvas.clientHeight;
+    drawBackground();
+    regen();
+  }
+  window.addEventListener('resize', resize);
+  typeButtons.addEventListener('click', e=>{
+    if(e.target.dataset && e.target.dataset.type){
+      type = e.target.dataset.type;
+      [...typeButtons.children].forEach(b=>b.classList.toggle('active', b===e.target));
+    }
+  });
+  for(const k in inputs){
+    inputs[k].addEventListener('input', ()=>{
+      labels[k].textContent = inputs[k].value;
+    });
+  }
+  function drawBackground(){
+    const g = ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,'#020216');
+    g.addColorStop(1,'#000');
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,W,H);
+    for(let i=0;i<150;i++){
+      const x=Math.random()*W, y=Math.random()*H, r=Math.random()*1.2;
+      ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.12})`;
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+  }
+  function rng(seed){
+    let s = seed||Math.floor(Math.random()*1e9);
+    return function(){ s = (s*1664525 + 1013904223) % 4294967296; return s/4294967296; };
+  }
+  function regen(){
+    stars = [];
+    const N = parseInt(inputs.count.value,10);
+    const arms = parseInt(inputs.arms.value,10);
+    const R = parseFloat(inputs.radius.value);
+    const bright = parseFloat(inputs.brightness.value);
+    const spin = parseFloat(inputs.spin.value);
+    const seed = Math.floor(Math.random()*1e9);
+    const rand = rng(seed);
+    const cx = W/2, cy = H/2;
+    if(type==='spiral' || type==='barred'){
+      for(let i=0;i<N;i++){
+        const arm = Math.floor(rand()*arms);
+        const r = Math.pow(rand(),0.8) * R;
+        const angleOffset = arm * (2*Math.PI/arms);
+        const tightness = 0.3 + rand()*0.8;
+        const theta = angleOffset + r * tightness + (rand()-0.5)*0.6;
+        const x = cx + r * Math.cos(theta);
+        const y = cy + r * Math.sin(theta);
+        const size = Math.max(0.3, (1 - r/R) * (0.8 + rand()*1.6));
+        const color = starColor(r/R, bright);
+        const rotationFactor = (type==='barred') ? ( (Math.abs(r) < R*0.35) ? 0.6 : 1 ) : 1;
+        stars.push({x,y,baseX:x,baseY:y,size,color,r,theta,arm,rotationFactor,spin:spin*(0.2+rand()*1.2)});
+      }
+      if(type==='barred'){
+        const barCount = Math.floor(N*0.07);
+        for(let i=0;i<barCount;i++){
+          const tpos = (rand()-0.5)*R*0.8;
+          const bx = cx + tpos;
+          const by = cy + (rand()-0.5)*R*0.12;
+          stars.push({x:bx,y:by,baseX:bx,baseY:by,size:0.6+rand()*1.2,color: '#ffd6a5',r:Math.abs(tpos),theta:0,arm:-1,rotationFactor:1,spin:spin*0.2});
+        }
+      }
+    } else if(type==='elliptical'){
+      for(let i=0;i<N;i++){
+        const rx = gaussian(rand()) * (R*0.9);
+        const ry = gaussian(rand()) * (R*0.6);
+        const ang = rand()*Math.PI*2;
+        const x = cx + rx * Math.cos(ang);
+        const y = cy + ry * Math.sin(ang);
+        const rnorm = Math.sqrt(((x-cx)*(x-cx)+(y-cy)*(y-cy)))/(R);
+        const size = Math.max(0.2, (1 - rnorm) * (0.6 + rand()*1.2));
+        const color = starColor(rnorm, bright);
+        stars.push({x,y,baseX:x,baseY:y,size,color,r:rnorm,theta:ang,rotationFactor:0.1,spin:0.05*(rand()-0.5)});
+      }
+    } else if(type==='lenticular'){
+      for(let i=0;i<N;i++){
+        const diskProb = rand();
+        if(diskProb < 0.7){
+          const r = Math.pow(rand(),0.6)*R;
+          const theta = rand()*Math.PI*2;
+          const x = cx + r*Math.cos(theta);
+          const y = cy + (r*Math.sin(theta))*0.36;
+          const size = Math.max(0.2, (1 - r/R)*(0.5+rand()));
+          const color = starColor(r/R, bright*0.9);
+          stars.push({x,y,baseX:x,baseY:y,size,color,r,theta,rotationFactor:0.9,spin:0.25*(rand()-0.5)});
+        } else {
+          const r = Math.pow(rand(),0.4)*(R*0.4);
+          const theta = rand()*Math.PI*2;
+          const x = cx + r*Math.cos(theta);
+          const y = cy + r*Math.sin(theta);
+          const size = 0.8+rand()*1.6;
+          const color = '#fff1d6';
+          stars.push({x,y,baseX:x,baseY:y,size,color,r,theta,rotationFactor:0.1,spin:0.02*(rand()-0.5)});
+        }
+      }
+    } else if(type==='irregular'){
+      const clusters = 3 + Math.floor(rand()*5);
+      const clusterCenters = [];
+      for(let c=0;c<clusters;c++) clusterCenters.push({x:cx + (rand()-0.5)*R*1.2, y:cy + (rand()-0.5)*R*1.2, s: 0.2 + rand()*0.9});
+      for(let i=0;i<N;i++){
+        const c = clusterCenters[Math.floor(rand()*clusterCenters.length)];
+        const r = Math.pow(rand(),0.8)*(R*c.s);
+        const ang = rand()*Math.PI*2;
+        const x = c.x + r*Math.cos(ang);
+        const y = c.y + r*Math.sin(ang);
+        const size = 0.3 + rand()*1.2;
+        const color = (rand()>0.6)?'#ffd6a5':'#bfe6ff';
+        stars.push({x,y,baseX:x,baseY:y,size,color,r,theta:ang,rotationFactor:0.2,spin:0.1*(rand()-0.5)});
+      }
+    }
+  }
+  function starColor(norm, bright){
+    const warm = [255,210,170];
+    const cool = [170,220,255];
+    const t = Math.min(1, Math.max(0, norm));
+    const r = Math.round(warm[0]*(1-t)+cool[0]*t);
+    const g = Math.round(warm[1]*(1-t)+cool[1]*t);
+    const b = Math.round(warm[2]*(1-t)+cool[2]*t);
+    const bfac = bright;
+    return `rgba(${r},${g},${b},${Math.min(1,0.3+bfac*0.6)})`;
+  }
+  function gaussian(u){
+    const v1 = Math.sqrt(-2*Math.log(u||Math.random()));
+    const v2 = Math.cos(2*Math.PI*(Math.random()));
+    return v1 * v2;
+  }
+  function render(){
+    t += 0.01;
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = 'rgba(0,0,0,0.18)';
+    ctx.fillRect(0,0,W,H);
+    const cx = W/2, cy = H/2;
+    const rad = Math.min(W,H)/3;
+    const gg = ctx.createRadialGradient(cx,cy,0,cx,cy,rad);
+    gg.addColorStop(0,'rgba(255,240,210,0.06)');
+    gg.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle = gg;
+    ctx.beginPath(); ctx.arc(cx,cy,rad,0,Math.PI*2); ctx.fill();
+    ctx.globalCompositeOperation = 'lighter';
+    for(const s of stars){
+      const dx = s.baseX - cx;
+      const dy = s.baseY - cy;
+      const r = Math.sqrt(dx*dx+dy*dy);
+      const ang = Math.atan2(dy,dx);
+      const rot = (s.spin || 0) * t * (s.rotationFactor || 1);
+      const x = cx + r*Math.cos(ang + rot);
+      const y = cy + r*Math.sin(ang + rot);
+      const flick = 0.6 + 0.4*Math.sin(t*2 + (s.x%7));
+      const size = Math.max(0.2, s.size * flick * 1.0);
+      ctx.beginPath();
+      const grad = ctx.createRadialGradient(x,y,0,x,y,Math.max(1,6*size));
+      const rgba = parseRGBA(s.color);
+      grad.addColorStop(0, `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${Math.min(0.95, rgba[3]*1.8)})`);
+      grad.addColorStop(1, `rgba(${rgba[0]},${rgba[1]},${rgba[2]},0)`);
+      ctx.fillStyle = grad;
+      ctx.arc(x,y,6*size,0,Math.PI*2);
+      ctx.fill();
+    }
+    requestAnimationFrame(render);
+  }
+  function parseRGBA(str){
+    if(!str) return [255,255,255,1];
+    if(str.startsWith('#')){
+      const v = str.slice(1);
+      if(v.length===6) return [parseInt(v.slice(0,2),16),parseInt(v.slice(2,4),16),parseInt(v.slice(4,6),16),1];
+    }
+    const m = str.match(/rgba?\(([^)]+)\)/);
+    if(m){
+      const parts = m[1].split(',').map(s=>parseFloat(s));
+      return [parts[0],parts[1],parts[2],parts[3]===undefined?1:parts[3]];
+    }
+    return [255,255,255,1];
+  }
+  drawBackground();
+  regen();
+  render();
+  generateBtn.addEventListener('click', ()=>{ drawBackground(); regen(); });
+  presetBtn.addEventListener('click', ()=>{
+    if(type==='spiral'){
+      inputs.count.value = 2500; inputs.arms.value=3; inputs.radius.value=260; inputs.spin.value=0.5; inputs.brightness.value=1.0;
+    } else if(type==='barred'){
+      inputs.count.value = 3000; inputs.arms.value=2; inputs.radius.value=300; inputs.spin.value=0.6; inputs.brightness.value=1.1;
+    } else if(type==='elliptical'){
+      inputs.count.value = 1800; inputs.arms.value=1; inputs.radius.value=200; inputs.spin.value=0.05; inputs.brightness.value=0.9;
+    } else if(type==='lenticular'){
+      inputs.count.value = 2000; inputs.arms.value=2; inputs.radius.value=220; inputs.spin.value=0.12; inputs.brightness.value=0.95;
+    } else if(type==='irregular'){
+      inputs.count.value = 2200; inputs.arms.value=2; inputs.radius.value=280; inputs.spin.value=0.2; inputs.brightness.value=0.9;
+    }
+    for(const k in labels) labels[k].textContent = inputs[k].value;
+    drawBackground(); regen();
+  });
+  downloadBtn.addEventListener('click', ()=>{
+    const data = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = data; a.download = `galaxy_${type}.png`; a.click();
+  });
+  for(const k in labels) labels[k].textContent = inputs[k].value;
+})();
+</script>
+</body>
+</html>

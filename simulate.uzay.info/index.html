@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Space Simulation Time!</title>
+<link rel="shortcut icon" href="uzaylogo.ico">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<style>
+    body {
+      background-image: url("images/nicespace.png");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      margin-top: 100px;
+    }
+    .description {
+      background: rgba(0, 0, 0, 0.6);
+      display: inline-block;
+      padding: 20px 40px;
+      border-radius: 15px;
+      font-size: 18px;
+    }
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" style="background: #170a6e;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Space Simulator</a>
+    </div>
+
+    <ul class="nav navbar-nav">
+      <li><a href="/planets" target="_blank">🪐 Planets</a></li>
+      <li><a href="/stars" target="_blank">✨ Stars</a></li>
+      <li><a href="/galaxies" target="_blank">🌌 Galaxies</a></li>
+      <li><a href="/blackholes" target="_blank">🕳️ Black Holes</a></li>
+      <li><a href="/nebulas" target="_blank">☁️ Nebulae</a></li>
+      <li><a href="/comets" target="_blank">☄️ Comets</a></li>
+      <li><a href="/neutrons" target="_blank">🌠 Neutron Stars</a></li>
+      <li><a href="/deepspace" target="_blank">🚀 Deep Space</a></li>
+      <li><a href="/constellations" target="_blank">🌟 Constellations</a></li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#" onclick="setLang('tr')">TR</a></li>
+      <li><a href="#" id="lang-en" onclick="setLang('en')">EN</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="description">
+
+  <h1>Welcome to Space Simulator</h1>
+
+  <div class="lang en">
+    <p>
+      Explore the wonders of the universe — from planets and stars to galaxies and black holes.
+      Simulate cosmic phenomena, learn about celestial bodies, and journey through the vastness of space.
+    </p>
+  </div>
+
+  <div class="lang tr" style="display:none">
+    <p>
+      Gezegenlerden ve yıldızlardan galaksilere ve kara deliklere kadar evrenin harikalarını keşfedin. 
+      Kozmik olayları simüle edin, gök cisimleri hakkında bilgi edinin ve uzayın enginliğinde bir yolculuğa çıkın.
+    </p>
+  </div>
+
+</div>
+
+<script>
+function setLang(lang) {
+  document.querySelectorAll('.lang').forEach(e => e.style.display = 'none')
+  document.querySelector('.' + lang).style.display = 'block'
+}
+
+window.onload = function () {
+  setLang('en')
+}
+</script>
+
+</body>
+</html>

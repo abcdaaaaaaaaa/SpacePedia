@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+ <title>Takım Yıldızları</title>
+ <link rel="shortcut icon" href="https://uzay.info/uzaylogo.ico">
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" href="https://uzay.info/template/ansiklopedi.css">
+ <script src="https://uzay.info/template/boostrap.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: rgba(102,0,255,0.8)"> 
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://uzay.info">Uzay</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bunu Biliyormuydun?<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi">Bunu Biliyormuydun?</a></li>
+          <li><a href="/ansiklopedi/@/patlamalar">Patlamalar</a></li>
+          <li><a href="/ansiklopedi/@/burclarvemitoloji">Burçlar ve Mitoloji</a></li>
+          <li><a href="/ansiklopedi/@/tarihiolaylar">Tarihi olaylar</a></li>
+          <li><a href="/ansiklopedi/@/kazalar">Kazalar</a></li>
+          <li><a href="/ansiklopedi/@/meteorvegoktasi">Meteor ve Göktaşı</a></li>
+          <li><a href="/ansiklopedi/@">Oyunlar</a></li>
+          <li><a href="/">Uzay Alanı</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bulutsular<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/bulutsular">Nedir?</a></li>
+          <li><a href="/ansiklopedi/bulutsular/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/bulutsular/salma">Salma Bulutsusu</a></li>
+          <li><a href="/ansiklopedi/bulutsular/karanlik">Karanlık Bulutsular</a></li>
+          <li><a href="/ansiklopedi/bulutsular/yansima">Yansıma Bulutsusu</a></li>
+          <li><a href="/ansiklopedi/bulutsular/gezegenimsi">Gezegenimsi Bulutsu</a></li>
+          <li><a href="/ansiklopedi/bulutsular/supernova">Süpernova Kalıntıları</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gezegenler<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/gezegenler/nedir">Nedir?</a></li>
+          <li><a href="/ansiklopedi/gezegenler/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/gezegenler/gunessistemi">Güneş Sistemi</a></li>
+          <li><a href="/ansiklopedi/gezegenler">Gezegenler</a></li>
+          <li><a href="/ansiklopedi/gezegenler/cucegezegenler">Cüce Gezegenler</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Yıldızlar<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/yildizlar">Nedir?</a></li>
+          <li><a href="/ansiklopedi/yildizlar/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/yildizlar/mtayf">M Tayf</a></li>
+          <li><a href="/ansiklopedi/yildizlar/ktayf">K Tayf</a></li>
+          <li><a href="/ansiklopedi/yildizlar/aveftayf">A ve F Tayf</a></li>
+          <li><a href="/ansiklopedi/yildizlar/ovebtayf">O ve B Tayf</a></li>
+          <li><a href="/ansiklopedi/yildizlar/devyildizlar">Dev Yıldızlar</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Takım Yıldızları<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/takimyildizlari/nedir">Nedir?</a></li>
+          <li><a href="/ansiklopedi/takimyildizlari/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/takimyildizlari">Takım Yıldızları</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kuyruklu Yıldızlar<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/kuyrukluyildizlar">Nedir?</a></li>
+          <li><a href="/ansiklopedi/kuyrukluyildizlar/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/kuyrukluyildizlar/jupiterailesi">Jüpiter Ailesi Kuyruk Yıldızları</a></li>
+          <li><a href="/ansiklopedi/kuyrukluyildizlar/halleysinifi">Halley Sınıfı Kuyruklu Yıldızlar</a></li>
+          <li><a href="/ansiklopedi/kuyrukluyildizlar/uzunsureli">Uzun Süreli Uçurtmalar</a></li>
+          <li><a href="/ansiklopedi/kuyrukluyildizlar/yorunge">Yörüngelerine Göre Kuyruklu Yıldızlar</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nötron Yıldızları<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/notron">Nedir?</a></li>
+          <li><a href="/ansiklopedi/notron/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/notron/atarca">Atarca</a></li>
+          <li><a href="/ansiklopedi/notron/magnetar">Magnetar</a></li>
+          <li><a href="/ansiklopedi/notron/kuarkvegzotik">Kuark ve Egzotik Yıldızlar</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Galaksiler<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/galaksiler">Nedir?</a></li>
+          <li><a href="/ansiklopedi/galaksiler/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/galaksiler/eliptik">Eliptik</a></li>
+          <li><a href="/ansiklopedi/galaksiler/sarmal">Sarmal (Spiral)</a></li>
+          <li><a href="/ansiklopedi/galaksiler/cubuklusarmal">Çubuklu Sarmal</a></li>
+          <li><a href="/ansiklopedi/galaksiler/düzensiz">Düzensiz</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kara Delikler<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/karadelikler">Nedir?</a></li>
+          <li><a href="/ansiklopedi/karadelikler/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/karadelikler/yildizsal">Yıldızsal Kara Delikler</a></li>
+          <li><a href="/ansiklopedi/karadelikler/dev">Dev Kara Delikler</a></li>
+          <li><a href="/ansiklopedi/karadelikler/ortakutleli">Orta Kütleli Kara Delikler</a></li>
+          <li><a href="/ansiklopedi/karadelikler/ilksel">İlksel Kara Delikler</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container" style="margin-top:50px">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> Takım Yıldızları</h1>
+        Takım yıldızları, gökyüzünde birbirine yakın gibi görünen yıldızların, insanlar tarafından hayali çizgilerle birleştirilerek anlamlı şekiller hâline getirilmesiyle ortaya çıkan gökyüzü bölgeleridir. Bu yıldızlar fiziksel olarak birbirlerine bağlı değildir, yalnızca Dünya’dan bakıldığında aynı doğrultuda yer alıyor gibi görünürler. Buna rağmen takım yıldızları, binlerce yıldır gökyüzünü tanımlamak, yön bulmak ve mevsimleri ayırt etmek için kullanılmıştır.
+    </font>
+</div>
+<br>
+<div class="container">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> Büyük Ayı ve Küçük Ayı</h1>
+        <img src="https://www.uzay.info/template/ency/static/tky3.png" height="200">
+        <br><br>
+        Büyük Ayı ve Küçük Ayı takım yıldızları, kuzey yarımküre gökyüzünün en tanınan ve en önemli takım yıldızları arasında yer alır. Bu iki takım yıldızı, özellikle yön bulma açısından tarih boyunca hayati bir rol oynamıştır. Gökyüzüne bakan bir gözlemci için bu iki yapı, adeta göksel bir pusula görevi görür.
+        <br><br>
+        Büyük Ayı takım yıldızı, gökyüzünde geniş bir alan kaplar ve en kolay tanınan yıldız desenlerinden birine sahiptir. Bu desen, halk arasında “Büyük Kepçe” olarak bilinir. Kepçeyi oluşturan yedi parlak yıldız, karanlık bir gökyüzünde son derece belirgin biçimde seçilebilir. Bu yıldızlar aslında çok daha geniş bir takım yıldızının yalnızca en dikkat çekici bölümüdür.
+        <br><br>
+        Büyük Ayı’nın en önemli özelliklerinden biri, yön bulmada kullanılmasıdır. Kepçenin ağız kısmında yer alan iki parlak yıldız, hayali bir çizgiyle uzatıldığında kuzey yönünü işaret eder. Bu çizgi, gözlemciyi doğrudan Küçük Ayı takım yıldızına ve onun en parlak yıldızına götürür. Bu ilişki, Büyük Ayı’yı yalnızca estetik bir gökyüzü şekli olmaktan çıkarır ve pratik bir araç hâline getirir.
+        <br><br>
+        Küçük Ayı takım yıldızı, Büyük Ayı’ya göre daha küçük ve daha sönük yıldızlardan oluşur. Buna rağmen gökyüzündeki önemi çok büyüktür. Çünkü Küçük Ayı’nın ucunda yer alan yıldız, gökyüzündeki en kritik yıldızlardan biridir. Bu yıldız, Dünya’nın dönme eksenine çok yakın bir konumda bulunduğu için gökyüzünde neredeyse sabit görünür. Bu özelliği sayesinde tarih boyunca yön tayininde temel referans noktası olmuştur.
+        <br><br>
+        Küçük Ayı’nın şekli de bir kepçeyi andırır, ancak Büyük Ayı’ya kıyasla daha küçüktür ve yıldızları daha sönüktür. Bu nedenle ışık kirliliğinin yoğun olduğu bölgelerde fark edilmesi zor olabilir. Ancak Büyük Ayı’dan yapılan hayali yönlendirme sayesinde kolaylıkla bulunabilir. Bu iki takım yıldızı arasındaki ilişki, gökyüzü haritasını öğrenen herkes için temel bir başlangıç noktasıdır.
+        <br><br>
+        Büyük Ayı ve Küçük Ayı yalnızca yön bulma açısından değil, kültürel ve tarihsel açıdan da büyük önem taşır. Antik çağlardan itibaren farklı uygarlıklar bu yıldız desenlerine farklı anlamlar yüklemiştir. Avcılar, denizciler ve gezginler için bu takım yıldızları, gece yolculuklarında güvenilir rehberler olmuştur. Bu kullanım, modern navigasyon araçları ortaya çıkana kadar devam etmiştir.
+        <br><br>
+        Bu iki takım yıldızı aynı zamanda gökyüzünün mevsimsel hareketlerini anlamak için de kullanılır. Yıl boyunca gökyüzündeki konumları değişir gibi görünse de, asla ufkun altına tamamen batmazlar. Bu özellikleri nedeniyle “kutup çevresi takım yıldızları” olarak adlandırılırlar. Bu durum, onların her mevsim gözlemlenebilmesini sağlar.
+        <br><br>
+        Büyük Ayı ve Küçük Ayı, takım yıldızlarının yalnızca görsel desenler olmadığını, insanlık tarihinin gökyüzüyle kurduğu ilişkinin temel taşları olduğunu açıkça gösterir. Bu iki yapı sayesinde gökyüzü, soyut bir boşluk olmaktan çıkarak anlamlı ve okunabilir bir haritaya dönüşür.
+        <h3></h3>
+    </font>
+</div>
+<br>
+<div class="container">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> Avcı (Orion)</h1>
+        <img src="https://www.uzay.info/template/ency/static/tky4.png" height="200">
+        <br><br>
+        Avcı, gökyüzündeki en tanınan ve en kolay ayırt edilebilen takım yıldızlarından biridir. Latince adı Orion olan bu takım yıldızı, özellikle kış aylarında kuzey yarımkürede gökyüzüne bakan hemen herkesin dikkatini çeker. Parlak yıldızları, belirgin geometrik şekli ve gökyüzündeki merkezi konumu sayesinde, gökbilime yeni başlayanlar için adeta bir başlangıç noktasıdır. Avcı, yalnızca görsel olarak değil, bilimsel ve kültürel açıdan da gökyüzünün en önemli bölgelerinden birini temsil eder.
+        <br><br>
+        Avcı takım yıldızının en ayırt edici özelliği, yan yana dizilmiş üç parlak yıldızdan oluşan ve “Avcı’nın Kemeri” olarak adlandırılan yapıdır. Bu üç yıldız, gökyüzünde neredeyse kusursuz bir doğrultu üzerinde yer alır ve karanlık bir gecede kolaylıkla fark edilir. Kemer, Avcı’nın gövdesini temsil eder ve takım yıldızının geri kalanını bulmak için doğal bir referans çizgisi görevi görür. Gökyüzünde Avcı’yı tanımanın en pratik yolu, bu üç yıldızı tespit etmektir.
+        <br><br>
+        Avcı takım yıldızını oluşturan yıldızlar, parlaklık ve fiziksel özellikler bakımından büyük çeşitlilik gösterir. Avcı’nın omuzlarını ve ayaklarını temsil eden yıldızlar, gökyüzünde farklı renk tonlarıyla dikkat çeker. Bu durum, Avcı’nın yalnızca bir desen değil, aynı zamanda farklı yıldız türlerinin bir arada görülebildiği bir gökyüzü laboratuvarı olmasını sağlar. Aynı takım yıldızı içinde hem çok sıcak hem de daha soğuk yıldızlar bulunur ve bu durum renk farklarıyla çıplak gözle bile ayırt edilebilir.
+        <br><br>
+        Avcı’nın konumu, gökyüzü haritalarında son derece stratejiktir. Bu takım yıldızı, göksel ekvatora yakın bir bölgede yer aldığı için hem kuzey hem de güney yarımküreden gözlemlenebilir. Bu özellik, Avcı’nın dünya üzerindeki çok farklı kültürlerde tanınmasını ve adlandırılmasını sağlamıştır. Antik uygarlıkların büyük bir bölümü, Avcı’yı güçlü bir figürle ilişkilendirmiş ve ona mitolojik anlamlar yüklemiştir.
+        <br><br>
+        Avcı takım yıldızının bir diğer önemli özelliği, gökyüzündeki derin uzay cisimlerine ev sahipliği yapmasıdır. Avcı’nın kemerinin hemen altında yer alan bölge, çıplak gözle bile puslu bir leke gibi fark edilebilen parlak bir alan içerir. Bu bölge, yıldız oluşumunun aktif olarak devam ettiği çok zengin bir kozmik ortamdır. Avcı, bu yönüyle yalnızca yıldız desenlerinden oluşan bir takım yıldızı değil, aynı zamanda yıldız doğum süreçlerinin gözlemlenebildiği bir pencere niteliği taşır.
+        <br><br>
+        Avcı takım yıldızı, mevsimsel gözlemler açısından da büyük önem taşır. Kuzey yarımkürede sonbaharın sonlarından ilkbaharın başlarına kadar geceleri gökyüzünde giderek yükselir ve kış aylarında en görkemli hâlini alır. Bu dönemlerde Avcı, gece gökyüzünün en baskın figürlerinden biri hâline gelir. Bu durum, tarih boyunca Avcı’nın kış mevsimiyle özdeşleştirilmesine neden olmuştur.
+        <br><br>
+        Kültürel açıdan bakıldığında Avcı, insanlığın gökyüzüyle kurduğu ilişkinin en eski örneklerinden birini temsil eder. Farklı toplumlar, bu yıldız desenini bir avcı, bir savaşçı ya da göksel bir kahraman olarak yorumlamıştır. Bu yorumların ortak noktası, Avcı’nın güçlü, hareket hâlinde ve merkezi bir figür olarak algılanmasıdır. Gökyüzünde bu kadar belirgin ve simetrik bir şekle sahip olması, bu tür yorumların ortaya çıkmasını kolaylaştırmıştır.
+        <br><br>
+        Avcı’nın gökyüzündeki konumu, yön bulma ve gökyüzünü bölgelere ayırma açısından da kullanılmıştır. Avcı’nın kemeri, hayali olarak uzatıldığında gökyüzündeki başka önemli bölgelere ulaşmayı sağlar. Bu özellik, Avcı’yı yalnızca tek başına bir takım yıldızı olmaktan çıkarır ve onu gökyüzü haritasının merkezî referans noktalarından biri hâline getirir.
+        <br><br>
+        Avcı takım yıldızı, aynı zamanda gökyüzünde ölçek duygusunun gelişmesine de katkı sağlar. İçinde barındırdığı yıldızların farklı uzaklıklarda olması, gökyüzünde gördüğümüz desenlerin aslında üç boyutlu bir uzayın iki boyutlu yansımaları olduğunu açıkça gösterir. Avcı’ya bakıldığında, yıldızların yalnızca görünürde bir arada olduğu, gerçekte ise uzayın derinliklerinde birbirinden çok uzak konumlarda bulunduğu anlaşılır.
+        <br><br>
+        Sonuç olarak Avcı, takım yıldızlarının yalnızca hayali çizimlerden ibaret olmadığını, aynı zamanda gökyüzünün fiziksel, kültürel ve tarihsel katmanlarını bir araya getiren yapılar olduğunu gösteren en güçlü örneklerden biridir. Parlak yıldızları, kolay tanınan şekli, yıldız oluşum bölgeleriyle olan ilişkisi ve insanlık tarihindeki yeri sayesinde Avcı, gökyüzünü okumayı öğrenen herkes için vazgeçilmez bir referans noktasıdır.
+        <h3></h3>
+    </font>
+</div>
+<br>
+<div class="container">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> Cassiopeia</h1>
+        <img src="https://www.uzay.info/template/ency/static/tky5.png" height="200">
+        <br><br>
+        Cassiopeia, kuzey yarımküre gökyüzünün en ayırt edici ve en kolay tanınan takım yıldızlarından biridir. Gökyüzünde belirgin bir “W” ya da bazı açılardan “M” harfine benzeyen şekli sayesinde, yıldız haritalarına aşina olmayan gözlemciler tarafından bile rahatlıkla fark edilebilir. Bu karakteristik görünüm, Cassiopeia’yı gökyüzünde adeta bir imza hâline getirir ve onu yön bulma ve gökyüzü tanıma açısından son derece değerli kılar.
+        <br><br>
+        Cassiopeia’nın gökyüzündeki konumu, onu özel kılan en önemli özelliklerden biridir. Bu takım yıldızı, gökyüzünün kuzey kutbuna yakın bölgede yer alır. Bu nedenle yıl boyunca gökyüzünde gözlemlenebilir ve hiçbir zaman ufkun altına tamamen batmaz. Bu özellik, Cassiopeia’yı kutup çevresi takım yıldızları arasında önemli bir yere yerleştirir. Mevsimler değiştikçe gökyüzündeki yönü ve duruşu değişir gibi görünse de, her zaman kuzey göğünde kalır.
+        <br><br>
+        Cassiopeia, gökyüzünde Büyük Ayı ve Küçük Ayı ile birlikte bir referans sistemi oluşturur. Özellikle Büyük Ayı’nın gökyüzünde alçakta ya da görünmez olduğu dönemlerde Cassiopeia, kuzey yönünü belirlemek için güvenilir bir alternatif sunar. Bu nedenle tarih boyunca denizciler ve gezginler için son derece önemli bir takım yıldızı olmuştur. Gökyüzünde Cassiopeia’yı tanımak, dolaylı olarak kuzey yönünü de tanımak anlamına gelir.
+        <br><br>
+        Bu takım yıldızını oluşturan yıldızlar, parlaklık bakımından orta düzeydedir; ancak düzenli dizilimleri sayesinde birbirlerinden kolayca ayırt edilir. Beş ana yıldızın oluşturduğu W şekli, Cassiopeia’nın ayırt edici imzasıdır. Bu yıldızlar, gökyüzünde tek tek çok parlak olmasalar da, birlikte oluşturdukları desen sayesinde güçlü bir görsel etki yaratır. Bu durum, takım yıldızlarının temel mantığını da açıkça ortaya koyar: önemli olan tek tek yıldızlar değil, aralarındaki düzenli ilişkidir.
+        <br><br>
+        Cassiopeia’nın gökyüzündeki konumu, Samanyolu ile doğrudan ilişkilidir. Bu takım yıldızı, Samanyolu’nun yoğun yıldız alanlarından birinin önünde yer alır. Bu nedenle Cassiopeia çevresindeki gökyüzü bölgesi, yıldız bakımından son derece zengindir. Gökyüzüne çıplak gözle bakıldığında bile, Cassiopeia çevresinde diğer bölgelere kıyasla daha yoğun bir yıldız dağılımı fark edilir. Bu durum, Cassiopeia’yı derin uzay gözlemleri için de önemli bir bölge hâline getirir.
+        <br><br>
+        Cassiopeia, kültürel ve mitolojik açıdan da güçlü bir geçmişe sahiptir. Antik çağlarda bu takım yıldızı, kibirli bir kraliçeyi temsil eden göksel bir figür olarak yorumlanmıştır. Bu anlatılarda Cassiopeia, gökyüzünde tahtında oturan bir kraliçe olarak tasvir edilir. Bu mitolojik anlatım, takım yıldızının belirgin ve simetrik yapısıyla uyumludur ve gökyüzündeki duruşuna anlam kazandırır. Farklı kültürler, Cassiopeia’ya benzer ama özgün yorumlar getirmiştir.
+        <br><br>
+        Cassiopeia’nın şekli, gökyüzünde yön duygusunun gelişmesine katkı sağlar. W biçimi, gökyüzündeki diğer düzensiz yıldız gruplarından kolayca ayırt edilir. Bu nedenle Cassiopeia, gökyüzü öğreniminin erken aşamalarında sıklıkla kullanılan bir takım yıldızıdır. Özellikle çocuklar ve gökyüzüyle yeni ilgilenmeye başlayanlar için Cassiopeia, karmaşık gökyüzü haritalarına giriş niteliği taşır.
+        <br><br>
+        Mevsimsel olarak bakıldığında Cassiopeia’nın gökyüzündeki duruşu yıl boyunca değişir. Kış aylarında W şekli daha dik bir konumda görülürken, yaz aylarında bu şekil yatay ya da ters bir görünüm alabilir. Bu değişim, Dünya’nın kendi ekseni etrafındaki hareketinin bir sonucudur. Cassiopeia’nın bu hareketi, gökyüzünün sabit değil, sürekli değişen bir yapı olduğunu anlamak açısından öğreticidir.
+        <br><br>
+        Cassiopeia’nın bulunduğu gökyüzü bölgesi, aynı zamanda geçmişte gerçekleşmiş büyük yıldız patlamalarının izlerini de barındırır. Bu durum, Cassiopeia’yı yalnızca estetik bir takım yıldızı olmaktan çıkarır ve onu gökyüzünün tarihini barındıran bir alan hâline getirir. Bu özellik, Cassiopeia’nın bilimsel önemini daha da artırır.
+        <br><br>
+        Sonuç olarak Cassiopeia, takım yıldızlarının neden yalnızca hayali şekiller olmadığını, aynı zamanda gökyüzünü anlamlandırmamızı sağlayan temel araçlar olduğunu gösteren güçlü bir örnektir. Ayırt edici W şekli, kuzey göğündeki konumu, Samanyolu ile olan ilişkisi ve tarihsel önemi sayesinde Cassiopeia, gökyüzünü okumayı öğrenen herkes için vazgeçilmez bir referans noktasıdır.
+        <h3></h3>
+    </font>
+</div>
+<br>
+<div class="container">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> Lyra</h1>
+        <img src="https://www.uzay.info/template/ency/static/tky6.png" height="200">
+        <br><br>
+        Lyra, gökyüzünde küçük bir alan kaplamasına rağmen, hem bilimsel hem de tarihsel açıdan son derece büyük bir öneme sahip olan bir takım yıldızıdır. Kuzey yarımkürede özellikle yaz aylarında belirgin biçimde gözlemlenir ve gökyüzünün en parlak yıldızlarından birine ev sahipliği yapar. Bu özelliği sayesinde Lyra, boyut olarak mütevazı olsa da gökyüzünde kolayca fark edilen ve akılda kalan bir takım yıldızıdır.
+        <br><br>
+        Lyra takım yıldızının en dikkat çekici unsuru, çok parlak bir yıldız olan Vega’dır. Vega, gece gökyüzündeki en parlak yıldızlardan biri olarak öne çıkar ve yaz gecelerinde neredeyse doğrudan gözleri üzerine çeker. Bu yıldızın parlaklığı, Lyra’nın gökyüzünde kolayca tanınmasını sağlar. Vega’nın bulunduğu konum, gökyüzü haritalarında Lyra’yı tespit etmek için temel bir referans noktası olarak kullanılır.
+        <br><br>
+        Lyra’nın şekli, Vega’nın çevresinde yer alan daha sönük yıldızların oluşturduğu küçük ve düzenli bir geometriden oluşur. Bu yapı, bazı kaynaklarda bir lir ya da arp çalgısını andırdığı için bu isimle anılmıştır. Takım yıldızının bu sembolik şekli, insanlığın gökyüzündeki yıldızlara kültürel ve sanatsal anlamlar yükleme eğiliminin güzel bir örneğidir. Lyra, gökyüzünde hem estetik hem de anlam yüklü bir figür olarak yer alır.
+        <br><br>
+        Lyra’nın gökyüzündeki konumu, onu yaz gökyüzünün temel yapı taşlarından biri hâline getirir. Bu takım yıldızı, Samanyolu’nun yoğun yıldız alanlarına yakın bir bölgede bulunur. Bu nedenle Lyra çevresindeki gökyüzü, yıldız bakımından zengin bir arka plana sahiptir. Karanlık bir gecede, Lyra’nın arka planında Samanyolu’nun puslu ışığı fark edilebilir. Bu durum, Lyra’yı derin uzay gözlemleri açısından da ilgi çekici kılar.
+        <br><br>
+        Lyra takım yıldızı, yön bulma ve gökyüzünü bölgelere ayırma açısından da önemlidir. Vega, yaz gökyüzünde bir tür mihenk taşı gibi davranır. Gökyüzünde Vega’yı bulan bir gözlemci, çevresindeki diğer yaz takım yıldızlarını da daha kolay tespit edebilir. Bu özellik, Lyra’yı gökyüzü öğreniminde pratik bir başlangıç noktası hâline getirir.
+        <br><br>
+        Tarihsel ve kültürel açıdan bakıldığında Lyra, insanlığın gökyüzüyle kurduğu ilişkinin sembolik yönünü temsil eder. Antik anlatılarda Lyra, müzikle ve uyumla ilişkilendirilen bir figür olarak yorumlanmıştır. Bu yorumlar, yıldızların yalnızca fiziksel nesneler değil, aynı zamanda kültürel anlam taşıyan semboller olarak algılandığını gösterir. Lyra, bu yönüyle gökyüzünün sanatsal yüzünü temsil eden takım yıldızlarından biridir.
+        <br><br>
+        Lyra’nın gökyüzündeki hareketi, mevsimlerin değişimini gözlemlemek için de kullanılabilir. Yaz aylarında gökyüzünde yükselen Lyra, sonbahara doğru yavaş yavaş konum değiştirir. Bu değişim, Dünya’nın Güneş etrafındaki hareketinin doğal bir sonucudur. Lyra’nın yıl içindeki bu konum değişimi, gökyüzünün dinamik yapısını anlamak açısından öğretici bir örnek sunar.
+        <br><br>
+        Lyra takım yıldızı, boyut olarak küçük olmasına rağmen içerdiği parlak yıldız ve bulunduğu stratejik konum sayesinde gökyüzünde büyük bir etkiye sahiptir. Hem amatör gözlemciler hem de gökyüzünü sistemli biçimde inceleyenler için Lyra, vazgeçilmez bir referans noktasıdır. Küçük bir yıldız grubunun, doğru koşullar altında ne kadar büyük bir görsel ve bilimsel değer taşıyabileceğini açıkça gösterir.
+        <br><br>
+        Sonuç olarak Lyra, takım yıldızlarının yalnızca geniş alan kaplayan yapılar olmadığını, bazen birkaç yıldızdan oluşan küçük bir desenin bile gökyüzünde büyük bir anlam taşıyabileceğini kanıtlar. Parlak yıldızı, zarif şekli, Samanyolu ile olan ilişkisi ve kültürel arka planı sayesinde Lyra, yaz gökyüzünün en özel ve en tanınan takım yıldızlarından biri olarak öne çıkar.
+        <h3></h3>
+    </font>
+</div>
+
+</body>
+</html>

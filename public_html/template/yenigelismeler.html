@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yeni Gelişmeler</title>
+<style>
+body{font-family:'Arial',sans-serif;background:#f4f4f9;margin:0;display:flex;flex-direction:column;align-items:center}
+header{background:#4a90e2;color:white;padding:8px 0;width:100%;text-align:center;font-size:18px;font-weight:bold;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
+.slider-wrapper{position:relative;display:flex;justify-content:center;width:100%;max-width:800px;margin:20px 0}
+.slider-container{width:100%;border-radius:10px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.2);background:white;position:relative}
+.news-card{display:none;flex-direction:column;align-items:center;transition:opacity .8s ease-in-out;position:relative}
+.news-card.active{display:flex}
+.news-card img{width:100%;height:400px;object-fit:cover}
+.news-overlay{position:absolute;bottom:0;width:100%;background:rgba(0,0,0,0.4);color:white;padding:10px 15px;box-sizing:border-box}
+.news-title{font-size:22px;font-weight:bold;margin:0 0 5px 0}
+.news-date{font-size:12px;color:#ddd;margin-bottom:5px}
+.news-text{font-size:14px;line-height:1.5}
+.nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(74,144,226,0.8);border:none;color:white;font-size:25px;padding:12px 18px;cursor:pointer;border-radius:50%;transition:background .3s,transform .2s;z-index:10}
+.nav-btn:hover{background:rgba(53,122,189,0.9);transform:translateY(-50%) scale(1.1)}
+#prev-btn{left:-60px}
+#next-btn{right:-60px}
+.progress-bar-container{position:absolute;top:0;left:0;width:100%;height:5px;background:rgba(0,0,0,0.1);z-index:5}
+.progress-bar{height:100%;width:0%;background:#4a90e2;transition:width .1s linear}
+.thumbnails{display:flex;justify-content:center;flex-wrap:wrap;margin-top:10px;gap:5px}
+.thumbnail-container{display:flex;flex-direction:column;align-items:center;cursor:pointer}
+.thumbnail{width:60px;height:40px;object-fit:cover;opacity:.6;border:2px solid transparent;border-radius:4px;transition:opacity .3s,border .3s}
+.thumbnail.active{opacity:1;border:2px solid #4a90e2}
+.thumb-title{font-size:10px;color:#333;text-align:center;margin-top:2px;max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.auto-btn{margin-top:10px;background:#4a90e2;color:white;border:none;padding:8px 15px;border-radius:5px;cursor:pointer}
+.auto-btn:hover{background:#357ABD}
+@media (max-width:600px){#prev-btn{left:-30px}#next-btn{right:-30px}.thumbnail{width:45px;height:30px}.thumb-title{font-size:8px;max-width:45px}}
+</style>
+</head>
+<body>
+
+<header>Yeni Gelişmeler</header>
+
+<div class="slider-wrapper">
+  <button class="nav-btn" id="prev-btn">&#10094;</button>
+  <div class="slider-container" id="slider-container">
+    <div class="progress-bar-container"><div class="progress-bar" id="progress-bar"></div></div>
+
+    <div class="news-card">
+      <img src="https://www.uzay.info/static/resim1.jpg" alt="Ansiklopedi">
+      <div class="news-overlay">
+        <div class="news-title">Uzay Ansiklopedisi Tamamlandı</div>
+        <div class="news-date">6 Şubat 2026</div>
+        <div class="news-text">Uzay Ansiklopedisi başarıyla oluşturuldu.</div>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <img src="https://www.uzay.info/static/relaxblue.jpg" alt="Yazılım">
+      <div class="news-overlay">
+        <div class="news-title">uzay.info'nun Yazılımı Tamamlandı</div>
+        <div class="news-date">18 Şubat 2026</div>
+        <div class="news-text">uzay.info projesinin yazılımı başarıyla oluşturuldu.</div>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <img src="https://www.uzay.info/static/ky.png" alt="uzay.info">
+      <div class="news-overlay">
+        <div class="news-title">uzay.info Projesi Tamamlandı</div>
+        <div class="news-date">19 Şubat 2026</div>
+        <div class="news-text">uzay.info projesi başarıyla oluşturuldu.</div>
+      </div>
+    </div>
+
+    <div class="progress-bar-container"><div class="progress-bar" id="progress-bar"></div></div>
+  </div>
+  <button class="nav-btn" id="next-btn">&#10095;</button>
+</div>
+
+<div class="thumbnails">
+  <div class="thumbnail-container">
+    <img src="https://www.uzay.info/static/resim1.jpg" class="thumbnail" data-index="0">
+    <div class="thumb-title">Ansiklopedi</div>
+  </div>
+  <div class="thumbnail-container">
+    <img src="https://www.uzay.info/static/relaxblue.jpg" class="thumbnail" data-index="1">
+    <div class="thumb-title">Yazılım</div>
+  </div>
+  <div class="thumbnail-container">
+    <img src="https://www.uzay.info/static/ky.png" class="thumbnail" data-index="2">
+    <div class="thumb-title">uzay.info</div>
+  </div>
+</div>
+
+<button class="auto-btn" id="toggle-auto">Otomatik Geçişi Durdur</button>
+
+<script>
+const thumbnailsContainer=document.querySelector('.thumbnails');[...thumbnailsContainer.children].reverse().forEach(c=>thumbnailsContainer.appendChild(c));
+const cards=document.querySelectorAll('.news-card');
+const thumbnails=document.querySelectorAll('.thumbnail');
+const prevBtn=document.getElementById('prev-btn');
+const nextBtn=document.getElementById('next-btn');
+const toggleBtn=document.getElementById('toggle-auto');
+const sliderContainer=document.getElementById('slider-container');
+const progressBar=document.getElementById('progress-bar');
+let currentIndex=cards.length-1;
+let autoSlide=true;
+let intervalTime=5000;
+let interval=setInterval(nextSlide,intervalTime);
+let progressInterval=setInterval(updateProgress,intervalTime/100);
+let progress=0;
+let startX=0;
+let endX=0;
+function showCard(i){cards.forEach((c,j)=>c.style.display='none');cards[i].style.display='flex';thumbnails.forEach(t=>t.classList.remove('active'));thumbnails[cards.length-1-i].classList.add('active');progress=0;progressBar.style.width='0%'}
+function nextSlide(){currentIndex=currentIndex===0?cards.length-1:currentIndex-1;showCard(currentIndex)}
+function prevSlide(){currentIndex=(currentIndex+1)%cards.length;showCard(currentIndex)}
+function updateProgress(){progress++;if(progress>100)progress=0;progressBar.style.width=progress+'%'}
+prevBtn.addEventListener('click',prevSlide)
+nextBtn.addEventListener('click',nextSlide)
+thumbnails.forEach(t=>t.addEventListener('click',()=>{currentIndex=+t.getAttribute('data-index');showCard(currentIndex)}));
+toggleBtn.addEventListener('click',()=>{if(autoSlide){clearInterval(interval);clearInterval(progressInterval);toggleBtn.textContent="Otomatik Geçişi Başlat"}else{interval=setInterval(nextSlide,intervalTime);progressInterval=setInterval(updateProgress,intervalTime/100);toggleBtn.textContent="Otomatik Geçişi Durdur"}autoSlide=!autoSlide})
+sliderContainer.addEventListener('mouseenter',()=>{clearInterval(interval);clearInterval(progressInterval)})
+sliderContainer.addEventListener('mouseleave',()=>{if(autoSlide){interval=setInterval(nextSlide,intervalTime);progressInterval=setInterval(updateProgress,intervalTime/100)}})
+sliderContainer.addEventListener('touchstart',e=>{startX=e.touches[0].clientX})
+sliderContainer.addEventListener('touchend',e=>{endX=e.changedTouches[0].clientX;if(startX-endX>50)nextSlide();if(endX-startX>50)prevSlide()})
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')prevSlide();if(e.key==='ArrowRight')nextSlide();});
+showCard(currentIndex)
+</script>
+
+</body>
+</html>

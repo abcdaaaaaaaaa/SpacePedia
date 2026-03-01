@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<title>Bunu Biliyormuydun?</title>
+<link rel="shortcut icon" href="uzaylogo.ico">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{background-image:url("../static/resim1.jpg");background-repeat:no-repeat;background-attachment:fixed;background-size:cover;}
+.menubuton{background-color:red;color:#fff;padding:16px;font-size:16px;border:none;cursor:pointer;border-radius:8px;}
+.menu{position:relative;display:inline-block;font-family:Arial;font-size:15px;z-index:1000;}
+.menu-icerik{display:none;position:absolute;background-color:#f9f9f9;min-width:160px;box-shadow:0 8px 16px 0 rgba(0,0,0,.2);border-radius:8px;z-index:2000;}
+.menu-icerik a{color:#000;padding:12px 16px;text-decoration:none;display:block;}
+.menu-icerik a:hover{background-color:#73B9FF;}
+.menu:hover .menu-icerik{display:block;}
+.menu:hover .menubuton{background-color:#000040;}
+.bbm-wrap{max-width:980px;margin:0 auto;}
+.bbm-card{border:1px solid rgba(110,200,255,.25);border-radius:18px;overflow:hidden;background:rgba(0,0,0,.25);box-shadow:0 12px 30px rgba(0,0,0,.35);display:grid;grid-template-columns:1.1fr 1fr;}
+@media (max-width:900px){.bbm-card{grid-template-columns:1fr;}}
+.bbm-media{position:relative;background:rgba(0,0,0,.35);min-height:320px;}
+.bbm-img{width:100%;height:100%;object-fit:cover;display:block;}
+.bbm-body{position:relative;padding:22px 22px 18px 22px;display:flex;flex-direction:column;gap:12px;}
+.bbm-toggle{position:absolute;top:18px;right:18px;min-width:48px;}
+.bbm-kicker{font-size:14px;opacity:.9;letter-spacing:.2px;}
+.bbm-title{margin:0;font-size:28px;line-height:1.15;}
+.bbm-text{margin:0;font-size:16px;line-height:1.65;opacity:.95;}
+.bbm-controls{margin-top:auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;}
+.bbm-btn{border:1px solid rgba(110,200,255,.35);background:rgba(0,0,0,.35);color:#6ec8ff;padding:10px 14px;border-radius:12px;cursor:pointer;font-size:16px;min-width:48px;transition:transform .06s ease,background .2s ease,border-color .2s ease;}
+.bbm-btn:hover{background:rgba(110,200,255,.08);border-color:rgba(110,200,255,.6);}
+.bbm-btn:active{transform:scale(.98);}
+.bbm-progress{display:flex;flex-direction:column;gap:8px;}
+.bbm-bar{height:10px;border-radius:999px;background:rgba(110,200,255,.12);border:1px solid rgba(110,200,255,.25);overflow:hidden;}
+.bbm-bar-fill{height:100%;width:0%;background:rgba(110,200,255,.55);}
+.bbm-hint{font-size:12px;opacity:.7;}
+</style>
+</head>
+<body>
+
+<div class="menu">
+  <button class="menubuton">Bunu Biliyormuydun?</button>
+  <div class="menu-icerik">
+    <a href="/ansiklopedi">Bunu Biliyormuydun?</a>
+    <a href="/ansiklopedi/@/patlamalar">Patlamalar</a>
+    <a href="/ansiklopedi/@/burclarvemitoloji">Burçlar ve Mitoloji</a>
+    <a href="/ansiklopedi/@/tarihiolaylar">Tarihi olaylar</a>
+    <a href="/ansiklopedi/@/kazalar">Kazalar</a>
+    <a href="/ansiklopedi/@/meteorvegoktasi">Meteor ve Göktaşı</a>
+    <a href="/ansiklopedi/@">Oyunlar</a>
+    <a href="/">Uzay Alanı</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Bulutsular</button>
+  <div class="menu-icerik">
+   <a href="/ansiklopedi/bulutsular">Nedir?</a>
+   <a href="/ansiklopedi/bulutsular/nasilolusur">Nasıl Oluşur?</a>
+   <a href="/ansiklopedi/bulutsular/salma">Salma Bulutsusu</a>
+   <a href="/ansiklopedi/bulutsular/karanlik">Karanlık Bulutsular</a>
+   <a href="/ansiklopedi/bulutsular/yansima">Yansıma Bulutsusu</a>
+   <a href="/ansiklopedi/bulutsular/gezegenimsi">Gezegenimsi Bulutsu</a>
+   <a href="/ansiklopedi/bulutsular/supernova">Süpernova Kalıntıları</a>
+  </div>
+</div>
+    
+<div class="menu">
+  <button class="menubuton">Gezegenler</button>
+  <div class="menu-icerik">
+    <a href="/ansiklopedi/gezegenler/nedir">Nedir?</a>
+    <a href="/ansiklopedi/gezegenler/nasilolusur">Nasıl Oluşur?</a>
+    <a href="/ansiklopedi/gezegenler/gunessistemi">Güneş Sistemi</a>
+    <a href="/ansiklopedi/gezegenler">Gezegenler</a>
+    <a href="/ansiklopedi/gezegenler/cucegezegenler">Cüce Gezegenler</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Yıldızlar</button>
+  <div class="menu-icerik">
+    <a href="/ansiklopedi/yildizlar">Nedir?</a>
+    <a href="/ansiklopedi/yildizlar/nasilolusur">Nasıl Oluşur?</a>
+    <a href="/ansiklopedi/yildizlar/mtayf">M Tayf</a>
+    <a href="/ansiklopedi/yildizlar/ktayf">K Tayf</a>
+    <a href="/ansiklopedi/yildizlar/aveftayf">A ve F Tayf</a>
+    <a href="/ansiklopedi/yildizlar/ovebtayf">O ve B Tayf</a>
+    <a href="/ansiklopedi/yildizlar/devyildizlar">Dev Yıldızlar</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Takım Yıldızları</button>
+  <div class="menu-icerik">
+    <a href="/ansiklopedi/takimyildizlari/nedir">Nedir?</a>
+    <a href="/ansiklopedi/takimyildizlari/nasilolusur">Nasıl Oluşur?</a>
+    <a href="/ansiklopedi/takimyildizlari">Takım Yıldızları</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Kuyruklu Yıldızlar</button>
+  <div class="menu-icerik">
+    <a href="/ansiklopedi/kuyrukluyildizlar">Nedir?</a>
+    <a href="/ansiklopedi/kuyrukluyildizlar/nasilolusur">Nasıl Oluşur?</a>
+    <a href="/ansiklopedi/kuyrukluyildizlar/jupiterailesi">Jüpiter Ailesi Kuyruk Yıldızları</a>
+    <a href="/ansiklopedi/kuyrukluyildizlar/halleysinifi">Halley Sınıfı Kuyruklu Yıldızlar</a>
+    <a href="/ansiklopedi/kuyrukluyildizlar/uzunsureli">Uzun Süreli Uçurtmalar</a>
+    <a href="/ansiklopedi/kuyrukluyildizlar/yorunge">Yörüngelerine Göre Kuyruklu Yıldızlar</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Nötron Yıldızları</button>
+  <div class="menu-icerik">
+    <a href="/ansiklopedi/notron">Nedir?</a>
+    <a href="/ansiklopedi/notron/nasilolusur">Nasıl Oluşur?</a>
+    <a href="/ansiklopedi/notron/atarca">Atarca</a>
+    <a href="/ansiklopedi/notron/magnetar">Magnetar</a>
+    <a href="/ansiklopedi/notron/kuarkvegzotik">Kuark ve Egzotik Yıldızlar</a>
+  </div>
+</div>
+
+<div class="menu">
+  <button class="menubuton">Galaksiler</button>
+  <div class="menu-icerik">
+    <a href="/ansiklopedi/galaksiler">Nedir?</a>
+    <a href="/ansiklopedi/galaksiler/nasilolusur">Nasıl Oluşur?</a>
+    <a href="/ansiklopedi/galaksiler/eliptik">Eliptik</a>
+    <a href="/ansiklopedi/galaksiler/sarmal">Sarmal (Spiral)</a>
+    <a href="/ansiklopedi/galaksiler/cubuklusarmal">Çubuklu Sarmal</a>
+    <a href="/ansiklopedi/galaksiler/düzensiz">Düzensiz</a>
+  </div>
+</div> 
+
+<div class="menu">
+  <button class="menubuton">Kara Delikler</button>
+  <div class="menu-icerik">
+    <a href="/ansiklopedi/karadelikler">Nedir?</a>
+    <a href="/ansiklopedi/karadelikler/nasilolusur">Nasıl Oluşur?</a>
+    <a href="/ansiklopedi/karadelikler/yildizsal">Yıldızsal Kara Delikler</a>
+    <a href="/ansiklopedi/karadelikler/dev">Dev Kara Delikler</a>
+    <a href="/ansiklopedi/karadelikler/ortakutleli">Orta Kütleli Kara Delikler</a>
+    <a href="/ansiklopedi/karadelikler/ilksel">İlksel Kara Delikler</a>
+  </div>
+</div> 
+
+<div class="container" style="margin-top:50px">
+  <h3></h3>
+  <font color="white">
+
+    <div id="bbm-wrap" class="bbm-wrap">
+      <div class="bbm-card" id="bbm-card">
+        <div class="bbm-media">
+          <img id="bbm-img" class="bbm-img" src="" alt="">
+        </div>
+        <div class="bbm-body">
+          <div class="bbm-kicker">
+            <span id="bbm-index">1 / 38</span>
+          </div>
+          <h2 id="bbm-title" class="bbm-title"></h2>
+          <p id="bbm-text" class="bbm-text"></p>
+
+          <div class="bbm-controls">
+            <button id="bbm-prev" class="bbm-btn" type="button" aria-label="Önceki">←</button>
+            <div class="bbm-progress">
+              <div class="bbm-bar">
+                <div id="bbm-bar-fill" class="bbm-bar-fill"></div>
+              </div>
+              <div id="bbm-hint" class="bbm-hint">Ok tuşlarıyla da gezebilirsiniz.</div>
+            </div>
+            <button id="bbm-next" class="bbm-btn" type="button" aria-label="Sonraki">→</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3></h3>
+  </font>
+</div>
+
+<script>
+  const cards = [
+    { title: "1054 Süpernovası (Yengeç Bulutsusu)", img: "template/ency/static/ency/biliyormuydun1_1.png",
+      text: "1054’te patlayan süpernova, bazı kayıtlara göre gündüz bile görülecek kadar parlaktı. Bugün bu patlamanın kalıntısını Yengeç Bulutsusu olarak izliyoruz." },
+
+    { title: "1908 Tunguska Olayı", img: "template/ency/static/ency/biliyormuydun1_2.png",
+      text: "Sibirya’da dev bir patlama binlerce kilometrekarelik ormanı yere serdi ama belirgin bir krater bırakmadı. En güçlü açıklama, cismin atmosferde parçalanıp patlamasıdır." },
+
+    { title: "2013 Çelyabinsk Meteoru", img: "template/ency/static/ency/biliyormuydun1_3.png",
+      text: "Çelyabinsk üzerinde atmosferde patlayan cisim, şok dalgasıyla binlerce pencereyi kırdı. Bu olay, nispeten küçük gökcisimlerinin bile ne kadar etkili olabileceğini gösterdi." },
+
+    { title: "Gamma Işını Patlamaları (GRB)", img: "template/ency/static/ency/biliyormuydun1_4.png",
+      text: "Bazı gamma ışını patlamaları saniyeler içinde akıl almaz enerji boşaltır. Bu olaylar çoğu zaman dev yıldız çöküşleri ya da nötron yıldızı birleşmeleriyle ilişkilendirilir." },
+
+    { title: "SN 1987A", img: "template/ency/static/ency/biliyormuydun1_5.png",
+      text: "SN 1987A modern dönemin en çok incelenen süpernovalarından biridir. Patlamanın ardından oluşan yapı, yıldızın ölüm öncesi madde kaybını açık biçimde sergiler." },
+
+    { title: "Chicxulub Çarpması", img: "template/ency/static/ency/biliyormuydun1_6.png",
+      text: "Yaklaşık 66 milyon yıl önceki Chicxulub çarpması, Dünya’nın iklimini dramatik biçimde değiştirdi. Bu olay, dinozorların yok oluşuyla ilişkilendirilen en güçlü adaydır." },
+
+    { title: "Carrington Olayı (1859)", img: "template/ency/static/ency/biliyormuydun1_7.png",
+      text: "1859’daki aşırı Güneş fırtınası telgraf sistemlerinde arızalara ve yangınlara yol açtı. Benzeri bir olay bugün yaşansa, küresel altyapı üzerinde büyük etkiler doğurabilir." },
+
+    { title: "Apophis Asteroidi", img: "template/ency/static/ency/biliyormuydun1_8.png",
+      text: "Apophis bir dönem çarpma olasılığıyla gündem oldu, sonra yörünge ölçümleri riskin düştüğünü gösterdi. Buna rağmen yakın geçişleri gezegen savunması açısından önemli bir test alanıdır." },
+
+    { title: "Güneş Aslında Küçük Bir Yıldız", img: "template/ency/static/ency/biliyormuydun1_9.png",
+      text: "Güneş, yıldızların büyük çoğunluğuna göre ne en büyük ne de en küçük uçtadır. Yine de dev yıldızlarla karşılaştırıldığında görece ‘küçük’ sayılır." },
+
+    { title: "UY Scuti’nin Devasa Boyutu", img: "template/ency/static/ency/biliyormuydun1_10.png",
+      text: "UY Scuti gibi kırmızı süperdevler, Güneş’le karşılaştırıldığında akıl almaz bir yarıçapa ulaşabilir. Böyle bir yıldız, Güneş’in yerine konulsa iç gezegenleri yutacak kadar genişleyebilir." },
+
+    { title: "Betelgeuse Bir Gün Patlayacak", img: "template/ency/static/ency/biliyormuydun1_11.png",
+      text: "Betelgeuse evriminin ileri aşamasında olan bir süperdevdir. Patladığında gökyüzünde olağanüstü parlak bir ‘yeni yıldız’ gibi görülebilir." },
+
+    { title: "Nötron Yıldızı Yoğunluğu", img: "template/ency/static/ency/biliyormuydun1_12.png",
+      text: "Bir nötron yıldızı maddesi olağanüstü yoğundur. Sıklıkla yapılan benzetmede, küçücük bir miktar maddenin bile Dünya ölçülerinde inanılmaz kütleye karşılık geleceği söylenir." },
+
+    { title: "Samanyolu’nun Merkezinde Kara Delik (Sagittarius A*)", img: "template/ency/static/ency/biliyormuydun1_13.png",
+      text: "Samanyolu’nun merkezinde Sagittarius A* bulunur. Yıldızların yörüngeleri, burada çok büyük kütleli bir nesnenin varlığını güçlü biçimde gösterir." },
+
+    { title: "Kara Delikler ‘Siyah’ Gibi Görünmeyebilir", img: "template/ency/static/ency/biliyormuydun1_14.png",
+      text: "Kara delikler ışık yaymaz ama çevresindeki madde ışıldayabilir. Olay ufku çevresindeki parlak halka, kara deliğin ‘silüetini’ görünür kılabilir." },
+
+    { title: "Hawking Işıması", img: "template/ency/static/ency/biliyormuydun1_15.png",
+      text: "Kuramsal olarak kara delikler çok uzun zaman ölçeklerinde enerji kaybedebilir. Bu süreç, kara deliklerin sonsuza dek tamamen değişmeden kalmayabileceğini öne sürer." },
+
+    { title: "Spagettileşme", img: "template/ency/static/ency/biliyormuydun1_16.png",
+      text: "Bir cisim kara deliğe yaklaşırken gelgit kuvvetleri aşırı artabilir. Bu durum, cismi uzunlamasına çekip ‘ip gibi’ uzatan dramatik bir etki yaratır." },
+
+    { title: "Samanyolu – Andromeda Çarpışması", img: "template/ency/static/ency/biliyormuydun1_17.png",
+      text: "Samanyolu ile Andromeda birbirine yaklaşıyor. Çok uzun zaman sonra olası birleşme, iki galaksinin yapısını kökten değiştirebilir." },
+
+    { title: "Evren Hızlanarak Genişliyor", img: "template/ency/static/ency/biliyormuydun1_18.png",
+      text: "Gözlemler, evrenin yalnızca genişlemediğini, genişlemenin hızlandığını da gösteriyor. Bu durum ‘karanlık enerji’ fikrini güçlendiren en büyük bulgulardandır." },
+
+    { title: "Uzak Galaksiler Geçmişe Bakıştır", img: "template/ency/static/ency/biliyormuydun1_19.png",
+      text: "Uzak bir galaksiyi görmek, onun geçmişteki hâlini görmek demektir. Işık milyarlarca yıl yol alarak bize ulaşır." },
+
+    { title: "Galaksiler Kara Deliklerle Büyür", img: "template/ency/static/ency/biliyormuydun1_20.png",
+      text: "Birçok galaksinin merkezinde dev kara delikler bulunur. Bu merkezler, galaksinin evrimiyle beklenenden daha sıkı biçimde bağlantılı olabilir." },
+
+    { title: "Olbers Paradoksu (Gece Neden Karanlık?)", img: "template/ency/static/ency/biliyormuydun1_21.png",
+      text: "Eğer evren sonsuz ve her yerde yıldız dolu olsaydı gökyüzü aydınlık olurdu. Gece karanlıksa, evrenin yapısı ve yaşı hakkında derin ipuçları verir." },
+
+    { title: "Evrenin Yaşı ~13,8 Milyar Yıl", img: "template/ency/static/ency/biliyormuydun1_22.png",
+      text: "Kozmolojik ölçümler evrenin yaşını yaklaşık 13,8 milyar yıl olarak verir. Bu sayı, evrenin genişleme geçmişiyle birlikte anlaşılır." },
+
+    { title: "Kozmik Mikrodalga Arka Plan (CMB)", img: "template/ency/static/ency/biliyormuydun1_23.png",
+      text: "CMB, evrenin bebeklik döneminden kalan ‘ısı imzası’ olarak görülür. Bu zayıf ışınım, kozmolojinin en güçlü kanıtlarından biridir." },
+
+    { title: "Kara Delik Yakınında Zaman Yavaşlar", img: "template/ency/static/ency/biliyormuydun1_24.png",
+      text: "Yoğun kütle çekimi zamanı etkiler. Çok güçlü çekim alanlarına yakın bölgelerde zamanın akışı, uzak bölgelere göre farklı olabilir." },
+
+    { title: "1910 Halley Kuyruklu Yıldızı Paniği", img: "template/ency/static/ency/biliyormuydun1_25.png",
+      text: "1910 geçişinde bazı insanlar kuyruklu yıldız gazlarının tehlike yaratacağından korktu. Olay, gök olaylarının toplumsal etkisine çarpıcı bir örnektir." },
+
+    { title: "Venüs Geçişleri Çok Nadir", img: "template/ency/static/ency/biliyormuydun1_26.png",
+      text: "Venüs geçişleri çiftler hâlinde ve uzun aralıklarla gerçekleşir. Bu yüzden çoğu kişi hayatında sadece bir kez ya da hiç göremez." },
+
+    { title: "1833 Meteor Fırtınası", img: "template/ency/static/ency/biliyormuydun1_27.png",
+      text: "1833’teki meteor fırtınası, binlerce meteorla gökyüzünü adeta yağmura çevirdi. Bu olay, meteor yağmurlarının ne kadar yoğun olabileceğini gösterdi." },
+
+    { title: "Karanlık Madde Büyük Pay Sahibi", img: "template/ency/static/ency/biliyormuydun1_28.png",
+      text: "Galaksilerin dönme hızları ve kütle dağılımları, görünmeyen bir madde bileşenine işaret eder. Bu bileşen, evrendeki toplam kütlenin büyük kısmını oluşturuyor olabilir." },
+
+    { title: "Boşluk Tamamen Boş Değil", img: "template/ency/static/ency/biliyormuydun1_29.png",
+      text: "Uzayda ‘boşluk’ dediğimiz yer bile alanlar, parçacıklar ve etkiler barındırabilir. Evrenin görünmez süreçleri çoğu zaman bu arka planda işler." },
+
+    { title: "Evrenin %95’i Bilinmiyor Olabilir", img: "template/ency/static/ency/biliyormuydun1_30.png",
+      text: "Gözlemler, evrende gördüğümüz maddenin toplamın küçük bir bölümü olduğunu gösterir. Karanlık madde ve karanlık enerji, hâlâ en büyük gizemlerdendir." },
+
+    { title: "Uzay Sessizdir", img: "template/ency/static/ency/biliyormuydun1_31.png",
+      text: "Sesin iletilmesi için ortam gerekir; uzayda ise yoğun bir ortam yoktur. Bu yüzden ‘uzayda patlama sesi’ fikri gerçeği yansıtmaz." },
+
+    { title: "Ay Her Yıl Uzaklaşıyor", img: "template/ency/static/ency/biliyormuydun1_32.png",
+      text: "Ay, Dünya’dan yavaş yavaş uzaklaşır. Bu süreç, gelgit etkileşimleriyle bağlantılıdır ve uzun zaman ölçeklerinde ölçülebilir." },
+
+    { title: "Dünya’nın Dönüşü Yavaşlıyor", img: "template/ency/static/ency/biliyormuydun1_33.png",
+      text: "Gelgitler ve iç dinamikler, Dünya’nın dönüş hızını çok yavaş biçimde etkiler. Bu değişimler, gün uzunluğunda küçük kaymalara yol açabilir." },
+
+    { title: "Güneş Bir Gün Kırmızı Deve Dönüşecek", img: "template/ency/static/ency/biliyormuydun1_34.png",
+      text: "Güneş’in yakıtı tükendiğinde dış katmanları genişleyecek ve kırmızı dev evresine girecek. Bu, Güneş Sistemi’nin iç bölgelerini kökten değiştirecek bir dönemdir." },
+
+    { title: "Galaksiden Kaçan Hızlı Yıldızlar", img: "template/ency/static/ency/biliyormuydun1_35.png",
+      text: "Bazı yıldızlar o kadar hızlanabilir ki galaksinin kütle çekimini yenip dışarı savrulabilir. Bu hızlanma, genellikle aşırı kütle çekim etkileşimleriyle ilişkilidir." },
+
+    { title: "Başıboş (Rogue) Gezegenler", img: "template/ency/static/ency/biliyormuydun1_36.png",
+      text: "Bazı gezegenler bir yıldıza bağlı olmadan uzayda dolaşır. Bu gezegenler, sistemlerinden fırlatılmış ya da bağımsız oluşmuş olabilir." },
+
+    { title: "Altın Nötron Yıldızı Birleşmelerinde Üretilebilir", img: "template/ency/static/ency/biliyormuydun1_37.png",
+      text: "Bazı ağır elementlerin kökeni, aşırı olaylara dayanır. Nötron yıldızı birleşmeleri, ağır element üretimi için güçlü aday süreçler arasındadır." },
+
+    { title: "Evren Tamamen Karanlık Olabilir (Isı Ölümü)", img: "template/ency/static/ency/biliyormuydun1_38.png",
+      text: "Çok uzak gelecekte yıldız oluşumu durabilir ve evren giderek ‘sönükleşebilir’. Bu senaryoda enerji farkları azalır ve evren daha durağan, karanlık bir hâle yaklaşır." }
+  ];
+
+  function shuffle(array){for(let j=array.length-1;j>0;j--){const k=Math.floor(Math.random()*(j+1));[array[j],array[k]]=[array[k],array[j]];}}
+  shuffle(cards);
+  let i=0;let autoInterval=null;const intervalTime=5000;
+  const elImg=document.getElementById("bbm-img");const elTitle=document.getElementById("bbm-title");const elText=document.getElementById("bbm-text");const elIndex=document.getElementById("bbm-index");const elPrev=document.getElementById("bbm-prev");const elNext=document.getElementById("bbm-next");const elFill=document.getElementById("bbm-bar-fill");
+  const toggleBtn=document.createElement("button");toggleBtn.textContent="⏸";toggleBtn.className="bbm-btn bbm-toggle";document.querySelector(".bbm-body").appendChild(toggleBtn);
+  function render(idx){const c=cards[idx];elImg.src=c.img;elImg.alt=c.title;elTitle.textContent=c.title;elText.textContent=c.text;elIndex.textContent=(idx+1)+" / "+cards.length;elFill.style.width=((idx+1)/cards.length*100)+"%";}
+  function next(){i=(i+1)%cards.length;render(i);}
+  function prev(){i=(i-1+cards.length)%cards.length;render(i);}
+  function startAuto(){stopAuto();autoInterval=setInterval(next,intervalTime);toggleBtn.textContent="⏸";}
+  function stopAuto(){if(autoInterval){clearInterval(autoInterval);autoInterval=null;}toggleBtn.textContent="▶";}
+  function manualAction(callback){stopAuto();callback();}
+  toggleBtn.addEventListener("click",()=>{if(autoInterval){stopAuto();}else{startAuto();}});
+  elNext.addEventListener("click",()=>manualAction(next));
+  elPrev.addEventListener("click",()=>manualAction(prev));
+  document.addEventListener("keydown",(e)=>{if(e.key==="ArrowRight")manualAction(next);if(e.key==="ArrowLeft")manualAction(prev);});
+  render(i);
+  startAuto();
+</script>
+
+</body>
+</html>

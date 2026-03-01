@@ -1,0 +1,24 @@
+    RewriteEngine On
+    AddHandler application/x-httpd-ea-php74 .php .php7 .phtml
+    
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+    
+    RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
+    RewriteRule ^index\.html$ / [R=301,L]
+    
+    RewriteRule ^game1$ game1.html [L,NC]
+    RewriteRule ^game2$ game2.html [L,NC]
+    RewriteRule ^game3$ game3.html [L,NC]
+    RewriteRule ^game4$ game4.html [L,NC]
+    RewriteRule ^game5$ game5.html [L,NC]
+    
+    RewriteCond %{THE_REQUEST} /game([1-5])\.html [NC]
+    RewriteRule ^game([1-5])\.html$ /game$1 [R=301,L]
+    
+    ErrorDocument 404 /
+    
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ / [R=301,L]

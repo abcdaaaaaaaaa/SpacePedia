@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title>Planets - Solar System</title>
+ <link rel="shortcut icon" href="https://spacepedia.info/uzaylogo.ico">
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" href="https://spacepedia.info/template/encyclopedia.css">
+ <script src="https://spacepedia.info/template/boostrap.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: rgba(102,0,255,0.8)"> 
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://spacepedia.info">SpacePedia</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Did You Know?<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia">Did You Know?</a></li>
+          <li><a href="/encyclopedia/@/explosions">Explosions</a></li>
+          <li><a href="/encyclopedia/@/zodiac_mythology">Zodiac and Mythology</a></li>
+          <li><a href="/encyclopedia/@/historical_events">Historical Events</a></li>
+          <li><a href="/encyclopedia/@/accidents">Accidents</a></li>
+          <li><a href="/encyclopedia/@/meteors_meteorites">Meteors and Meteorites</a></li>
+          <li><a href="/encyclopedia/@">Games</a></li>
+          <li><a href="/">Space Area</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nebulae<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/nebulae">What is it?</a></li>
+          <li><a href="/encyclopedia/nebulae/formation">Formation</a></li>
+          <li><a href="/encyclopedia/nebulae/emission">Emission Nebula</a></li>
+          <li><a href="/encyclopedia/nebulae/dark">Dark Nebulae</a></li>
+          <li><a href="/encyclopedia/nebulae/reflection">Reflection Nebula</a></li>
+          <li><a href="/encyclopedia/nebulae/planetary">Planetary Nebula</a></li>
+          <li><a href="/encyclopedia/nebulae/supernova">Supernova Remnants</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Planets<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/planets/what">What is it?</a></li>
+          <li><a href="/encyclopedia/planets/formation">Formation</a></li>
+          <li><a href="/encyclopedia/planets/solar_system">Solar System</a></li>
+          <li><a href="/encyclopedia/planets">Planets</a></li>
+          <li><a href="/encyclopedia/planets/dwarf_planets">Dwarf Planets</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stars<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/stars">What is it?</a></li>
+          <li><a href="/encyclopedia/stars/formation">Formation</a></li>
+          <li><a href="/encyclopedia/stars/m_type">M Type</a></li>
+          <li><a href="/encyclopedia/stars/k_type">K Type</a></li>
+          <li><a href="/encyclopedia/stars/a_f_type">A and F Type</a></li>
+          <li><a href="/encyclopedia/stars/o_b_type">O and B Type</a></li>
+          <li><a href="/encyclopedia/stars/giant_stars">Giant Stars</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Constellations<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/constellations/what">What is it?</a></li>
+          <li><a href="/encyclopedia/constellations/formation">Formation</a></li>
+          <li><a href="/encyclopedia/constellations">Constellations</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Comets<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/comets">What is it?</a></li>
+          <li><a href="/encyclopedia/comets/formation">Formation</a></li>
+          <li><a href="/encyclopedia/comets/jupiter_family">Jupiter-family Comets</a></li>
+          <li><a href="/encyclopedia/comets/halley_type">Halley-type Comets</a></li>
+          <li><a href="/encyclopedia/comets/long_period">Long-period Comets</a></li>
+          <li><a href="/encyclopedia/comets/by_orbit">Comets by Orbit</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Neutron Stars<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/neutron_stars">What is it?</a></li>
+          <li><a href="/encyclopedia/neutron_stars/formation">Formation</a></li>
+          <li><a href="/encyclopedia/neutron_stars/pulsars">Pulsars</a></li>
+          <li><a href="/encyclopedia/neutron_stars/magnetars">Magnetars</a></li>
+          <li><a href="/encyclopedia/neutron_stars/quark_exotic">Quark and Exotic Stars</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Galaxies<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/galaxies">What is it?</a></li>
+          <li><a href="/encyclopedia/galaxies/formation">Formation</a></li>
+          <li><a href="/encyclopedia/galaxies/elliptical">Elliptical</a></li>
+          <li><a href="/encyclopedia/galaxies/spiral">Spiral</a></li>
+          <li><a href="/encyclopedia/galaxies/barred_spiral">Barred Spiral</a></li>
+          <li><a href="/encyclopedia/galaxies/irregular">Irregular</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Black Holes<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/black_holes">What is it?</a></li>
+          <li><a href="/encyclopedia/black_holes/formation">Formation</a></li>
+          <li><a href="/encyclopedia/black_holes/stellar">Stellar Black Holes</a></li>
+          <li><a href="/encyclopedia/black_holes/supermassive">Supermassive Black Holes</a></li>
+          <li><a href="/encyclopedia/black_holes/intermediate">Intermediate-mass Black Holes</a></li>
+          <li><a href="/encyclopedia/black_holes/primordial">Primordial Black Holes</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container" style="margin-top:50px">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> The Solar System</h1>
+        <img src="https://www.spacepedia.info/template/ency/static/gezegenler3.png">
+        <br><br>
+        The Solar System is a vast and complex system centered on the Sun, consisting of planets and numerous other natural celestial bodies that move under the influence of its powerful gravity. It formed approximately 4.6 billion years ago from the collapse of the same cloud of gas and dust and gradually developed into the structured system we observe today. It is one of the most detailed and thoroughly studied examples of how matter organizes around a star.
+        <br><br>
+        The Sun, located at the center of the Solar System, contains nearly all of the system’s total mass. For this reason, the motions of planets, moons, and smaller bodies are governed by the Sun’s gravitational pull. The planets orbit the Sun along specific paths, and most of these orbits lie within the same plane. This shared plane clearly indicates that the system originated from a rotating disk of gas and dust.
+        <br><br>
+        The planets of the Solar System are divided into two main groups: inner and outer planets. The four planets closest to the Sun formed under high-temperature conditions and are dense and rocky. These planets consist largely of rock and metal and have distinctly solid surfaces. Their proximity to the Sun means they receive significant energy, directly influencing their physical characteristics.
+        <br><br>
+        Between the inner and outer planets lies the asteroid belt, which forms an important structural boundary in the Solar System. This region consists of rock and metal fragments that never combined to form a single planet during the system’s early formation stages. The asteroid belt provides valuable clues about how planets formed and serves as a natural transition zone between the inner and outer regions.
+        <br><br>
+        Beyond the asteroid belt are the outer planets, which are much larger and less dense than the inner planets. These planets formed in colder regions where less solar energy was available. Such conditions allowed light gases and volatile substances to remain, resulting in massive planets with thick atmospheres. These outer planets play a crucial role in maintaining the mass and dynamical balance of the Solar System.
+        <br><br>
+        The Solar System is not composed of planets alone. Moons, rings, and numerous smaller bodies are integral parts of the system. Some planets host complex satellite systems, and these moons can be considered small worlds in their own right. Planetary rings consist of countless small particles organized under gravitational influence, revealing the dynamic nature of the system.
+        <br><br>
+        The smaller bodies within the system act as fossil records of its past. They are remnants of material left over from planet formation. Some reside in the inner regions, while others orbit in distant and cold outer zones. This distribution shows that the Solar System formed across a vast area with diverse environmental conditions.
+        <br><br>
+        Although the Solar System has achieved a largely stable structure over time, it is not entirely static. Gravitational interactions among planets can alter the orbits of smaller bodies and occasionally lead to internal dynamical changes. Nevertheless, over billions of years, the overall structure has remained stable, allowing conditions suitable for life to emerge.
+        <br><br>
+        In conclusion, the Solar System serves as a natural model demonstrating how planets and other celestial bodies form an organized structure around a star. The clear differences between inner and outer planets, the presence of the asteroid belt, and the broad distribution of smaller bodies highlight the complexity of its formation and evolution. Studying the Solar System in detail provides not only insight into our own cosmic neighborhood but also a key to understanding planetary systems throughout the universe.
+        <h3></h3>
+    </font>
+</div>
+
+</body>
+</html>

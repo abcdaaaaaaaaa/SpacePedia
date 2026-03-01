@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+ <title>Meteor ve Göktaşı</title>
+ <link rel="shortcut icon" href="https://uzay.info/uzaylogo.ico">
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" href="https://uzay.info/template/ansiklopedi.css">
+ <script src="https://uzay.info/template/boostrap.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: rgba(102,0,255,0.8)"> 
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://uzay.info">Uzay</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bunu Biliyormuydun?<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi">Bunu Biliyormuydun?</a></li>
+          <li><a href="/ansiklopedi/@/patlamalar">Patlamalar</a></li>
+          <li><a href="/ansiklopedi/@/burclarvemitoloji">Burçlar ve Mitoloji</a></li>
+          <li><a href="/ansiklopedi/@/tarihiolaylar">Tarihi olaylar</a></li>
+          <li><a href="/ansiklopedi/@/kazalar">Kazalar</a></li>
+          <li><a href="/ansiklopedi/@/meteorvegoktasi">Meteor ve Göktaşı</a></li>
+          <li><a href="/ansiklopedi/@">Oyunlar</a></li>
+          <li><a href="/">Uzay Alanı</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bulutsular<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/bulutsular">Nedir?</a></li>
+          <li><a href="/ansiklopedi/bulutsular/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/bulutsular/salma">Salma Bulutsusu</a></li>
+          <li><a href="/ansiklopedi/bulutsular/karanlik">Karanlık Bulutsular</a></li>
+          <li><a href="/ansiklopedi/bulutsular/yansima">Yansıma Bulutsusu</a></li>
+          <li><a href="/ansiklopedi/bulutsular/gezegenimsi">Gezegenimsi Bulutsu</a></li>
+          <li><a href="/ansiklopedi/bulutsular/supernova">Süpernova Kalıntıları</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gezegenler<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/gezegenler/nedir">Nedir?</a></li>
+          <li><a href="/ansiklopedi/gezegenler/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/gezegenler/gunessistemi">Güneş Sistemi</a></li>
+          <li><a href="/ansiklopedi/gezegenler">Gezegenler</a></li>
+          <li><a href="/ansiklopedi/gezegenler/cucegezegenler">Cüce Gezegenler</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Yıldızlar<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/yildizlar">Nedir?</a></li>
+          <li><a href="/ansiklopedi/yildizlar/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/yildizlar/mtayf">M Tayf</a></li>
+          <li><a href="/ansiklopedi/yildizlar/ktayf">K Tayf</a></li>
+          <li><a href="/ansiklopedi/yildizlar/aveftayf">A ve F Tayf</a></li>
+          <li><a href="/ansiklopedi/yildizlar/ovebtayf">O ve B Tayf</a></li>
+          <li><a href="/ansiklopedi/yildizlar/devyildizlar">Dev Yıldızlar</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Takım Yıldızları<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/takimyildizlari/nedir">Nedir?</a></li>
+          <li><a href="/ansiklopedi/takimyildizlari/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/takimyildizlari">Takım Yıldızları</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kuyruklu Yıldızlar<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/kuyrukluyildizlar">Nedir?</a></li>
+          <li><a href="/ansiklopedi/kuyrukluyildizlar/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/kuyrukluyildizlar/jupiterailesi">Jüpiter Ailesi Kuyruk Yıldızları</a></li>
+          <li><a href="/ansiklopedi/kuyrukluyildizlar/halleysinifi">Halley Sınıfı Kuyruklu Yıldızlar</a></li>
+          <li><a href="/ansiklopedi/kuyrukluyildizlar/uzunsureli">Uzun Süreli Uçurtmalar</a></li>
+          <li><a href="/ansiklopedi/kuyrukluyildizlar/yorunge">Yörüngelerine Göre Kuyruklu Yıldızlar</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nötron Yıldızları<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/notron">Nedir?</a></li>
+          <li><a href="/ansiklopedi/notron/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/notron/atarca">Atarca</a></li>
+          <li><a href="/ansiklopedi/notron/magnetar">Magnetar</a></li>
+          <li><a href="/ansiklopedi/notron/kuarkvegzotik">Kuark ve Egzotik Yıldızlar</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Galaksiler<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/galaksiler">Nedir?</a></li>
+          <li><a href="/ansiklopedi/galaksiler/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/galaksiler/eliptik">Eliptik</a></li>
+          <li><a href="/ansiklopedi/galaksiler/sarmal">Sarmal (Spiral)</a></li>
+          <li><a href="/ansiklopedi/galaksiler/cubuklusarmal">Çubuklu Sarmal</a></li>
+          <li><a href="/ansiklopedi/galaksiler/düzensiz">Düzensiz</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kara Delikler<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/ansiklopedi/karadelikler">Nedir?</a></li>
+          <li><a href="/ansiklopedi/karadelikler/nasilolusur">Nasıl Oluşur?</a></li>
+          <li><a href="/ansiklopedi/karadelikler/yildizsal">Yıldızsal Kara Delikler</a></li>
+          <li><a href="/ansiklopedi/karadelikler/dev">Dev Kara Delikler</a></li>
+          <li><a href="/ansiklopedi/karadelikler/ortakutleli">Orta Kütleli Kara Delikler</a></li>
+          <li><a href="/ansiklopedi/karadelikler/ilksel">İlksel Kara Delikler</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container" style="margin-top:50px">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> Meteor ve Göktaşı</h1>
+        Meteorlar ve göktaşları, uzaydan gelen kayasal ya da metalik cisimlerin Dünya atmosferine girmesiyle ortaya çıkan olaylardır. Atmosfere yüksek hızla giren küçük parçalar sürtünme nedeniyle ısınır ve parlak bir ışık izi oluşturur. Bu ışıklı olay meteor olarak adlandırılır. Eğer cisim tamamen yanmaz ve yeryüzüne ulaşırsa, bu kalıntıya göktaşı denir.
+        <br><br>
+        15 Şubat 2013’te Rusya’nın Çelyabinsk kenti üzerinde meydana gelen meteor olayı, modern çağın en dikkat çekici atmosfer patlamalarından biridir. Yaklaşık 20 metre çapındaki bir gök cismi atmosfere girerek büyük bir hava patlaması oluşturmuş, oluşan şok dalgası binlerce camın kırılmasına neden olmuştur. Bu olay, atmosferde parçalanan cisimlerin bile ne kadar güçlü olabileceğini göstermiştir.
+        <br><br>
+        Arizona’daki Barringer Meteor Krateri ise Dünya üzerindeki en iyi korunmuş çarpma kraterlerinden biridir. Yaklaşık 50.000 yıl önce meydana gelen bu çarpma, kilometrelerce genişlikte bir çukur oluşturmuştur. Krater, göktaşı çarpmalarının jeolojik etkilerini incelemek açısından önemli bir doğal laboratuvardır.
+        <br><br>
+        Namibya’da bulunan Hoba göktaşı ise bilinen en büyük tek parça göktaşıdır. Yaklaşık 60 ton ağırlığındaki bu demir meteorit, yeryüzüne ulaşmış ve büyük ölçüde bütünlüğünü korumuştur. İlginç olan, bu kadar büyük bir cismin belirgin bir krater oluşturmamış olmasıdır. Bunun nedeni, çarpma açısının ve hızının görece düşük olmasıdır.
+        <br><br>
+        Meteor ve göktaşı olayları yalnızca görsel açıdan etkileyici değildir; aynı zamanda Güneş Sistemi’nin erken dönemine dair bilgi taşırlar. Çünkü bu cisimlerin çoğu, gezegenlerin oluştuğu dönemin kalıntılarıdır. İçerdikleri mineraller ve izotop oranları, Güneş Sistemi’nin yaşını ve kimyasal evrimini anlamada önemli veriler sunar.
+        <br><br>
+        Sonuç olarak meteorlar ve göktaşları, uzayın Dünya ile en doğrudan temas noktalarından biridir. Bazen yalnızca gökyüzünde bir ışık çizgisi olarak görünürler, bazen ise gezegen yüzeyinde kalıcı izler bırakırlar. Her iki durumda da, evrenin dinamik ve hareketli yapısının somut kanıtlarıdır.
+        <h3></h3>
+    </font>
+</div>
+
+</body>
+</html>

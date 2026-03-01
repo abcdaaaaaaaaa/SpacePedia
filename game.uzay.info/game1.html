@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="uzaylogo.ico">
+<title>Space Jump Go</title>
+<style>
+:root{--accent1:#00eaff;--accent2:#ff00ff;--glass:rgba(255,255,255,0.06)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Roboto,Arial}
+body{background:#000;background-image:url("images/uzayoyun.png");background-size:cover;background-position:center;overflow:hidden;color:#fff}
+.grid{width:100vw;height:100vh;position:relative;overflow:hidden}
+.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);background:linear-gradient(180deg,rgba(0,0,0,0.55),rgba(0,0,0,0.65));z-index:60}
+.menu{width:min(860px,92vw);background:linear-gradient(180deg,rgba(10,10,20,0.9),rgba(5,5,15,0.85));border-radius:14px;padding:22px;box-shadow:0 8px 40px rgba(0,0,0,0.6);display:flex;gap:18px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.brand{font-size:22px;font-weight:700;letter-spacing:0.6px;display:flex;align-items:center;gap:12px}
+.brand .dot{width:14px;height:14px;background:linear-gradient(45deg,var(--accent1),var(--accent2));border-radius:50%;box-shadow:0 0 14px var(--accent1)}
+.controls{display:flex;gap:12px;align-items:center}
+.btn{padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:linear-gradient(180deg,rgba(255,255,255,0.03),transparent);cursor:pointer;font-weight:600}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.12)}
+.row{display:flex;gap:12px;align-items:center}
+.char-select{display:flex;gap:8px;align-items:center}
+.char-thumb{width:64px;height:64px;border-radius:10px;background-size:cover;background-position:center;border:2px solid transparent;box-shadow:0 6px 18px rgba(0,0,0,0.45);cursor:pointer;transition:transform .12s,box-shadow .12s}
+.char-thumb.active{transform:translateY(-6px);box-shadow:0 12px 28px rgba(0,0,0,0.6);border-color:var(--accent1)}
+.hint{font-size:13px;opacity:.85}
+.hud{position:absolute;top:18px;left:18px;z-index:50;display:flex;gap:12px;align-items:center}
+.score{background:var(--glass);padding:10px 14px;border-radius:10px;font-weight:700;box-shadow:0 6px 16px rgba(0,0,0,0.6);text-shadow:0 0 8px rgba(0,255,255,0.06)}
+.controls-hud{display:flex;gap:8px;align-items:center}
+.icon{width:38px;height:38px;border-radius:8px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.04)}
+.grid-inner{width:100%;height:100%;position:relative}
+.doodler{width:60px;height:90px;position:absolute;filter:drop-shadow(0 0 18px rgba(0,255,255,0.18));animation:glow 1.6s infinite alternate;background-size:cover;background-position:center;border-radius:8px}
+@keyframes glow{from{filter:drop-shadow(0 0 12px rgba(0,255,255,0.18))}to{filter:drop-shadow(0 0 28px rgba(255,0,255,0.18))}}
+.platform{width:85px;height:15px;border-radius:8px;position:absolute;animation:shine 3s infinite alternate;background-size:cover;background-position:center}
+@keyframes shine{from{box-shadow:0 0 10px rgba(0,234,255,0.3);opacity:.85}to{box-shadow:0 0 26px rgba(255,0,255,0.28);opacity:1}}
+.jumpText{position:absolute;font-size:20px;color:var(--accent1);text-shadow:0 0 12px rgba(0,255,255,0.2);opacity:0;transition:all .5s;pointer-events:none}
+.topbar{position:absolute;top:18px;right:18px;z-index:50;display:flex;gap:10px;align-items:center}
+.topbar .small{font-size:13px;opacity:.9;padding:8px 10px;border-radius:8px;background:var(--glass);}
+.footer-hud{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:16px;align-items:center}
+.touch-btn{width:72px;height:72px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.03),transparent);display:flex;align-items:center;justify-content:center;font-weight:700;border:1px solid rgba(255,255,255,0.06);user-select:none}
+.touch-left{position:fixed;left:18px;bottom:18px;z-index:55}
+.touch-right{position:fixed;left:100px;bottom:18px;z-index:55}
+.touch-stop{position:fixed;right:18px;bottom:18px;z-index:55}
+.scoreboard{max-height:220px;overflow:auto;padding:8px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);width:220px}
+.small-muted{font-size:13px;opacity:.85}
+.hidden{display:none}
+.center-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:40;pointer-events:none;flex-direction:column;gap:10px}
+.center-msg h1{font-size:34px;margin:0;text-shadow:0 0 18px rgba(0,255,255,0.12)}
+.center-msg p{margin:0;font-size:16px;opacity:.9}
+@media (max-width:640px){.menu{padding:12px;flex-direction:column}.char-thumb{width:52px;height:52px}.brand{font-size:18px}.btn{padding:8px 10px}}
+</style>
+</head>
+<body>
+<div class="grid" id="grid">
+  <div class="grid-inner" id="gridInner"></div>
+  <div class="hud" id="hud">
+    <div class="score" id="scoreDisplay">Score: 0</div>
+    <div class="controls-hud">
+      <div class="icon btn" id="btnMenu">☰</div>
+    </div>
+  </div>
+  <div class="topbar" id="topbar">
+    <div class="small">Goal: 100</div>
+    <div class="small" id="highLabel">High: 0</div>
+  </div>
+
+  <div class="footer-hud hidden" id="footerHud">
+    <div class="scoreboard" id="scoreboardTitle">
+      <div class="small-muted">High Scores</div>
+      <div id="scoreList"></div>
+    </div>
+  </div>
+
+  <div class="jumpText" id="jumpText">+1 💎</div>
+
+  <div class="overlay" id="menuOverlay">
+    <div class="menu">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="brand"><div class="dot"></div>Space Jump Go</div>
+        <div class="hint">Jump on neon space platforms. Use arrow keys or on-screen buttons.</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn" id="startBtn">Start</button>
+          <button class="btn ghost" id="resumeBtn">Resume</button>
+          <button class="btn ghost" id="resetScores">Reset Scores</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
+        <div class="row char-select" id="charSelect">
+          <div class="char-thumb active" data-src="images/astronot.png" style="background-image:url('images/astronot.png')"></div>
+          <div class="char-thumb" data-src="images/roket.png" style="background-image:url('images/roket.png')"></div>
+          <div class="char-thumb" data-src="images/robot.png" style="background-image:url('images/robot.png')"></div>
+          <div class="char-thumb" data-src="images/uzaykedi.png" style="background-image:url('images/uzaykedi.png')"></div>
+        </div>
+        <div class="scoreboard" id="menuScores">
+          <div class="small-muted">High Scores</div>
+          <div id="menuScoreList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="touch-left" id="touchLeft"><div class="touch-btn">◀</div></div>
+  <div class="touch-right" id="touchRight"><div class="touch-btn">▶</div></div>
+  <div class="touch-stop" id="touchStop"><div class="touch-btn">■</div></div>
+
+  <div class="center-msg" id="centerMsg"><h1 id="centerTitle">Space Jump Go</h1><p id="centerSub">Press Start to play</p></div>
+</div>
+
+<script>
+let platformCount = 20
+let platforms = []
+let score = 0
+let doodlerLeftSpace = 50
+let startPoint = 150
+let doodlerBottomSpace = startPoint
+let upTimerId, downTimerId, leftTimerId, rightTimerId
+let isJumping = true
+let isGoingLeft = false
+let isGoingRight = false
+let isGameOver = false
+let scoreLimit = 100
+let music = new Audio('space.mp3')
+music.loop = true
+music.volume = 0.45
+music.play().catch(()=>{})
+const colors = ['rgba(123, 31, 162, 0.95)','rgba(0, 188, 212, 0.95)','rgba(233, 30, 99, 0.95)','rgba(63, 81, 181, 0.95)','rgba(156, 39, 176, 0.95)']
+const grid = document.getElementById('gridInner')
+const gridWrapper = document.getElementById('grid')
+const scoreDisplay = document.getElementById('scoreDisplay')
+const jumpText = document.getElementById('jumpText')
+const menuOverlay = document.getElementById('menuOverlay')
+const startBtn = document.getElementById('startBtn')
+const resumeBtn = document.getElementById('resumeBtn')
+const btnMenu = document.getElementById('btnMenu')
+const touchLeft = document.getElementById('touchLeft')
+const touchRight = document.getElementById('touchRight')
+const touchStop = document.getElementById('touchStop')
+const footerHud = document.getElementById('footerHud')
+const scoreList = document.getElementById('scoreList')
+const menuScoreList = document.getElementById('menuScoreList')
+const menuScores = document.getElementById('menuScores')
+const menuSelect = document.getElementById('charSelect')
+const centerMsg = document.getElementById('centerMsg')
+const centerTitle = document.getElementById('centerTitle')
+const centerSub = document.getElementById('centerSub')
+const menuReset = document.getElementById('resetScores')
+const highLabel = document.getElementById('highLabel')
+let doodler = null
+let selectedCharacter = 'images/astronot.png'
+let platformMoveInterval = null
+let platformSpeed = 4
+
+function loadHighScores(){ let s = JSON.parse(localStorage.getItem('sj_highs')||'[]'); return s }
+function saveHighScores(arr){ localStorage.setItem('sj_highs',JSON.stringify(arr)) }
+function addHighScore(n){ let arr = loadHighScores(); arr.push({score:n,at:new Date().toISOString()}); arr = arr.sort((a,b)=>b.score-a.score).slice(0,7); saveHighScores(arr); renderHighScores() }
+function renderHighScores(){ let arr = loadHighScores(); scoreList.innerHTML = arr.map((x,i)=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03)"><div>#${i+1} ${new Date(x.at).toLocaleDateString()}</div><div>${x.score}</div></div>`).join('') || '<div class="small-muted">No scores yet</div>'; menuScoreList.innerHTML = scoreList.innerHTML; highLabel.textContent = 'High: ' + (arr[0]?arr[0].score:0) }
+renderHighScores()
+
+menuSelect.addEventListener('click',e=>{ let t = e.target.closest('.char-thumb'); if(!t) return; document.querySelectorAll('.char-thumb').forEach(x=>x.classList.remove('active')); t.classList.add('active'); selectedCharacter = t.dataset.src })
+
+menuReset.addEventListener('click',()=>{ localStorage.removeItem('sj_highs'); renderHighScores() })
+
+btnMenu.addEventListener('click',()=>{ menuOverlay.style.display='flex'; centerMsg.style.display='flex'; footerHud.classList.add('hidden') })
+resumeBtn.addEventListener('click',()=>{ menuOverlay.style.display='none'; centerMsg.style.display='none'; footerHud.classList.remove('hidden'); music.play().catch(()=>{}) })
+
+function clearAllIntervals(){ clearInterval(upTimerId); clearInterval(downTimerId); clearInterval(leftTimerId); clearInterval(rightTimerId); clearInterval(platformMoveInterval) }
+
+function createPlatform(newPlatBottom){ let p = document.createElement('div'); p.classList.add('platform'); let left = Math.random()*(window.innerWidth-110); p.style.left = left + 'px'; p.style.bottom = newPlatBottom + 'px'; let color = colors[Math.floor(Math.random()*colors.length)]; p.style.background = color; p.dataset.left = left; p.dataset.bottom = newPlatBottom; grid.appendChild(p); return {left:left,bottom:newPlatBottom,visual:p} }
+
+function createPlatforms(){ for(let i=0;i<platformCount;i++){ let platGap = window.innerHeight/(platformCount+2); let newPlatBottom = 50 + i*platGap; let newPlatform = createPlatform(newPlatBottom); platforms.push(newPlatform) } }
+
+function createDoodler(){ doodler = document.createElement('div'); doodler.classList.add('doodler'); doodler.style.backgroundImage = `url('${selectedCharacter}')`; doodlerLeftSpace = platforms[0].left; doodler.style.left = doodlerLeftSpace + 'px'; doodler.style.bottom = doodlerBottomSpace + 'px'; grid.appendChild(doodler) }
+
+function movePlatforms(){ if (doodlerBottomSpace > 200){ platforms.forEach(platform=>{ platform.bottom -= platformSpeed; platform.visual.style.bottom = platform.bottom + 'px'; platform.visual.dataset.bottom = platform.bottom; if(platform.bottom < 10){ let first = platforms[0]; first.visual.remove(); platforms.shift(); score++; updateScore(); let newP = createPlatform(window.innerHeight); platforms.push(newP) } }) } }
+
+function fall(){ isJumping = false; clearInterval(upTimerId); downTimerId = setInterval(()=>{ doodlerBottomSpace -= 5; doodler.style.bottom = doodlerBottomSpace + 'px'; if(doodlerBottomSpace <= 0){ gameOver(false); } platforms.forEach(platform=>{ if((doodlerBottomSpace >= platform.bottom) && (doodlerBottomSpace <= (platform.bottom + 15)) && ((doodlerLeftSpace + 50) >= platform.left) && (doodlerLeftSpace <= (platform.left + 85)) && !isJumping){ startPoint = doodlerBottomSpace; showJumpScore(); jump(); isJumping = true } }) },25) }
+
+function jump(){ clearInterval(downTimerId); isJumping = true; upTimerId = setInterval(()=>{ doodlerBottomSpace += 10; doodler.style.bottom = doodlerBottomSpace + 'px'; if(doodlerBottomSpace > (startPoint + 200)) { fall() } },30) }
+
+function showJumpScore(){ jumpText.style.opacity = 1; let t = Math.max(30, doodlerBottomSpace - 20); jumpText.style.top = (t) + 'px'; jumpText.style.left = (doodlerLeftSpace + 10) + 'px'; jumpText.textContent = '+1 💎'; setTimeout(()=>{ jumpText.style.opacity = 0 },600) }
+
+function moveLeft(){ if(isGoingRight){ clearInterval(rightTimerId); isGoingRight = false } if(isGoingLeft) return; isGoingLeft = true; leftTimerId = setInterval(()=>{ if(doodlerLeftSpace >= 0) doodlerLeftSpace -= 3; else doodlerLeftSpace = window.innerWidth - 70; doodler.style.left = doodlerLeftSpace + 'px' },7) }
+
+function moveRight(){ if(isGoingLeft){ clearInterval(leftTimerId); isGoingLeft = false } if(isGoingRight) return; isGoingRight = true; rightTimerId = setInterval(()=>{ if(doodlerLeftSpace <= window.innerWidth - 70) doodlerLeftSpace += 3; else doodlerLeftSpace = 0; doodler.style.left = doodlerLeftSpace + 'px' },7) }
+
+function moveStraight(){ isGoingLeft = false; isGoingRight = false; clearInterval(leftTimerId); clearInterval(rightTimerId) }
+
+function controlKey(e){ if(e.type==='keydown'){ if(e.key === 'ArrowLeft') moveLeft(); else if(e.key === 'ArrowRight') moveRight(); else if(e.key === 'ArrowUp') moveStraight() } if(e.type==='keyup'){ if(e.key === 'ArrowLeft') { clearInterval(leftTimerId); isGoingLeft = false } if(e.key === 'ArrowRight'){ clearInterval(rightTimerId); isGoingRight = false } } }
+
+function updateScore(){ scoreDisplay.textContent = 'Score: ' + score; if(score >= scoreLimit){ gameOver(true) } }
+
+function gameOver(victory=false){ isGameOver = true; clearAllIntervals(); let finalMsg = victory ? `🌟 CONGRATS! You beat space! Final Score: ${score}` : `💥 Game Over. Score: ${score}`; addHighScore(score); while(grid.firstChild) grid.removeChild(grid.firstChild); centerTitle.textContent = victory ? 'Galactic Victory' : 'Game Over'; centerSub.textContent = finalMsg; centerMsg.style.display = 'flex'; menuOverlay.style.display = 'flex'; footerHud.classList.add('hidden') }
+
+function startGame(){ menuOverlay.style.display = 'none'; centerMsg.style.display = 'none'; footerHud.classList.remove('hidden'); isGameOver = false; platforms = []; score = 0; doodlerLeftSpace = 50; startPoint = 150; doodlerBottomSpace = startPoint; scoreDisplay.textContent = 'Score: 0'; renderHighScores(); if(doodler) doodler.remove(); grid.innerHTML = ''; createPlatforms(); createDoodler(); music.play().catch(()=>{}); platformMoveInterval = setInterval(movePlatforms,30); document.addEventListener('keydown',controlKey); document.addEventListener('keyup',controlKey); jump(startPoint) }
+
+startBtn.addEventListener('click',()=>{ startGame() })
+
+touchLeft.addEventListener('pointerdown',(e)=>{ e.preventDefault(); moveLeft() })
+touchLeft.addEventListener('pointerup',(e)=>{ e.preventDefault(); clearInterval(leftTimerId); isGoingLeft=false })
+touchLeft.addEventListener('pointerleave',(e)=>{ e.preventDefault(); clearInterval(leftTimerId); isGoingLeft=false })
+
+touchRight.addEventListener('pointerdown',(e)=>{ e.preventDefault(); moveRight() })
+touchRight.addEventListener('pointerup',(e)=>{ e.preventDefault(); clearInterval(rightTimerId); isGoingRight=false })
+touchRight.addEventListener('pointerleave',(e)=>{ e.preventDefault(); clearInterval(rightTimerId); isGoingRight=false })
+
+touchStop.addEventListener('pointerdown',(e)=>{ e.preventDefault(); moveStraight() })
+
+footerHud.classList.add('hidden')
+menuOverlay.style.display = 'flex'
+centerMsg.style.display = 'flex'
+window.addEventListener('resize',()=>{})
+renderHighScores()
+</script>
+</body>
+</html>

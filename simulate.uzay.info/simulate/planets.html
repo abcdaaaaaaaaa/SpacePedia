@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="shortcut icon" href="https://www.uzay.info/uzaylogo.ico">
+<title>Solar System Simulation</title>
+<style>
+  :root { --panel: rgba(10,14,30,0.7); --glass: rgba(255,255,255,0.03); }
+  body { margin: 0; font-family: Inter,Segoe UI,Arial,sans-serif; background: black; color: #dfefff; }
+  #app { display: grid; grid-template-columns: 1fr 360px; gap: 18px; height: 100vh; padding: 18px; box-sizing: border-box; }
+  canvas { width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 12px 36px rgba(0,0,0,0.6); background: radial-gradient(circle at 20% 20%, rgba(15,30,60,0.06), transparent 10%), #000; display: block; }
+  .panel { background: var(--panel); border-radius: 12px; padding: 14px; box-shadow: 0 8px 24px rgba(2,6,20,0.6); backdrop-filter: blur(6px); overflow:auto; max-height: calc(100vh - 36px); }
+  .planet-list { display: grid; gap: 8px; }
+  .planet-item { display: flex; gap: 10px; align-items: center; padding: 8px; border-radius: 8px; background: var(--glass); cursor: pointer; }
+  .swatch { width: 40px; height: 40px; border-radius: 50%; box-shadow:0 4px 10px rgba(0,0,0,0.6); flex:0 0 40px; display:flex; align-items:center; justify-content:center; font-size:12px; overflow:hidden; }
+  .swatch img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  .meta { font-size:13px; color:#cfe9ff; }
+  .meta small { color:#9eb8d8; display:block; font-size:11px; }
+  .info { margin-top:12px; }
+  .info h3 { margin:6px 0; }
+  .badge { display:inline-block; padding:4px 8px; border-radius:999px; background:rgba(255,255,255,0.04); font-size:12px; margin-right:6px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <canvas id="solarSystem"></canvas>
+  <div class="panel">
+    <div class="planet-list" id="planetList"></div>
+    <div class="info" id="infoCard">
+      <h3>Selected Body: <span id="pname">(click)</span></h3>
+      <div class="meta" id="pmeta">No body selected.</div>
+      <div style="margin-top:10px">
+        <span class="badge">Size ~ radius</span>
+        <span class="badge">Distance ~ orbit</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById("solarSystem");
+const ctx = canvas.getContext("2d");
+let width = canvas.width = window.innerWidth - 360 - 18;
+let height = canvas.height = window.innerHeight;
+const centerX = width / 2;
+const centerY = height / 2;
+
+function project3D(x, y, z) {
+  const scale = 600 / (z + 800);
+  return { x: x * scale + centerX, y: y * scale + centerY, scale: scale };
+}
+
+const sun = { 
+  name: "Sun", 
+  distance: 0, 
+  radius: 50, 
+  speed: 0, 
+  angle: 0, 
+  img: new Image(), 
+  info: "The central star of the Solar System, a massive ball of hot plasma."
+};
+sun.img.src = "https://upload.wikimedia.org/wikipedia/commons/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg";
+
+const planets = [
+  { name: "Mercury", distance: 80, radius: 5, speed: 0.04, angle: Math.random() * 2*Math.PI, img: new Image(), info:"Smallest planet, closest to the Sun." },
+  { name: "Venus", distance: 120, radius: 12, speed: 0.015, angle: Math.random() * 2*Math.PI, img: new Image(), info:"Hot planet with a thick atmosphere." },
+  { name: "Earth", distance: 160, radius: 13, speed: 0.01, angle: Math.random() * 2*Math.PI, img: new Image(), info:"The only known planet with life." },
+  { name: "Mars", distance: 200, radius: 8, speed: 0.008, angle: Math.random() * 2*Math.PI, img: new Image(), info:"Red planet with giant volcanoes." },
+  { name: "Jupiter", distance: 280, radius: 25, speed: 0.004, angle: Math.random() * 2*Math.PI, img: new Image(), info:"Largest planet, a gas giant." },
+  { name: "Saturn", distance: 360, radius: 22, speed: 0.003, angle: Math.random() * 2*Math.PI, img: new Image(), info:"Famous for its rings." },
+  { name: "Uranus", distance: 440, radius: 16, speed: 0.002, angle: Math.random() * 2*Math.PI, img: new Image(), info:"Known for its tilted axis." },
+  { name: "Neptune", distance: 520, radius: 16, speed: 0.0015, angle: Math.random() * 2*Math.PI, img: new Image(), info:"Farthest planet with strong winds." }
+];
+
+planets[0].img.src = "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg";
+planets[1].img.src = "https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg";
+planets[2].img.src = "https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg";
+planets[3].img.src = "https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg";
+planets[4].img.src = "https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg";
+planets[5].img.src = "https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg";
+planets[6].img.src = "https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg";
+planets[7].img.src = "https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg";
+
+const stars = [];
+for (let i = 0; i < 300; i++) {
+  stars.push({ x: Math.random()*width, y: Math.random()*height, radius: Math.random()*1.5, alpha: Math.random() });
+}
+
+const planetListEl = document.getElementById('planetList');
+const pname = document.getElementById('pname');
+const pmeta = document.getElementById('pmeta');
+let selectedPlanet = null;
+
+function renderPlanetList(){
+  planetListEl.innerHTML = '';
+  const sunEl = document.createElement('div');
+  sunEl.className = 'planet-item';
+  sunEl.innerHTML = `<div class="swatch"><img src="${sun.img.src}"></div>
+    <div style="flex:1"><strong>${sun.name}</strong>
+    <div class="meta"><small>${sun.info}</small></div></div>`;
+  sunEl.addEventListener('click', () => selectBody(sun));
+  planetListEl.appendChild(sunEl);
+  for(const p of planets){
+    const el = document.createElement('div');
+    el.className = 'planet-item';
+    el.innerHTML = `<div class="swatch"><img src="${p.img.src}"></div>
+      <div style="flex:1"><strong>${p.name}</strong>
+      <div class="meta"><small>${p.info}</small></div></div>`;
+    el.addEventListener('click', () => selectBody(p));
+    planetListEl.appendChild(el);
+  }
+}
+
+function selectBody(body){
+  selectedPlanet = body;
+  pname.textContent = body.name;
+  pmeta.innerHTML = `<div><strong>Radius:</strong> ${body.radius}px</div>
+    <div><strong>Orbit Distance:</strong> ${body.distance || "Center"}</div>
+    <div><strong>Speed:</strong> ${body.speed || "0"}</div>
+    <div style="margin-top:6px"><em>${body.info || ""}</em></div>`;
+}
+
+function animate() {
+  ctx.clearRect(0, 0, width, height);
+  for (let star of stars) {
+    ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.radius, 0, 2*Math.PI);
+    ctx.fill();
+  }
+  ctx.drawImage(sun.img, centerX - sun.radius, centerY - sun.radius, sun.radius*2, sun.radius*2);
+  for (let planet of planets) {
+    planet.angle += planet.speed;
+    const x = planet.distance * Math.cos(planet.angle);
+    const y = planet.distance * Math.sin(planet.angle);
+    const z = Math.sin(Date.now() * 0.001) * 20;
+    const p = project3D(x, y, z);
+    ctx.drawImage(planet.img, p.x - planet.radius, p.y - planet.radius, planet.radius*2*p.scale, planet.radius*2*p.scale);
+  }
+  requestAnimationFrame(animate);
+}
+
+window.addEventListener('resize', () => {
+  width = canvas.width = window.innerWidth - 360 - 18;
+  height = canvas.height = window.innerHeight;
+});
+
+renderPlanetList();
+selectBody(sun);
+animate();
+</script>
+</body>
+</html>

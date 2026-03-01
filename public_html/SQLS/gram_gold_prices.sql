@@ -1,0 +1,7 @@
+CREATE TABLE gram_gold_prices (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usd DECIMAL(10,4) NOT NULL,
+    euro DECIMAL(10,4) NOT NULL,
+    tl DECIMAL(10,4) NOT NULL,
+    updated_at DATETIME NOT NULL
+);

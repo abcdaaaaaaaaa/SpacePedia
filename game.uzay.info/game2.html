@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="uzaylogo.ico">
+<title>Space Game</title>
+<style>
+html,body {
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  height:100%;
+  width:100%;
+  background:black;
+  font-family:'Orbitron',sans-serif;
+}
+header {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  text-align:center;
+  background:rgba(0,0,0,0.6);
+  color:#00bfff;
+  padding:10px;
+  font-size:20px;
+  letter-spacing:2px;
+  text-shadow:0 0 8px #00bfff;
+  z-index:10;
+}
+#score {
+  position:absolute;
+  top:10px;
+  right:20px;
+  color:#00ffea;
+  font-size:18px;
+  z-index:15;
+}
+#lives {
+  position:absolute;
+  top:10px;
+  left:20px;
+  color:#ff5050;
+  font-size:18px;
+  z-index:15;
+}
+
+#score { right:20px; color:#00ffea; }
+#lives { left:20px; color:#ff5050; }
+
+.main {
+  position:relative;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+}
+.bg1,.bg2 {
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  background:url(images/relaxblue.png) center/cover no-repeat;
+}
+.bg2 {
+  transform:scaleY(-1);
+}
+.player,.enemy,.laser,.enemyLaser {
+  position:absolute;
+  user-select:none;
+}
+.laser,.enemyLaser {
+  height:25px;
+  z-index:2;
+}
+.lose,.win {
+  display:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(0,0,0,0.85);
+  padding:40px 60px;
+  border-radius:15px;
+  text-align:center;
+  color:white;
+  font-size:22px;
+  box-shadow:0 0 25px #00bfff;
+  animation:popup 0.8s ease-in-out;
+  z-index:20;
+}
+@keyframes popup {
+  0% {transform:scale(0.5) translate(-50%,-50%);opacity:0;}
+  100% {transform:scale(1) translate(-50%,-50%);opacity:1;}
+}
+button.btn {
+  background:#00bfff;
+  color:black;
+  border:none;
+  padding:10px 20px;
+  border-radius:10px;
+  margin-top:10px;
+  font-size:18px;
+  cursor:pointer;
+  transition:all 0.3s;
+}
+button.btn:hover {
+  background:#03a9f4;
+  color:white;
+  transform:scale(1.05);
+}
+</style>
+</head>
+<body>
+<header>🚀 SPACE GAME</header>
+<div id="score">Score: 0</div>
+<div id="lives">❤️❤️❤️</div>
+<div class="main">
+  <div class="bg1"></div>
+  <div class="bg2"></div>
+</div>
+<audio id="bgm" src="space.mp3" autoplay loop></audio>
+<div class="lose">
+  <h1>GAME OVER</h1>
+  <h3>Try Again!</h3>
+  <button class="btn" onclick="window.location.reload()">Restart</button>
+</div>
+<div class="win">
+  <h1>🎉 YOU WIN!</h1>
+  <h3>Congratulations, you saved the galaxy!</h3>
+  <button class="btn" onclick="window.location.reload()">Restart</button>
+</div>
+<script>
+const KEY_RIGHT=39,KEY_LEFT=37,KEY_SPACE=32;
+const STATE={x:0,y:0,mr:false,ml:false,shoot:false,lasers:[],enemyLasers:[],enemies:[],cool:0,gameOver:false,score:0,lives:3,bg1Y:0,bg2Y:-window.innerHeight};
+const $container=document.querySelector(".main");
+const $bg1=document.querySelector(".bg1");
+const $bg2=document.querySelector(".bg2");
+const $score=document.getElementById("score");
+const $lives=document.getElementById("lives");
+function setPosition(e,x,y){e.style.transform=`translate(${x}px,${y}px)`;}
+function setSize(e,w){e.style.width=`${w}px`;e.style.height="auto";}
+function bound(x){const max=window.innerWidth-60;if(x>=max)return max;if(x<=0)return 0;return x;}
+function collide(a,b){return!(b.left>a.right||b.right<a.left||b.top>a.bottom||b.bottom<a.top);}
+function createPlayer(){STATE.x=window.innerWidth/2;STATE.y=window.innerHeight-120;const p=document.createElement("img");p.src="images/uzayroketi.png";p.className="player";$container.appendChild(p);setSize(p,60);setPosition(p,STATE.x,STATE.y);}
+function updatePlayer(){if(STATE.ml)STATE.x-=6;if(STATE.mr)STATE.x+=6;if(STATE.shoot&&STATE.cool<=0){createLaser(STATE.x,STATE.y);STATE.cool=15;}const p=document.querySelector(".player");setPosition(p,bound(STATE.x),STATE.y);if(STATE.cool>0)STATE.cool-=0.5;}
+function createLaser(x,y){const l=document.createElement("img");l.src="images/missile1.png";l.className="laser";$container.appendChild(l);const laser={x,y,$:l};STATE.lasers.push(laser);setPosition(l,x+20,y-10);}
+function updateLaser(){STATE.lasers.forEach(l=>{l.y-=8;if(l.y<0){del(STATE.lasers,l,l.$);return;}setPosition(l.$,l.x,l.y);const lr=l.$.getBoundingClientRect();STATE.enemies.forEach(en=>{const er=en.$.getBoundingClientRect();if(collide(er,lr)){del(STATE.lasers,l,l.$);$container.removeChild(en.$);STATE.enemies.splice(STATE.enemies.indexOf(en),1);STATE.score+=10;$score.textContent="Score: "+STATE.score;}});});}
+function createEnemy(x,y){const e=document.createElement("img");e.src="images/greenuzay.png";e.className="enemy";$container.appendChild(e);const enemy={x,y,$:e,baseX:x,baseY:y};STATE.enemies.push(enemy);setSize(e,60);setPosition(e,x,y);}
+function createEnemies(){const cols=Math.floor(window.innerWidth/90),rows=4;for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)createEnemy(80*c+60,100+70*r);}
+function updateEnemies(){const t=Date.now()/600;STATE.enemies.forEach(en=>{const a=en.baseX+Math.sin(t+en.baseY/100)*50;const b=en.baseY+Math.cos(t+en.baseX/100)*20;setPosition(en.$,a,b);if(Math.random()<0.002)createEnemyLaser(a,b);});}
+function createEnemyLaser(x,y){const el=document.createElement("img");el.src="images/missile2.png";el.className="enemyLaser";$container.appendChild(el);const l={x,y,$:el};STATE.enemyLasers.push(l);setPosition(el,x+20,y+20);}
+function updateEnemyLaser(){STATE.enemyLasers.forEach(l=>{l.y+=5;if(l.y>window.innerHeight){del(STATE.enemyLasers,l,l.$);return;}const er=l.$.getBoundingClientRect(),pr=document.querySelector(".player").getBoundingClientRect();if(collide(pr,er)){del(STATE.enemyLasers,l,l.$);STATE.lives--;updateLives();if(STATE.lives<=0)STATE.gameOver=true;}setPosition(l.$,l.x,l.y);});}
+function updateLives(){$lives.textContent="❤️".repeat(STATE.lives);}
+function del(a,o,e){const i=a.indexOf(o);if(i>-1)a.splice(i,1);if(e.parentNode)e.parentNode.removeChild(e);}
+function keyDown(e){if(e.keyCode===KEY_RIGHT)STATE.mr=true;if(e.keyCode===KEY_LEFT)STATE.ml=true;if(e.keyCode===KEY_SPACE)STATE.shoot=true;}
+function keyUp(e){if(e.keyCode===KEY_RIGHT)STATE.mr=false;if(e.keyCode===KEY_LEFT)STATE.ml=false;if(e.keyCode===KEY_SPACE)STATE.shoot=false;}
+function updateBackground(){STATE.bg1Y+=2;STATE.bg2Y+=2;if(STATE.bg1Y>=window.innerHeight)STATE.bg1Y=-window.innerHeight;if(STATE.bg2Y>=window.innerHeight)STATE.bg2Y=-window.innerHeight;$bg1.style.transform=`translateY(${STATE.bg1Y}px)`;$bg2.style.transform=`translateY(${STATE.bg2Y}px) scaleY(-1)`;}
+function update(){if(STATE.gameOver){document.querySelector(".lose").style.display="block";return;}if(STATE.enemies.length===0){document.querySelector(".win").style.display="block";return;}updateBackground();updatePlayer();updateEnemies();updateLaser();updateEnemyLaser();requestAnimationFrame(update);}
+createPlayer();createEnemies();
+window.addEventListener("keydown",keyDown);
+window.addEventListener("keyup",keyUp);
+update();
+</script>
+</body>
+</html>

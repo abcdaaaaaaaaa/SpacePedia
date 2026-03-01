@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="shortcut icon" href="https://www.uzay.info/uzaylogo.ico">
+<title>Constellations Simulation</title>
+<style>
+  :root{--bg:#02030a;--panel:rgba(255,255,255,0.05);--glass:rgba(255,255,255,0.04);--accent1:#7dd3fc;--accent2:#a78bfa;--text:#e6eef8;}
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:var(--text);background:radial-gradient(1200px 600px at 10% 10%,rgba(30,40,80,0.5),transparent),linear-gradient(180deg,#000814 0%,#02030a 60%);overflow:hidden}
+  .app{display:grid;grid-template-columns:1fr 360px;gap:18px;height:100vh;padding:24px;align-items:stretch}
+  .canvas-card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:14px;padding:18px;box-shadow:0 6px 30px rgba(2,6,23,0.6);position:relative;display:flex;flex-direction:column;overflow:hidden}
+  header.sim-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .title{display:flex;gap:12px;align-items:center}
+  .badge{font-size:12px;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#022;font-weight:700}
+  h1{font-size:18px;margin:0}
+  p.subtitle{margin:0;color:rgba(230,238,248,0.75);font-size:13px}
+  .viewport{position:relative;flex:1;border-radius:12px;overflow:hidden}
+  canvas{width:100%;height:100%;display:block;background:radial-gradient(ellipse at 80% 10%,rgba(255,255,255,0.02),transparent 5%),linear-gradient(180deg,transparent,rgba(0,0,0,0.1))}
+  .panel{background:var(--panel);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;min-height:0;box-shadow:0 6px 24px rgba(2,6,23,0.6);overflow:auto}
+  .section-title{font-weight:700;font-size:13px;margin-bottom:6px}
+  .row{display:flex;gap:8px;align-items:center}
+  label.switch{display:flex;align-items:center;gap:8px;width:100%;justify-content:space-between;font-size:13px}
+  input[type="range"]{width:100%}
+  .stat{background:var(--glass);padding:10px;border-radius:8px;font-size:13px}
+  .star-list{display:flex;flex-direction:column;gap:8px;max-height:220px;overflow:auto;padding-right:6px}
+  .star-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)}
+  .star-item small{color:rgba(230,238,248,0.7)}
+  button.btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;color:#022;padding:10px;border-radius:10px;font-weight:700;cursor:pointer}
+  .controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  footer.credit{font-size:12px;color:rgba(230,238,248,0.6);text-align:center;padding-top:8px}
+  .tooltip{position:fixed;pointer-events:none;padding:8px 10px;border-radius:6px;background:rgba(0,0,0,0.7);color:var(--text);font-size:12px;border:1px solid rgba(255,255,255,0.03)}
+  select#constellationSelect{padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.03);color:var(--text);border:1px solid rgba(255,255,255,0.03)}
+  .small-note{font-size:12px;color:rgba(230,238,248,0.6)}
+  @media(max-width:980px){.app{grid-template-columns:1fr;padding:12px}.panel{order:2}}
+</style>
+</head>
+<body>
+<div class="app" role="application" aria-label="Constellations simulation">
+  <div class="canvas-card" id="leftCard" aria-live="polite">
+    <header class="sim-header">
+      <div class="title" aria-hidden="false">
+        <div class="badge">Constellations Simulation</div>
+        <div>
+          <h1>Constellations Simulation</h1>
+          <p class="subtitle">Interactive visualization — hover stars for details • Use mouse to pan/zoom</p>
+        </div>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+        <div style="display:flex;gap:8px;align-items:center">
+          <label class="small-note" for="constellationSelect">Constellation</label>
+          <select id="constellationSelect" aria-label="Choose constellation">
+            <option value="ursaMajor">Ursa Major</option>
+            <option value="ursaMinor">Ursa Minor</option>
+            <option value="orion">Orion</option>
+            <option value="cassiopeia">Cassiopeia</option>
+            <option value="lyra">Lyra</option>
+          </select>
+        </div>
+        <div style="font-size:12px;color:rgba(230,238,248,0.75)">Status: <strong id="status">Ready</strong></div>
+      </div>
+    </header>
+
+    <div class="viewport" id="viewport">
+      <canvas id="sky"></canvas>
+    </div>
+
+    <footer style="display:flex;gap:8px;align-items:center;margin-top:12px">
+      <div style="flex:1">
+        <small style="color:rgba(230,238,248,0.6)">Date: <span id="dateText"></span></small>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn" id="resetBtn" title="Reset view">Reset View</button>
+        <button class="btn" id="centerBtn" title="Center constellation">Center</button>
+      </div>
+    </footer>
+  </div>
+
+  <aside class="panel" role="region" aria-label="Controls and information">
+    <div>
+      <div class="section-title">Simulation Controls</div>
+      <div class="controls">
+        <label class="switch">Show Lines
+          <input id="toggleLines" type="checkbox" checked />
+        </label>
+        <label class="switch">Show Labels
+          <input id="toggleLabels" type="checkbox" checked />
+        </label>
+      </div>
+      <div style="height:8px"></div>
+      <div>
+        <label class="switch">Auto Rotate
+          <input id="toggleRotate" type="checkbox" checked />
+        </label>
+        <div style="height:8px"></div>
+        <label style="display:block;font-size:13px">Rotation Speed
+          <input id="speed" type="range" min="-0.5" max="0.5" step="0.01" value="0.04" />
+        </label>
+      </div>
+      <div style="height:8px"></div>
+      <div>
+        <label style="display:block;font-size:13px">Star Brightness
+          <input id="brightness" type="range" min="0.3" max="2" step="0.01" value="1.0" />
+        </label>
+      </div>
+      <div style="height:12px"></div>
+      <div class="controls">
+        <button id="playPause" class="btn">Pause</button>
+        <button id="screenshot" class="btn">Snapshot</button>
+      </div>
+      <div style="height:8px"></div>
+      <div class="controls">
+        <label class="switch">Autoplay Constellations
+          <input id="toggleAutoPlay" type="checkbox" />
+        </label>
+        <label class="switch">Meteor Effect
+          <input id="toggleMeteor" type="checkbox" />
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Constellation Info</div>
+      <div class="stat" id="constInfo">
+        <strong>Name:</strong> Ursa Major (Big Dipper subset)<br>
+        <strong>Type:</strong> Constellation / Asterism<br>
+        <strong>Best visible:</strong> Northern Hemisphere — Spring nights<br>
+        <strong>Brightest star (in this asterism):</strong> Alioth (magnitude ~1.76)
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Stars in view</div>
+      <div class="star-list" id="starList" aria-live="polite"></div>
+    </div>
+
+    <div>
+      <div class="section-title">Observational Notes</div>
+      <div class="stat" style="font-size:13px;line-height:1.3">
+        Positions are schematic but preserve relative geometry. Hover a star for details; drag to pan, wheel to zoom. Use Autoplay to cycle constellations.
+      </div>
+    </div>
+
+    <div style="flex:1"></div>
+  </aside>
+</div>
+
+<div id="tooltip" class="tooltip" style="display:none"></div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('sky')
+  const viewport = document.getElementById('viewport')
+  const ctx = canvas.getContext('2d',{alpha:true})
+  const tooltip = document.getElementById('tooltip')
+  const dateText = document.getElementById('dateText')
+  dateText.textContent = new Date().toLocaleString()
+  function resize(){
+    const r = window.devicePixelRatio || 1
+    canvas.width = Math.floor(viewport.clientWidth * r)
+    canvas.height = Math.floor(viewport.clientHeight * r)
+    canvas.style.width = viewport.clientWidth + 'px'
+    canvas.style.height = viewport.clientHeight + 'px'
+    ctx.setTransform(r,0,0,r,0,0)
+  }
+  window.addEventListener('resize',resize)
+  resize()
+
+  const constellationSelect = document.getElementById('constellationSelect')
+  const toggleLines = document.getElementById('toggleLines')
+  const toggleLabels = document.getElementById('toggleLabels')
+  const toggleRotate = document.getElementById('toggleRotate')
+  const speedInput = document.getElementById('speed')
+  const brightnessInput = document.getElementById('brightness')
+  const playPauseBtn = document.getElementById('playPause')
+  const resetBtn = document.getElementById('resetBtn')
+  const centerBtn = document.getElementById('centerBtn')
+  const screenshotBtn = document.getElementById('screenshot')
+  const toggleAutoPlay = document.getElementById('toggleAutoPlay')
+  const toggleMeteor = document.getElementById('toggleMeteor')
+  const constInfo = document.getElementById('constInfo')
+  const starListEl = document.getElementById('starList')
+  const statusEl = document.getElementById('status')
+
+  const data = {
+    ursaMajor:{
+      name:'Ursa Major — Big Dipper',
+      desc:'Ursa Major contains the famous Big Dipper asterism; visible in northern hemisphere.',
+      stars:[
+        {id:'Dubhe',name:'Dubhe (α UMa)',mag:1.79,x:-120,y:-60,info:'Alpha Ursae Majoris'},
+        {id:'Merak',name:'Merak (β UMa)',mag:2.37,x:-60,y:0,info:'Beta Ursae Majoris'},
+        {id:'Phecda',name:'Phecda (γ UMa)',mag:2.41,x:-20,y:40,info:'Gamma Ursae Majoris'},
+        {id:'Megrez',name:'Megrez (δ UMa)',mag:3.31,x:40,y:20,info:'Delta Ursae Majoris'},
+        {id:'Alioth',name:'Alioth (ε UMa)',mag:1.76,x:120,y:-10,info:'Epsilon Ursae Majoris'},
+        {id:'Mizar',name:'Mizar (ζ UMa)',mag:2.27,x:200,y:20,info:'Zeta Ursae Majoris'},
+        {id:'Alkaid',name:'Alkaid (η UMa)',mag:1.86,x:320,y:-40,info:'Eta Ursae Majoris'}
+      ],
+      connections:[['Dubhe','Merak'],['Merak','Phecda'],['Phecda','Megrez'],['Megrez','Alioth'],['Alioth','Mizar'],['Mizar','Alkaid']]
+    },
+    ursaMinor:{
+      name:'Ursa Minor — Little Dipper',
+      desc:'Contains Polaris (the North Star) at the end of the Little Dipper handle.',
+      stars:[
+        {id:'Polaris',name:'Polaris (α UMi)',mag:1.98,x:-40,y:-150,info:'Alpha Ursae Minoris (Polaris)'},
+        {id:'Kochab',name:'Kochab (β UMi)',mag:2.08,x:-80,y:-40,info:'Beta Ursae Minoris'},
+        {id:'Pherkad',name:'Pherkad (γ UMi)',mag:3.00,x:0,y:10,info:'Gamma Ursae Minoris'},
+        {id:'Yildun',name:'Yildun (δ UMi)',mag:4.35,x:60,y:40,info:'Delta Ursae Minoris'}
+      ],
+      connections:[['Polaris','Kochab'],['Kochab','Pherkad'],['Pherkad','Yildun']]
+    },
+    orion:{
+      name:'Orion',
+      desc:'Orion is bright and easily identifiable by its Belt of three stars; includes Betelgeuse and Rigel.',
+      stars:[
+        {id:'Betelgeuse',name:'Betelgeuse (α Ori)',mag:0.42,x:-80,y:-40,info:'Red supergiant'},
+        {id:'Bellatrix',name:'Bellatrix (γ Ori)',mag:1.64,x:20,y:-60,info:'Blue-white giant'},
+        {id:'Alnitak',name:'Alnitak (ζ Ori)',mag:1.79,x:-20,y:40,info:'Belt star 1'},
+        {id:'Alnilam',name:'Alnilam (ε Ori)',mag:1.69,x:20,y:48,info:'Belt star 2'},
+        {id:'Mintaka',name:'Mintaka (δ Ori)',mag:2.25,x:60,y:40,info:'Belt star 3'},
+        {id:'Saiph',name:'Saiph (κ Ori)',mag:2.07,x:50,y:120,info:'Bright star'},
+        {id:'Rigel',name:'Rigel (β Ori)',mag:0.13,x:140,y:100,info:'Blue supergiant'}
+      ],
+      connections:[['Betelgeuse','Bellatrix'],['Betelgeuse','Alnitak'],['Alnitak','Alnilam'],['Alnilam','Mintaka'],['Mintaka','Bellatrix'],['Alnitak','Saiph'],['Saiph','Rigel']]
+    },
+    cassiopeia:{
+      name:'Cassiopeia',
+      desc:'Cassiopeia forms a distinctive W shape.',
+      stars:[
+        {id:'Schedar',name:'Schedar (α Cas)',mag:2.24,x:-140,y:-20,info:'Alpha Cassiopeiae'},
+        {id:'Caph',name:'Caph (β Cas)',mag:2.27,x:-70,y:10,info:'Beta Cassiopeiae'},
+        {id:'Gamma',name:'Gamma Cas',mag:2.15,x:0,y:-10,info:'Gamma Cassiopeiae'},
+        {id:'Ruchbah',name:'Ruchbah (δ Cas)',mag:2.68,x:70,y:10,info:'Delta Cassiopeiae'},
+        {id:'Segin',name:'Segin (ε Cas)',mag:3.34,x:140,y:-20,info:'Epsilon Cassiopeiae'}
+      ],
+      connections:[['Schedar','Caph'],['Caph','Gamma'],['Gamma','Ruchbah'],['Ruchbah','Segin']]
+    },
+    lyra:{
+      name:'Lyra',
+      desc:'Lyra contains Vega, one of the brightest stars in the sky.',
+      stars:[
+        {id:'Vega',name:'Vega (α Lyr)',mag:0.03,x:0,y:-20,info:'Bright star Vega'},
+        {id:'Sheliak',name:'Sheliak (β Lyr)',mag:3.52,x:40,y:20,info:'Beta Lyrae'},
+        {id:'Sulafat',name:'Sulafat (γ Lyr)',mag:3.25,x:-40,y:20,info:'Gamma Lyrae'}
+      ],
+      connections:[['Vega','Sheliak'],['Sheliak','Sulafat']]
+    }
+  }
+
+  let currentKey = 'ursaMajor'
+  let stars = []
+  let connections = []
+  let starMap = {}
+  function loadConstellation(key){
+    currentKey = key
+    const cfg = data[key]
+    stars = cfg.stars.map(s => ({...s}))
+    connections = cfg.connections.map(c => [...c])
+    starMap = {}
+    stars.forEach(s => starMap[s.id] = s)
+    populateStarList()
+    updateInfoPanel()
+    draw()
+  }
+  function populateStarList(){
+    starListEl.innerHTML = ''
+    stars.forEach(s => {
+      const el = document.createElement('div')
+      el.className = 'star-item'
+      el.innerHTML = `<div><strong>${s.id}</strong><div style="font-size:12px;color:rgba(230,238,248,0.7)">${s.name}</div></div><small>mag ${s.mag}</small>`
+      el.addEventListener('mouseenter', ()=>{ highlightStar(s.id) })
+      el.addEventListener('mouseleave', ()=>{ clearHighlight() })
+      el.addEventListener('click', ()=>{ focusOnStar(s) })
+      starListEl.appendChild(el)
+    })
+  }
+  function updateInfoPanel(){
+    const cfg = data[currentKey]
+    constInfo.innerHTML = `<strong>Name:</strong> ${cfg.name}<br><strong>Type:</strong> Constellation<br><strong>Notes:</strong> ${cfg.desc}`
+  }
+
+  let scale = 1.0
+  let offsetX = 0, offsetY = 0
+  let isPanning = false, lastPan = null
+  let rotation = 0
+  let rotateEnabled = true
+  let rotateSpeed = 0.04
+  let brightness = 1.0
+  let showLines = true
+  let showLabels = true
+  let running = true
+  let hoveredStar = null
+  let meteorParticles = []
+  let autoplayIndex = 0
+  const keys = Object.keys(data)
+
+  constellationSelect.addEventListener('change', (e)=>{
+    loadConstellation(e.target.value)
+  })
+  toggleLines.addEventListener('change', e=>{ showLines = e.target.checked; draw() })
+  toggleLabels.addEventListener('change', e=>{ showLabels = e.target.checked; draw() })
+  toggleRotate.addEventListener('change', e=>{ rotateEnabled = e.target.checked })
+  speedInput.addEventListener('input', e=>{ rotateSpeed = parseFloat(e.target.value) })
+  brightnessInput.addEventListener('input', e=>{ brightness = parseFloat(e.target.value); draw() })
+  playPauseBtn.addEventListener('click', ()=>{
+    running = !running
+    playPauseBtn.textContent = running ? 'Pause' : 'Play'
+    statusEl.textContent = running ? 'Running' : 'Paused'
+    if(running) requestAnimationFrame(loop)
+  })
+  resetBtn.addEventListener('click', ()=>{ scale = 1; offsetX = 0; offsetY = 0; rotation = 0; draw() })
+  centerBtn.addEventListener('click', ()=>{ offsetX = 0; offsetY = 0; scale = 1.1; draw() })
+  screenshotBtn.addEventListener('click', ()=>{
+    const link = document.createElement('a')
+    link.download = `${currentKey}_snapshot.png`
+    link.href = canvas.toDataURL('image/png')
+    link.click()
+  })
+  canvas.addEventListener('pointerdown',(e)=>{ isPanning = true; lastPan = {x:e.clientX,y:e.clientY}; canvas.setPointerCapture && canvas.setPointerCapture(e.pointerId) })
+  canvas.addEventListener('pointerup',(e)=>{ isPanning = false; lastPan = null; canvas.releasePointerCapture && canvas.releasePointerCapture(e.pointerId) })
+  canvas.addEventListener('pointermove',(e)=>{
+    const rect = canvas.getBoundingClientRect()
+    if(isPanning && lastPan){
+      const dx = e.clientX - lastPan.x
+      const dy = e.clientY - lastPan.y
+      lastPan = {x:e.clientX,y:e.clientY}
+      offsetX += dx
+      offsetY += dy
+      draw()
+      return
+    }
+    const pt = screenToWorld(e.clientX,e.clientY)
+    let found = null
+    for(const s of stars){
+      const dx = pt.x - s.x
+      const dy = pt.y - s.y
+      const r = Math.max(6,(6 - s.mag) * 3)
+      if(dx*dx + dy*dy <= (r/scale)*(r/scale)){ found = s; break }
+    }
+    if(found){
+      hoveredStar = found
+      tooltip.style.left = (e.clientX + 14) + 'px'
+      tooltip.style.top = (e.clientY + 14) + 'px'
+      tooltip.style.display = 'block'
+      tooltip.innerHTML = `<strong>${found.id}</strong><br>${found.name}<br>mag ${found.mag}<br><small>${found.info}</small>`
+    } else {
+      hoveredStar = null
+      tooltip.style.display = 'none'
+    }
+    draw()
+  },{passive:true})
+  canvas.addEventListener('wheel',(e)=>{
+    e.preventDefault()
+    const delta = e.deltaY > 0 ? 0.92 : 1.09
+    const rect = canvas.getBoundingClientRect()
+    const mx = e.clientX - rect.left - rect.width/2
+    const my = e.clientY - rect.top - rect.height/2
+    const prevScale = scale
+    const worldX = (mx - offsetX)/prevScale
+    const worldY = (my - offsetY)/prevScale
+    scale *= delta
+    scale = Math.min(Math.max(scale,0.5),6)
+    offsetX = mx - worldX*scale
+    offsetY = my - worldY*scale
+    draw()
+  },{passive:false})
+
+  function screenToWorld(px,py){
+    const rect = canvas.getBoundingClientRect()
+    const cx = (px - rect.left) - rect.width/2
+    const cy = (py - rect.top) - rect.height/2
+    const s = scale
+    const angle = -rotation * Math.PI/180
+    const x = (cx - offsetX)/s
+    const y = (cy - offsetY)/s
+    const rx = x*Math.cos(angle) - y*Math.sin(angle)
+    const ry = x*Math.sin(angle) + y*Math.cos(angle)
+    return {x:rx,y:ry}
+  }
+  function worldToScreen(wx,wy){
+    const rect = canvas.getBoundingClientRect()
+    const angle = rotation * Math.PI/180
+    const rx = wx*Math.cos(angle) - wy*Math.sin(angle)
+    const ry = wx*Math.sin(angle) + wy*Math.cos(angle)
+    const sx = (rx * scale) + offsetX + rect.width/2
+    const sy = (ry * scale) + offsetY + rect.height/2
+    return {x:sx,y:sy}
+  }
+
+  function highlightStar(id){ hoveredStar = starMap[id]; draw() }
+  function clearHighlight(){ hoveredStar = null; draw(); tooltip.style.display = 'none' }
+  function focusOnStar(s){
+    const rect = canvas.getBoundingClientRect()
+    const screen = worldToScreen(s.x,s.y)
+    const dx = rect.width/2 - screen.x
+    const dy = rect.height/2 - screen.y
+    offsetX += dx
+    offsetY += dy
+    scale = Math.max(scale,1.4)
+    draw()
+  }
+
+  function draw(){
+    const w = canvas.width
+    const h = canvas.height
+    ctx.clearRect(0,0,w,h)
+    drawGradientBackground()
+    drawFaintGrid()
+    if(showLines){
+      ctx.lineWidth = 2
+      ctx.lineCap = 'round'
+      ctx.strokeStyle = 'rgba(170,200,255,0.18)'
+      ctx.beginPath()
+      connections.forEach(pair=>{
+        const a = starMap[pair[0]]
+        const b = starMap[pair[1]]
+        if(!a||!b) return
+        const pa = worldToScreen(a.x,a.y)
+        const pb = worldToScreen(b.x,b.y)
+        ctx.moveTo(pa.x,pa.y)
+        ctx.lineTo(pb.x,pb.y)
+      })
+      ctx.stroke()
+    }
+    for(const s of stars){
+      const scr = worldToScreen(s.x,s.y)
+      const t = (Math.sin((Date.now()/600) + s.x*0.01) + 1)/2
+      const base = Math.max(1.0,7 - s.mag*1.6)
+      const radius = base * 0.9 * scale * 0.9
+      const r = Math.max(1.8, radius * (0.6 + 0.6*t) * brightness)
+      const grad = ctx.createRadialGradient(scr.x,scr.y,0,scr.x,scr.y,r*6)
+      grad.addColorStop(0, `rgba(255,255,255,${0.9 * (1.2 - s.mag/3) * brightness})`)
+      grad.addColorStop(0.2, `rgba(125,211,252,${0.18 * brightness})`)
+      grad.addColorStop(0.55, 'rgba(167,139,250,0.04)')
+      ctx.fillStyle = grad
+      ctx.beginPath()
+      ctx.arc(scr.x,scr.y,r*6,0,Math.PI*2)
+      ctx.fill()
+      ctx.beginPath()
+      ctx.fillStyle = `rgba(255,255,255,${0.95 * brightness})`
+      ctx.arc(scr.x,scr.y,Math.max(1.2,r/1.8),0,Math.PI*2)
+      ctx.fill()
+      if(hoveredStar && hoveredStar.id === s.id){
+        ctx.beginPath()
+        ctx.strokeStyle = 'rgba(255,255,255,0.6)'
+        ctx.lineWidth = 1.4
+        ctx.arc(scr.x,scr.y,Math.max(6,r*1.2),0,Math.PI*2)
+        ctx.stroke()
+      }
+      if(showLabels){
+        ctx.font = `${12 * (1 + 0.02*scale)}px Inter, system-ui, sans-serif`
+        ctx.fillStyle = 'rgba(230,238,248,0.9)'
+        ctx.textAlign = 'left'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(s.id, scr.x + 8, scr.y - 8)
+      }
+    }
+    if(toggleMeteor.checked) drawMeteors()
+    drawOrientation()
+  }
+
+  function drawGradientBackground(){
+    const w = canvas.width; const h = canvas.height
+    const g = ctx.createLinearGradient(0,0,0,h)
+    g.addColorStop(0,'rgba(2,6,20,0.0)')
+    g.addColorStop(1,'rgba(0,0,0,0.15)')
+    ctx.fillStyle = g
+    ctx.fillRect(0,0,w,h)
+    ctx.save()
+    ctx.globalAlpha = 0.25
+    for(let i=0;i<60;i++){
+      const x = (i*47 + 23) % w
+      const y = (i*71 + 11) % h
+      ctx.fillStyle = `rgba(255,255,255,${(i%7)/14})`
+      ctx.fillRect(x,y,(i%3)+1,(i%4)+1)
+    }
+    ctx.restore()
+  }
+
+  function drawFaintGrid(){
+    const rect = canvas.getBoundingClientRect()
+    const w = rect.width; const h = rect.height
+    ctx.save()
+    ctx.strokeStyle = 'rgba(255,255,255,0.02)'
+    ctx.lineWidth = 1
+    const cx = w/2 + offsetX
+    const cy = h/2 + offsetY
+    for(let r=80; r<Math.max(w,h); r+=80){
+      ctx.beginPath()
+      ctx.arc(cx, cy, r*scale, 0, Math.PI*2)
+      ctx.stroke()
+    }
+    ctx.restore()
+  }
+
+  function drawOrientation(){
+    const rect = canvas.getBoundingClientRect()
+    const w = rect.width; const h = rect.height
+    ctx.save()
+    ctx.translate(18, h - 26)
+    ctx.fillStyle = 'rgba(255,255,255,0.04)'
+    ctx.beginPath()
+    ctx.arc(0,0,20,0,Math.PI*2)
+    ctx.fill()
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)'
+    ctx.stroke()
+    ctx.save()
+    ctx.rotate(-rotation*Math.PI/180)
+    ctx.fillStyle = 'rgba(125,211,252,0.9)'
+    ctx.beginPath()
+    ctx.moveTo(0,-12); ctx.lineTo(5,4); ctx.lineTo(-5,4); ctx.closePath()
+    ctx.fill()
+    ctx.restore()
+    ctx.restore()
+  }
+
+  function spawnMeteor(){
+    const rect = canvas.getBoundingClientRect()
+    const x = Math.random()*rect.width
+    const y = Math.random()*rect.height*0.4
+    const vx = -2 - Math.random()*6
+    const vy = 1 + Math.random()*3
+    meteorParticles.push({x,y,vx,vy,life:60})
+    if(meteorParticles.length>6) meteorParticles.shift()
+  }
+
+  function drawMeteors(){
+    const rect = canvas.getBoundingClientRect()
+    for(let i=meteorParticles.length-1;i>=0;i--){
+      const p = meteorParticles[i]
+      p.x += p.vx
+      p.y += p.vy
+      p.life--
+      ctx.beginPath()
+      ctx.strokeStyle = `rgba(255,255,255,${Math.max(0, p.life/60)})`
+      ctx.lineWidth = 2
+      ctx.moveTo(p.x,p.y)
+      ctx.lineTo(p.x - p.vx*4, p.y - p.vy*4)
+      ctx.stroke()
+      if(p.life<=0 || p.x< -50 || p.y>rect.height+50) meteorParticles.splice(i,1)
+    }
+  }
+
+  let last = performance.now()
+  function loop(now){
+    const dt = now - last
+    last = now
+    if(rotateEnabled && running) rotation = (rotation + rotateSpeed * (dt/16.66) * 1.0) % 360
+    draw()
+    if(toggleMeteor.checked && Math.random()<0.02) spawnMeteor()
+    if(running) requestAnimationFrame(loop)
+  }
+
+  setInterval(()=>{ if(toggleAutoPlay.checked && running){ autoplayIndex = (autoplayIndex + 1) % keys.length; constellationSelect.value = keys[autoplayIndex]; loadConstellation(keys[autoplayIndex]) } }, 6000)
+
+  function updatePanelHover(){
+    if(hoveredStar) statusEl.textContent = `Hovering: ${hoveredStar.id}`
+    else statusEl.textContent = running ? 'Running' : 'Paused'
+  }
+  setInterval(updatePanelHover,120)
+
+  window.addEventListener('keydown',(e)=>{
+    if(e.key === ' '){ e.preventDefault(); running = !running; playPauseBtn.textContent = running ? 'Pause' : 'Play'; statusEl.textContent = running ? 'Running' : 'Paused'; if(running) requestAnimationFrame(loop) }
+    else if(e.key === 'r'){ rotation = 0; draw() }
+    else if(e.key === 'l'){ showLines = !showLines; toggleLines.checked = showLines; draw() }
+    else if(e.key === 'c'){ resetBtn.click() }
+  })
+
+  canvas.addEventListener('dblclick',(e)=>{
+    if(hoveredStar) alert(`${hoveredStar.id}\n${hoveredStar.name}\nMagnitude: ${hoveredStar.mag}\n${hoveredStar.info}`)
+  })
+
+  function initStarMap(){
+    starMap = {}
+    stars.forEach(s=>starMap[s.id]=s)
+  }
+
+  loadConstellation('ursaMajor')
+  initStarMap()
+  requestAnimationFrame(loop)
+})()
+</script>
+</body>
+</html>

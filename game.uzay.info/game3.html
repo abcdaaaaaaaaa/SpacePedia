@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="uzaylogo.ico">
+<title>Space Shooter</title>
+<style>
+html,body{
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  height:100%;
+  background:url("images/relaxearth.png") center/cover no-repeat fixed;
+  font-family:'Orbitron',sans-serif;
+}
+#main-play-area{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:rgba(0,0,0,0.5);
+}
+#instructions-text{
+  position:absolute;
+  top:20px;
+  width:100%;
+  text-align:center;
+  color:#fff;
+  text-shadow:0 0 10px #00bfff;
+  font-size:20px;
+}
+#start-button{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  color:#00bfff;
+  font-size:50px;
+  cursor:pointer;
+  text-shadow:0 0 20px #00bfff;
+  transition:0.3s;
+}
+#start-button:hover{
+  color:white;
+  transform:translate(-50%,-50%) scale(1.1);
+}
+#player-controlled-shooter{
+  width:70px;
+  height:70px;
+  position:absolute;
+  left:40px;
+  top:50%;
+  transform:translateY(-50%);
+  transition:0.05s;
+}
+.laser{
+  width:40px;
+  height:20px;
+  position:absolute;
+  filter: drop-shadow(0 0 8px #0ff);
+}
+.monster{
+  width:60px;
+  height:60px;
+  position:absolute;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,0.3) 20%, transparent 70%);
+  box-shadow:0 0 15px #0ff,0 0 25px #f0f;
+}
+.dead-monster{
+  opacity:0;
+  transition:opacity 0.6s ease-out;
+}
+#score{
+  position:absolute;
+  top:15px;
+  right:25px;
+  color:#00ffea;
+  text-shadow:0 0 10px #00bfff;
+  font-size:20px;
+}
+#ammo{
+  position:absolute;
+  top:45px;
+  right:25px;
+  color:#ffcc00;
+  text-shadow:0 0 10px #ff0;
+  font-size:20px;
+}
+.end-popup{
+  display:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(0,0,0,0.85);
+  padding:40px 60px;
+  border-radius:15px;
+  text-align:center;
+  color:white;
+  font-size:22px;
+  box-shadow:0 0 25px #00bfff;
+  animation:popup 0.8s ease-in-out;
+  z-index:20;
+}
+button.btn{
+  background:#00bfff;
+  color:black;
+  border:none;
+  padding:10px 20px;
+  border-radius:10px;
+  margin-top:10px;
+  font-size:18px;
+  cursor:pointer;
+  transition:all 0.3s;
+}
+button.btn:hover{
+  background:#03a9f4;
+  color:white;
+  transform:scale(1.05);
+}
+@keyframes popup{
+  0% {transform:scale(0.5) translate(-50%,-50%);opacity:0;}
+  100% {transform:scale(1) translate(-50%,-50%);opacity:1;}
+}
+</style>
+</head>
+<body>
+<audio id="bgm" src="space.mp3" autoplay loop></audio>
+<div id="main-play-area">
+  <div id="score">Score: <span>0</span></div>
+  <div id="ammo">Ammo: <span>0</span></div>
+  <h4 id="instructions-text">Shoot the falling fruits before they reach you!</h4>
+  <div id="start-button">START</div>
+  <img id="player-controlled-shooter" src="images/beyaz.png">
+  <div class="end-popup" id="win-popup">
+    <h1>🎉 YOU WIN!</h1>
+    <h3>Congratulations, you reached 1000 points!</h3>
+    <button class="btn" onclick="restartGame()">Restart</button>
+  </div>
+</div>
+<script>
+const startButton=document.getElementById("start-button")
+const instructions=document.getElementById("instructions-text")
+const mainPlayArea=document.getElementById("main-play-area")
+const shooter=document.getElementById("player-controlled-shooter")
+const monsterImgs=['images/ananas.png','images/ananas2.png','images/ananas3.png']
+const scoreCounter=document.querySelector('#score span')
+const ammoCounter=document.querySelector('#ammo span')
+const winPopup=document.getElementById("win-popup")
+let monsterInterval, totalMonsters=0, ammo=0
+
+startButton.addEventListener("click",()=>{playGame()})
+
+function letShipFly(e){
+  if(e.key==="ArrowUp"){moveUp()}
+  else if(e.key==="ArrowDown"){moveDown()}
+  else if(e.key===" "){fireLaser()}
+}
+
+function moveUp(){
+  let top=parseInt(window.getComputedStyle(shooter).getPropertyValue('top'))
+  if(top>10) shooter.style.top=`${top-15}px`
+}
+
+function moveDown(){
+  let top=parseInt(window.getComputedStyle(shooter).getPropertyValue('top'))
+  if(top<window.innerHeight-90) shooter.style.top=`${top+15}px`
+}
+
+function fireLaser(){
+  if(ammo<=0) return
+  ammo--
+  ammoCounter.innerText=ammo
+  const laser=document.createElement('img')
+  laser.src='images/laser.png'
+  laser.classList.add('laser')
+  let x=parseInt(window.getComputedStyle(shooter).getPropertyValue('left'))+70
+  let y=parseInt(window.getComputedStyle(shooter).getPropertyValue('top'))+25
+  laser.style.left=`${x}px`
+  laser.style.top=`${y}px`
+  mainPlayArea.appendChild(laser)
+  moveLaser(laser)
+}
+
+function moveLaser(laser){
+  let interval=setInterval(()=>{
+    let x=parseInt(laser.style.left)
+    let monsters=document.querySelectorAll(".monster")
+    monsters.forEach(m=>{
+      if(checkCollision(laser,m)){
+        m.src="images/explosion.png"
+        m.classList.add("dead-monster")
+        setTimeout(()=>m.remove(),500)
+        scoreCounter.innerText=parseInt(scoreCounter.innerText)+100
+        laser.remove()
+        if(parseInt(scoreCounter.innerText)>=1000){gameWin()}
+      }
+    })
+    if(x>window.innerWidth){laser.remove();clearInterval(interval)}
+    else{laser.style.left=`${x+12}px`}
+  },15)
+}
+
+function createMonster(){
+  totalMonsters++
+  ammo += 3
+  ammoCounter.innerText = ammo
+  const monster = document.createElement('img')
+  monster.src = monsterImgs[Math.floor(Math.random() * monsterImgs.length)]
+  monster.classList.add('monster')
+  monster.style.top = `-60px`
+
+  let minX = 100
+  let maxX = window.innerWidth - 100
+  let spawnX = Math.floor(Math.random() * (maxX - minX) + minX)
+  monster.style.left = `${spawnX}px`
+
+  mainPlayArea.appendChild(monster)
+  moveMonster(monster)
+}
+
+function moveMonster(monster){
+  let interval=setInterval(()=>{
+    let top=parseInt(window.getComputedStyle(monster).getPropertyValue('top'))
+    if(top>window.innerHeight-60){
+      if(!monster.classList.contains('dead-monster')){
+        gameOver()
+      }
+      clearInterval(interval)
+      monster.remove()
+    }else{
+      monster.style.top=`${top+4}px`
+    }
+  },25)
+}
+
+function checkCollision(laser,monster){
+  let lRect=laser.getBoundingClientRect()
+  let mRect=monster.getBoundingClientRect()
+  return !(lRect.bottom<mRect.top||lRect.top>mRect.bottom||lRect.right<mRect.left||lRect.left>mRect.right)
+}
+
+function gameOver(){
+  window.removeEventListener("keydown",letShipFly)
+  clearInterval(monsterInterval)
+  document.querySelectorAll(".monster").forEach(m=>m.remove())
+  document.querySelectorAll(".laser").forEach(l=>l.remove())
+  ammo=0
+  ammoCounter.innerText=ammo
+  setTimeout(()=>{
+    alert(`Game Over! Score: ${scoreCounter.innerText}`)
+    scoreCounter.innerText=0
+    startButton.style.display="block"
+    instructions.style.display="block"
+    totalMonsters=0
+  },300)
+}
+
+function gameWin(){
+  window.removeEventListener("keydown",letShipFly)
+  clearInterval(monsterInterval)
+  document.querySelectorAll(".monster").forEach(m=>m.remove())
+  document.querySelectorAll(".laser").forEach(l=>l.remove())
+  winPopup.style.display="block"
+}
+
+function restartGame(){
+  winPopup.style.display="none"
+  scoreCounter.innerText=0
+  ammo=0
+  ammoCounter.innerText=0
+  startButton.style.display="block"
+  instructions.style.display="block"
+  totalMonsters=0
+}
+
+function playGame(){
+  startButton.style.display='none'
+  instructions.style.display='none'
+  window.addEventListener("keydown",letShipFly)
+  monsterInterval=setInterval(()=>createMonster(),2000)
+}
+</script>
+</body>
+</html>

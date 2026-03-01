@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="shortcut icon" href="https://www.uzay.info/uzaylogo.ico">
+<title>Nebula Simulation</title>
+<style>
+:root{--panel:rgba(10,14,30,0.7);--glass:rgba(255,255,255,0.03)}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;font-family:Inter,Segoe UI,Arial,sans-serif;background:black;color:white}
+canvas{position:absolute;top:0;left:0;width:100%;height:100%;display:block}
+.panel{position:fixed;top:18px;right:18px;width:340px;background:var(--panel);border-radius:12px;padding:14px;box-shadow:0 8px 24px rgba(2,6,20,0.6);backdrop-filter:blur(6px);overflow:auto;max-height:calc(100vh - 36px);z-index:10;display:flex;flex-direction:column;justify-content:flex-end}
+.nebula-list{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.nebula-item{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:var(--glass);cursor:pointer;flex-direction:row;transition:all .25s}
+.nebula-item:hover{background:rgba(255,255,255,0.07);transform:translateY(-1px)}
+.swatch{width:40px;height:40px;border-radius:50%;box-shadow:0 4px 10px rgba(0,0,0,0.6);flex:0 0 40px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.info h3{margin:6px 0;font-size:16px}
+.meta{font-size:13px;color:#cfe9ff;margin-top:4px}
+.meta small{color:#9eb8d8;display:block;font-size:11px}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.04);font-size:12px;margin-right:6px}
+</style>
+</head>
+<body>
+<canvas id="nebulaCanvas"></canvas>
+<div class="panel">
+  <div class="nebula-list" id="nebulaList"></div>
+  <div class="info" id="infoCard" style="margin-top:12px">
+    <h3>Selected Nebula: <span id="nname">Orion</span></h3>
+    <div class="meta" id="nmeta">
+      <strong>Particle Count:</strong> 800<br>
+      <strong>Layers:</strong> 3<br>
+      <strong>Speed:</strong> 0.2<br>
+      <strong>Size Range (px):</strong> 2 - 5<br>
+      <strong>Glow:</strong> Yes
+    </div>
+    <div class="meta" id="nebulaDetails" style="margin-top:6px"><em>Bright star-forming nebula in Orion. Contains massive young stars emitting strong UV light, causing surrounding gas to glow vividly. Famous for its distinct Orion Belt alignment and star clusters.</em></div>
+    <div style="margin-top:6px">
+      <span class="badge">Layers ~ Depth</span>
+      <span class="badge">Size Range ~ Scale</span>
+      <span class="badge">Glow ~ Effect</span>
+    </div>
+  </div>
+</div>
+<script>
+const canvas = document.getElementById('nebulaCanvas'),
+      ctx = canvas.getContext('2d');
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+const nebulaData = {
+orion: { count: 800, baseHue: 280, speed: 0.2, size: [2, 5], layers: 3, glow: true, note: "Bright star-forming nebula in Orion. Contains massive young stars emitting strong UV light, causing surrounding gas to glow vividly. Famous for its distinct Orion Belt alignment and star clusters." },
+crab: { count: 1200, baseHue: 30, speed: 0.5, size: [1, 3], layers: 4, glow: true, note: "Remnant of a supernova in Taurus. Energetic shock waves interact with surrounding gas and dust, producing a complex filamentary structure." },
+eagle: { count: 900, baseHue: 120, speed: 0.15, size: [2, 6], layers: 5, glow: false, note: "Home to the Pillars of Creation in Serpens. Dense columns of gas and dust undergoing star formation, illuminated by massive young stars." },
+ring: { count: 700, baseHue: 200, speed: 0.1, size: [3, 7], layers: 3, glow: false, note: "Planetary nebula in Lyra. Expanding shell of ionized gas expelled from a dying star, forming a glowing ring-like appearance." },
+carina: { count: 1000, baseHue: 340, speed: 0.25, size: [2, 5], layers: 4, glow: true, note: "Gigantic star-forming region with massive luminous stars and complex gas dynamics. Intense radiation shapes the surrounding clouds." }
+};
+
+let particles = [],
+    currentNebula = 'orion',
+    stars = [],
+    mouseX = 0,
+    mouseY = 0;
+
+function random(a, b) {
+  return Math.random() * (b - a) + a;
+}
+
+function createStars() {
+  stars = [];
+  for (let i = 0; i < 400; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.3 + 0.3,
+      baseAlpha: Math.random() * 0.6 + 0.3,
+      twinkleSpeed: Math.random() * 0.02 + 0.005,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+}
+
+function noise(x, y) {
+  return (Math.sin(x * 0.027 + y * 0.031) * 43758.5453) % 1;
+}
+
+function createParticles(t) {
+  particles = [];
+  const s = nebulaData[t];
+  for (let l = 0; l < s.layers; l++) {
+    for (let i = 0; i < s.count / s.layers; i++) {
+      let a = Math.random() * Math.PI * 2;
+      let r = random(80, 420) * (l + 1) / s.layers;
+      let x = canvas.width / 2 + Math.cos(a) * r + random(-80, 80);
+      let y = canvas.height / 2 + Math.sin(a) * r + random(-80, 80);
+      let vx = random(-s.speed, s.speed);
+      let vy = random(-s.speed, s.speed);
+      let size = random(s.size[0], s.size[1]);
+      let hue = s.baseHue + random(-25, 25);
+
+      particles.push({
+        x, y, vx, vy, size, hue,
+        layer: l,
+        alpha: random(0.4, 1),
+        z: (l + 1) / s.layers,
+        drift: random(0.005, 0.02)
+      });
+    }
+  }
+}
+
+function drawBackground(time) {
+  const grad = ctx.createRadialGradient(
+    canvas.width / 2, canvas.height / 2, 0,
+    canvas.width / 2, canvas.height / 2, canvas.width / 1.4
+  );
+
+  grad.addColorStop(0, 'rgb(5,5,15)');
+  grad.addColorStop(0.6, 'rgb(10,10,30)');
+  grad.addColorStop(1, 'rgb(0,0,5)');
+
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  for (const s of stars) {
+    s.phase += s.twinkleSpeed;
+    const alpha = s.baseAlpha + Math.sin(s.phase) * 0.3;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.fill();
+  }
+}
+
+function animate(time) {
+  ctx.globalCompositeOperation = 'source-over';
+  drawBackground(time);
+
+  ctx.save();
+  ctx.translate((mouseX - innerWidth / 2) * 0.05, (mouseY - innerHeight / 2) * 0.05);
+
+  for (const p of particles) {
+    p.x += p.vx * (p.z + 0.3);
+    p.y += p.vy * (p.z + 0.3);
+    p.hue += Math.sin(time * 0.0001 + p.layer) * 0.05;
+
+    let n = noise(p.x * 0.02, p.y * 0.02);
+    p.x += Math.cos(n * 20) * 0.2;
+    p.y += Math.sin(n * 20) * 0.2;
+
+    if (p.x < 0) p.x = canvas.width;
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y < 0) p.y = canvas.height;
+    if (p.y > canvas.height) p.y = 0;
+
+    const b = 50 + 30 * p.layer;
+    const alpha = p.alpha * (0.7 + 0.3 * Math.sin(time * 0.001 * p.drift));
+
+    ctx.beginPath();
+    ctx.fillStyle = `hsla(${p.hue},100%,${b}%,${alpha})`;
+    ctx.shadowBlur = p.size * 5 * p.z;
+    ctx.shadowColor = `hsl(${p.hue},100%,${b + 10}%)`;
+    ctx.arc(p.x, p.y, p.size * (1 + p.z * 0.6), 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.filter = 'blur(6px) brightness(1.4)';
+
+  for (const p of particles) {
+    const b = 60 + 30 * p.layer;
+    ctx.beginPath();
+    ctx.fillStyle = `hsla(${p.hue},100%,${b}%,${p.alpha * 0.3})`;
+    ctx.arc(p.x, p.y, p.size * (1 + p.z * 0.7), 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.filter = 'none';
+  requestAnimationFrame(animate);
+}
+
+const nebulaListEl = document.getElementById('nebulaList'),
+      nname = document.getElementById('nname'),
+      nmeta = document.getElementById('nmeta'),
+      nebulaDetails = document.getElementById('nebulaDetails');
+
+for (const key in nebulaData) {
+  const n = nebulaData[key];
+  const firstSentence = n.note.split('.')[0] + '.';
+
+  const el = document.createElement('div');
+  el.className = 'nebula-item';
+  el.dataset.key = key;
+
+  el.innerHTML = `
+    <div class="swatch" style="background:hsl(${n.baseHue},100%,50%)"></div>
+    <div style="flex:1">
+      <strong>${key.charAt(0).toUpperCase() + key.slice(1)}</strong><br>
+      <small>${firstSentence}</small>
+    </div>
+  `;
+
+  el.addEventListener('click', () => {
+    currentNebula = key;
+    createParticles(currentNebula);
+    nname.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+    nmeta.innerHTML = `
+      <strong>Particle Count:</strong> ${n.count}<br>
+      <strong>Layers:</strong> ${n.layers}<br>
+      <strong>Speed:</strong> ${n.speed}<br>
+      <strong>Size Range (px):</strong> ${n.size[0]} - ${n.size[1]}<br>
+      <strong>Glow:</strong> ${n.glow ? 'Yes' : 'No'}
+    `;
+    nebulaDetails.innerHTML = `<em>${n.note}</em>`;
+  });
+
+  nebulaListEl.appendChild(el);
+}
+
+createStars();
+createParticles(currentNebula);
+requestAnimationFrame(animate);
+
+window.addEventListener('resize', () => {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+  createStars();
+  createParticles(currentNebula);
+});
+
+window.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+</script>
+</body>
+</html>

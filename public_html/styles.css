@@ -1,0 +1,169 @@
+/*
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+*/
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    owerflow: auto;
+}
+
+.container {
+    width: 300px;
+    padding: 20px;
+    background-color: rgba(102,0,255,0.8);
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid blue;
+    border-radius: 3px;
+}
+
+h2 {
+    color: #000e44;
+}
+
+label {
+    color: white;
+}
+
+input[type="submit"] {
+    background: royalblue;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    margin: 6px 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input[type="submit"]:hover {
+    transform: translateY(-2px);
+    background: #3454b4;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.25);
+}
+
+input[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+}
+
+button.btn-geri {
+    background: royalblue;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    margin: 6px 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+button.btn-geri:hover {
+    transform: translateY(-2px);
+    background: #3454b4;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.25);
+}
+
+button.btn-geri:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.success {
+    color: green;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.left{
+    float:left;
+    width:50%;
+    text-align:left;
+}
+
+.right{
+    float:right;
+    width:50%;
+    text-align:right;
+}
+
+.left a, .right a{
+    display:block;
+}
+
+.clearfix{
+    clear:both;
+}
+
+#passwordBarContainer{
+    width:95%;
+    height:6px;
+    display:flex;
+    gap:3px;
+    margin:4px auto 6px auto;
+}
+
+#passwordBarContainer .seg{
+    flex:1;
+    background:#333;
+    border-radius:2px;
+    transition:background .25s;
+}
+
+#passwordNote{
+    color:#fff;
+    font-size:10px;
+    text-align:center;
+    margin-bottom:6px;
+}
+
+#togglePassword {
+    height: 1.75em;
+    width: 0em;
+}
+

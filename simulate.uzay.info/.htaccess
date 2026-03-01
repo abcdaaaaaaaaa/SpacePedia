@@ -1,0 +1,32 @@
+    RewriteEngine On
+    AddHandler application/x-httpd-ea-php74 .php .php7 .phtml
+    
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+    
+    RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
+    RewriteRule ^index\.html$ / [R=301,L]
+    
+    RewriteRule ^planets$        simulate/planets.html        [L,NC]
+    RewriteRule ^stars$          simulate/stars.html          [L,NC]
+    RewriteRule ^galaxies$       simulate/galaxies.html       [L,NC]
+    RewriteRule ^blackholes$     simulate/blackholes.html     [L,NC]
+    RewriteRule ^nebulas$        simulate/nebulas.html        [L,NC]
+    RewriteRule ^comets$         simulate/comets.html         [L,NC]
+    RewriteRule ^neutrons$       simulate/neutrons.html       [L,NC]
+    RewriteRule ^deepspace$      simulate/deepspace.html      [L,NC]
+    RewriteRule ^constellations$ simulate/constellations.html [L,NC]
+    
+    RewriteRule ^deepspace/lateral$ simulate/deepspace1.html [L,NC]
+    RewriteRule ^deepspace/frontal$ simulate/deepspace2.html [L,NC]
+    
+    RewriteCond %{THE_REQUEST} /game([1-5])\.html [NC]
+    RewriteRule ^game([1-5])\.html$ /game$1 [R=301,L]
+    
+    ErrorDocument 404 /
+    
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ / [R=301,L]
+

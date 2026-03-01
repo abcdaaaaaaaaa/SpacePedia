@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title>Space Accidents</title>
+ <link rel="shortcut icon" href="https://spacepedia.info/uzaylogo.ico">
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" href="https://spacepedia.info/template/encyclopedia.css">
+ <script src="https://spacepedia.info/template/boostrap.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: rgba(102,0,255,0.8)"> 
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://spacepedia.info">SpacePedia</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Did You Know?<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia">Did You Know?</a></li>
+          <li><a href="/encyclopedia/@/explosions">Explosions</a></li>
+          <li><a href="/encyclopedia/@/zodiac_mythology">Zodiac and Mythology</a></li>
+          <li><a href="/encyclopedia/@/historical_events">Historical Events</a></li>
+          <li><a href="/encyclopedia/@/accidents">Accidents</a></li>
+          <li><a href="/encyclopedia/@/meteors_meteorites">Meteors and Meteorites</a></li>
+          <li><a href="/encyclopedia/@">Games</a></li>
+          <li><a href="/">Space Area</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nebulae<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/nebulae">What is it?</a></li>
+          <li><a href="/encyclopedia/nebulae/formation">Formation</a></li>
+          <li><a href="/encyclopedia/nebulae/emission">Emission Nebula</a></li>
+          <li><a href="/encyclopedia/nebulae/dark">Dark Nebulae</a></li>
+          <li><a href="/encyclopedia/nebulae/reflection">Reflection Nebula</a></li>
+          <li><a href="/encyclopedia/nebulae/planetary">Planetary Nebula</a></li>
+          <li><a href="/encyclopedia/nebulae/supernova">Supernova Remnants</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Planets<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/planets/what">What is it?</a></li>
+          <li><a href="/encyclopedia/planets/formation">Formation</a></li>
+          <li><a href="/encyclopedia/planets/solar_system">Solar System</a></li>
+          <li><a href="/encyclopedia/planets">Planets</a></li>
+          <li><a href="/encyclopedia/planets/dwarf_planets">Dwarf Planets</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stars<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/stars">What is it?</a></li>
+          <li><a href="/encyclopedia/stars/formation">Formation</a></li>
+          <li><a href="/encyclopedia/stars/m_type">M Type</a></li>
+          <li><a href="/encyclopedia/stars/k_type">K Type</a></li>
+          <li><a href="/encyclopedia/stars/a_f_type">A and F Type</a></li>
+          <li><a href="/encyclopedia/stars/o_b_type">O and B Type</a></li>
+          <li><a href="/encyclopedia/stars/giant_stars">Giant Stars</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Constellations<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/constellations/what">What is it?</a></li>
+          <li><a href="/encyclopedia/constellations/formation">Formation</a></li>
+          <li><a href="/encyclopedia/constellations">Constellations</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Comets<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/comets">What is it?</a></li>
+          <li><a href="/encyclopedia/comets/formation">Formation</a></li>
+          <li><a href="/encyclopedia/comets/jupiter_family">Jupiter-family Comets</a></li>
+          <li><a href="/encyclopedia/comets/halley_type">Halley-type Comets</a></li>
+          <li><a href="/encyclopedia/comets/long_period">Long-period Comets</a></li>
+          <li><a href="/encyclopedia/comets/by_orbit">Comets by Orbit</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Neutron Stars<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/neutron_stars">What is it?</a></li>
+          <li><a href="/encyclopedia/neutron_stars/formation">Formation</a></li>
+          <li><a href="/encyclopedia/neutron_stars/pulsars">Pulsars</a></li>
+          <li><a href="/encyclopedia/neutron_stars/magnetars">Magnetars</a></li>
+          <li><a href="/encyclopedia/neutron_stars/quark_exotic">Quark and Exotic Stars</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Galaxies<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/galaxies">What is it?</a></li>
+          <li><a href="/encyclopedia/galaxies/formation">Formation</a></li>
+          <li><a href="/encyclopedia/galaxies/elliptical">Elliptical</a></li>
+          <li><a href="/encyclopedia/galaxies/spiral">Spiral</a></li>
+          <li><a href="/encyclopedia/galaxies/barred_spiral">Barred Spiral</a></li>
+          <li><a href="/encyclopedia/galaxies/irregular">Irregular</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Black Holes<span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-custom">
+          <li><a href="/encyclopedia/black_holes">What is it?</a></li>
+          <li><a href="/encyclopedia/black_holes/formation">Formation</a></li>
+          <li><a href="/encyclopedia/black_holes/stellar">Stellar Black Holes</a></li>
+          <li><a href="/encyclopedia/black_holes/supermassive">Supermassive Black Holes</a></li>
+          <li><a href="/encyclopedia/black_holes/intermediate">Intermediate-mass Black Holes</a></li>
+          <li><a href="/encyclopedia/black_holes/primordial">Primordial Black Holes</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container" style="margin-top:50px">
+  <h3></h3>
+  <font color="#6ec8ff">
+        <h1> Space Accidents</h1>
+        Space exploration is one of humanity’s most complex and risky technological undertakings. Rocket launches, orbital maneuvers, and atmospheric re-entry require extremely precise calculations. For this reason, some missions throughout history have ended in accidents, showing how challenging space research can be.
+        <br><br>
+        The Challenger disaster in 1986 occurred due to a technical failure during launch. A seal problem in the solid rocket boosters caused the vehicle to break apart in midair. This event led to a reassessment of safety standards in space programs and to major changes in engineering processes.
+        <br><br>
+        The breakup of the Space Shuttle Columbia during re-entry in 2003 was another major accident. A piece of foam insulation that struck the wing during launch damaged the heat shield, and that damage compromised the vehicle’s structural integrity during descent. This event clearly demonstrated how critical re-entry safety is.
+        <br><br>
+        The Apollo 1 fire in 1967 occurred during a test mission, before the crew even went to space. This incident during ground testing led to fundamental changes in cabin design, material selection, and emergency escape procedures. Safety measures were significantly increased in later Apollo missions.
+        <br><br>
+        Space accidents are not limited to crewed missions. Some spacecraft sent to Mars lost communication during landing, while some satellites failed to reach orbit or could not complete their planned mission lifetimes. Such events show that even a small mistake in a complex system can produce major consequences.
+        <br><br>
+        At the same time, every accident has provided important lessons for space engineering. Materials science, redundant system design, automatic control software, and risk analysis methods were significantly improved after these events. Many safety standards used today are based on lessons learned from past accidents.
+        <br><br>
+        In conclusion, space accidents represent the difficult side of humanity’s journey of exploration. But they have also contributed to the growth of engineering knowledge, strengthened safety culture, and helped space efforts develop on more solid foundations.
+        <h3></h3>
+    </font>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,225 @@
+<html lang="EN"><head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>spacepedia.info</title>
+<link rel="shortcut icon" href="uzaylogo.ico">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" href="https://uzay.info/template/backgroundonly.css">
+
+<style>
+#basla_btn{
+position:absolute;
+top:45%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:2em;
+width:420px;
+height:150px;
+background:linear-gradient(135deg,#1e1e70,#3f37ff,#00b4d8);
+border:none;
+border-radius:50px;
+color:white;
+font-weight:bold;
+letter-spacing:1px;
+text-shadow:0 0 10px #00b4ff;
+box-shadow:0 0 30px #005eff;
+cursor:pointer;
+transition:all 0.4s ease;
+}
+#basla_btn:hover{
+background:linear-gradient(135deg,#00b4d8,#3f37ff,#1e1e70);
+color:#fff;
+transform:translate(-50%,-50%) scale(1.05);
+box-shadow:0 0 40px #00ffff;
+}
+#soru_kutusu{
+margin:auto;
+padding:2%;
+width:70%;
+height:55%;
+background:rgba(10,20,60,0.85);
+border-radius:30px;
+box-shadow:0 0 40px #3f37ff inset,0 0 20px #00ffff;
+display:none;
+position:relative;
+top:22%;
+backdrop-filter:blur(6px);
+}
+#soru_metni{
+margin:2%;
+padding:3%;
+font-size:1.5em;
+border-radius:20px;
+background:rgba(255,255,255,0.1);
+box-shadow:inset 0 0 20px #3f37ff;
+color:#e0e8ff;
+}
+#cevaplar{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin:20px auto;
+width:90%;
+text-align:center;
+}
+.secenek{
+padding:15px;
+font-size:1.2em;
+background:linear-gradient(135deg,#3f37ff,#00b4d8);
+border-radius:15px;
+cursor:pointer;
+box-shadow:0 0 15px #3f37ff;
+transition:all 0.3s ease;
+color:white;
+}
+.secenek:hover{
+background:linear-gradient(135deg,#00ffff,#3f37ff);
+box-shadow:0 0 25px #00ffff;
+transform:scale(1.05);
+}
+#skor_board{
+position:absolute;
+top:15px;
+right:15px;
+width:270px;
+padding:15px;
+background:rgba(0,10,40,0.8);
+border-radius:15px;
+text-align:center;
+box-shadow:0 0 25px #3f37ff;
+color:#fff;
+backdrop-filter:blur(4px);
+}
+#skor_board .d_y_baslik{
+font-size:1em;
+margin-top:5px;
+}
+#skor_board #d_sayisi,#y_sayisi{
+font-size:1.3em;
+margin:5px 0;
+}
+#skor_board #puan{
+margin-top:10px;
+font-size:1.8em;
+color:#00ffff;
+text-shadow:0 0 10px #00ffff;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="correctSound" src="https://learn.uzay.info/correctSound.mp3"></audio>
+<audio id="finishAllSound" src="https://learn.uzay.info/finishAllSound.mp3"></audio>
+
+<button id="basla_btn" onclick="soru_getir(0)">🚀 Start the Space Arena Journey</button>
+
+<div id="skor_board">
+<div class="d_y_baslik">✅ Correct Answers</div>
+<div id="d_sayisi">0</div>
+<div class="d_y_baslik">❌ Wrong Answers</div>
+<div id="y_sayisi">0</div>
+<div id="puan">Score: <span id="p_yazisi">0</span></div>
+</div>
+
+<div id="soru_kutusu">
+<div id="soru_metni" class="soru_baslik">1</div>
+<div id="cevaplar">
+<div id="a_sikki" data-sik="A" onclick="cevaplandi(this)" class="secenek"></div>
+<div id="b_sikki" data-sik="B" onclick="cevaplandi(this)" class="secenek"></div>
+<div id="c_sikki" data-sik="C" onclick="cevaplandi(this)" class="secenek"></div>
+<div id="d_sikki" data-sik="D" onclick="cevaplandi(this)" class="secenek"></div>
+</div>
+</div>
+
+<script>
+
+let sorular = [
+{"soru":"1) Since Mercury has no atmosphere to protect it, its surface is covered with ...","a_sikki":"lava","b_sikki":"craters","c_sikki":"water","d_sikki":"meteoroids","cevap":"B"},
+{"soru":"2) The planet closest to the Sun, ..., varies between ...°C during the day and ...°C at night.","a_sikki":"Venus 495 -100","b_sikki":"Venus 436 -89","c_sikki":"Mercury 425 -75","d_sikki":"Jupiter 450 -89","cevap":"C"},
+{"soru":"3) The brightest object after the Moon is ...","a_sikki":"Venus","b_sikki":"Mercury","c_sikki":"Mars","d_sikki":"Earth","cevap":"A"},
+{"soru":"4) Venus and Uranus rotate ... in their orbit","a_sikki":"counterclockwise","b_sikki":"clockwise","cevap":"B"},
+{"soru":"5) The planet most similar in size to Earth is ...","a_sikki":"Venus","b_sikki":"Mercury","c_sikki":"Mars","d_sikki":"Neptune","cevap":"A"},
+{"soru":"6) Venus can only be seen from Earth around ...","a_sikki":"Only in March evenings","b_sikki":"Near dawn and midnight","c_sikki":"Sunrise and sunset","d_sikki":"Only in September mornings","cevap":"C"},
+{"soru":"7) Earth's atmosphere consists of ... nitrogen and ... oxygen","a_sikki":"78%-21%","b_sikki":"75%-25%","c_sikki":"70%-30%","d_sikki":"68%-32%","cevap":"A"},
+{"soru":"8) Earth rotates at an angle of ... degrees","a_sikki":"27.5","b_sikki":"24.5","c_sikki":"23.5","d_sikki":"26.5","cevap":"C"},
+{"soru":"9) Because axial tilt is very small on ..., there are no seasons","a_sikki":"Jupiter and Saturn","b_sikki":"Mercury and Venus","c_sikki":"Mercury and Mars","d_sikki":"Mars and Mercury","cevap":"B"},
+{"soru":"10) The Moon, Earth's only natural satellite, is roughly the size of ...","a_sikki":"China","b_sikki":"Canada","c_sikki":"Russia","d_sikki":"Australia","cevap":"D"},
+{"soru":"11) The Moon’s gravity is about ...% of Earth’s","a_sikki":"17","b_sikki":"19","c_sikki":"21","d_sikki":"23","cevap":"A"},
+{"soru":"12) Is the Moon’s year longer than its day?","a_sikki":"Yes","b_sikki":"No","c_sikki":"- ","d_sikki":"- ","cevap":"B"},
+{"soru":"13) The Moon’s day is ... and its year is ...","a_sikki":"29.5 26 days","b_sikki":"29.5 27 days","c_sikki":"25.5 24.5 days","d_sikki":"25.5 23.5 days","cevap":"B"},
+{"soru":"14) The ... canyon on Mars, stretching ... km, spans about 1/5 of the planet","a_sikki":"5000 crater canyon","b_sikki":"3600 lava canyon","c_sikki":"5600 Mariner canyon","d_sikki":"4000 Mariner canyon","cevap":"D"},
+{"soru":"15) Mars has ... moons named ..., meaning fear and terror","a_sikki":"2 — Phobos and Deimos","b_sikki":"2 — Lashe and Trashe","c_sikki":"3 — Prekos Lakakos Prokos","d_sikki":"2 — Domigos Radigonuz","cevap":"A"},
+{"soru":"16) The gravity of ... is equal at about ...%","a_sikki":"Mars and Venus 23","b_sikki":"Mercury and Mars 36","c_sikki":"Mercury and Venus 23","d_sikki":"Mercury and Mars 38","cevap":"D"},
+{"soru":"17) Mars’s volcano ... is about ... km high, three times Everest","a_sikki":"Big lava 24","b_sikki":"Poseidon 24","c_sikki":"Daniel 25","d_sikki":"Olympus 27","cevap":"D"},
+{"soru":"18) The millions of large space rocks between Mars and Jupiter are called ...","a_sikki":"Asteroids","b_sikki":"Hot rocks","c_sikki":"Craters","d_sikki":"Particles","cevap":"A"},
+{"soru":"19) The largest planet in the Solar System is ..., with ... colored regions and ... bands","a_sikki":"Jupiter light-brown pale","b_sikki":"Saturn dark-orange pale","c_sikki":"Jupiter dark-brown intense","d_sikki":"Jupiter dark-brown pale","cevap":"D"},
+{"soru":"20) The brightest planet seen in the night sky is ...","a_sikki":"Mercury","b_sikki":"Saturn","c_sikki":"Jupiter","d_sikki":"Uranus","cevap":"C"},
+{"soru":"21) Jupiter is called a ..., mostly ... composed of ... and ...","a_sikki":"gas giant liquid hydrogen helium","b_sikki":"gas giant plasma hydrogen helium","c_sikki":"ice giant liquid nitrogen helium","d_sikki":"ice giant liquid nitrogen nitrogen","cevap":"A"},
+{"soru":"22) The ... on Jupiter is a storm lasting centuries and is about ... times larger than Earth","a_sikki":"Great Red Spot 3","b_sikki":"Great Red Spot 2","c_sikki":"Great Brown Spot 2","d_sikki":"Great Brown Spot 3","cevap":"B"}
+];
+
+let soru_numarasi=0,puan=0,dogru_sayisi=0,yanlis_sayisi=0,sorunun_cevabi="";
+
+function skor_yaz(){
+document.getElementById("d_sayisi").innerHTML=dogru_sayisi;
+document.getElementById("y_sayisi").innerHTML=yanlis_sayisi;
+document.getElementById("p_yazisi").innerHTML=puan;
+}
+
+function soru_getir(s_no){
+document.getElementById("basla_btn").style.display="none";
+document.getElementById("soru_kutusu").style.display="block";
+let s=sorular[s_no];
+document.getElementById("a_sikki").innerHTML=s.a_sikki;
+document.getElementById("b_sikki").innerHTML=s.b_sikki;
+document.getElementById("c_sikki").innerHTML=s.c_sikki;
+document.getElementById("d_sikki").innerHTML=s.d_sikki;
+document.getElementById("soru_metni").innerHTML=s.soru;
+sorunun_cevabi=s.cevap;
+}
+
+function cevaplandi(hangi_sik){
+let secim=hangi_sik.getAttribute("data-sik");
+if(secim==sorunun_cevabi){
+document.getElementById("correctSound").play();
+puan+=10;
+dogru_sayisi++;
+swal({title:"🚀 Correct!",text:"You're doing great!",icon:"success",button:"Continue"})
+.then(()=>{soru_ilerlet()});
+}
+else{
+yanlis_sayisi++;
+swal({title:"❌ Wrong!",text:"Try again!",icon:"warning",button:"Continue"})
+.then(()=>{soru_ilerlet()});
+}
+skor_yaz();
+}
+
+function soru_ilerlet(){
+soru_numarasi++;
+if(soru_numarasi>=sorular.length){
+document.getElementById("finishAllSound").play();
+swal({title:"🎉 All Questions Completed!",text:"Check the scoreboard!",icon:"info",button:"Restart"})
+.then(()=>{basa_don()});
+}
+else{
+soru_getir(soru_numarasi);
+}
+}
+
+function basa_don(){
+document.getElementById("basla_btn").style.display="block";
+document.getElementById("soru_kutusu").style.display="none";
+soru_numarasi=0;
+puan=0;
+dogru_sayisi=0;
+yanlis_sayisi=0;
+sorunun_cevabi="";
+skor_yaz();
+}
+
+</script>
+</body>
+</html>
