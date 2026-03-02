@@ -1,1 +1,5 @@
+*.htaccess linguist-detectable=true
+*.htaccess linguist-language=ApacheConf
+*.htaccess text
+
 public_html/template/PHPMailer/** linguist-vendored
