@@ -30,7 +30,7 @@ if (!empty($course['videos'])) {
 <style>
 body { font-family: Arial, sans-serif; margin:0; padding:20px; }
 .container { max-width:800px; margin:auto; background:white; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
-h1 { text-align:center; margin-bottom:20px; }
+h1 { text-align:center; margin-bottom:20px; color: #6600ff; }
 .video-box { display:none; text-align:center; }
 .video-box.active { display:block; }
 .video-box iframe, .video-box video { width:100%; height:400px; margin-top:10px; }
