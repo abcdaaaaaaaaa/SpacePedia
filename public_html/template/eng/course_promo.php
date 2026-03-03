@@ -32,7 +32,7 @@ if(strpos($video,'youtube.com') !== false || strpos($video,'youtu.be') !== false
 body { font-family: Arial, sans-serif; margin:0; padding:0; display:flex; justify-content:center; align-items:center; min-height:100vh; }
 .container { max-width:800px; width:100%; padding:10px; }
 .video-box iframe, .video-box video { width:100%; height:450px; }
-h1 { text-align:center; margin-bottom:20px; }
+h1 { text-align:center; margin-bottom:20px; color: #6600ff; }
 </style>
 </head>
 <body>
