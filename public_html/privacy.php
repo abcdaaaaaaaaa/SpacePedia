@@ -50,17 +50,17 @@ hr{border:0;border-top:1px solid rgba(255,255,255,0.25);margin:18px 0}
 <h2><?php echo $lang==='tr'?'1. İşlediğimiz Veriler':'1. Data We Process'; ?></h2>
 <?php if($lang==='tr'): ?>
 <ul>
-<li>Hesap bilgileri: kullanıcı adı, e-posta, şifre (hashlenmiş).</li>
+<li>Hesap bilgileri: kullanıcı adı, e-posta adresi ve şifre (hashlenmiş).</li>
 <li>Profil bilgileri: profil metni ve profil görseli (eklediyseniz).</li>
-<li>Güvenlik verileri: IP adresi gibi kayıt/giriş güvenliğine yönelik bilgiler (kötüye kullanım önleme).</li>
-<li>Teknik veriler: oturum bilgileri ve temel hata/işlem kayıtları (güvenlik ve performans).</li>
+<li>Güvenlik verisi: IP adresi kayıt/giriş güvenliğine yönelik bilgi (kötüye kullanımı önleme).</li>
+<li>Teknik veriler: oturum bilgileri ve temel hata/işlem kayıtları.</li>
 </ul>
 <?php else: ?>
 <ul>
-<li>Account data: username, email, password (hashed).</li>
+<li>Account data: username, email address, and password (hashed).</li>
 <li>Profile data: profile text and profile image (if provided).</li>
-<li>Security data: information such as IP address for registration/login security (abuse prevention).</li>
-<li>Technical data: session details and basic logs (security and performance).</li>
+<li>Security data: IP address logging/login security information (abuse prevention).</li>
+<li>Technical data: session details and basic logs.</li>
 </ul>
 <?php endif; ?>
 
@@ -68,37 +68,39 @@ hr{border:0;border-top:1px solid rgba(255,255,255,0.25);margin:18px 0}
 <?php if($lang==='tr'): ?>
 <ul>
 <li>Hesap oluşturma, giriş ve hesap yönetimi.</li>
-<li>Platform güvenliği ve spam/bot/kötüye kullanım önleme.</li>
+<li>Platform güvenliği ve spam/bot/kötüye kullanımı önleme.</li>
 <li>E-posta doğrulama, parola sıfırlama ve hesap güvenliği süreçleri.</li>
 <li>Hizmetin çalışması, geliştirilmesi ve sorun giderme.</li>
 </ul>
 <?php else: ?>
 <ul>
 <li>Account creation, login, and account management.</li>
-<li>Platform security and abuse/spam/bot prevention.</li>
+<li>Platform security and abuse, spam, and bot prevention.</li>
 <li>Email verification, password reset, and account security processes.</li>
 <li>Operating, improving, and troubleshooting the service.</li>
 </ul>
 <?php endif; ?>
 
-<h2><?php echo $lang==='tr'?'3. Çerezler ve Oturum':'3. Cookies & Sessions'; ?></h2>
+<h2 id="cookied-sessions"><?php echo $lang==='tr'?'3. Çerezler ve Oturum':'3. Cookies & Sessions'; ?></h2>
 <?php if($lang==='tr'): ?>
-<p>Platform, oturumunuzu sürdürebilmek için teknik olarak gerekli oturum mekanizmalarını kullanabilir. Belli bir amaçla takip çerezleri kullanılıyorsa ayrıca bilgilendirme yapılır.</p>
+<p>Platform, <a href="/ads" style="color:royalblue">kullanıcıların reklam izleyerek destek olması amacıyla tasarlanmış sayfa</a> haricinde tamamen reklamsızdır ve çerez kullanmamaktadır ancak bu sayfada gösterilen reklamlar, <a href="https://adsterra.com" style="color:royalblue">Adsterra</a> tarafından sunulur (yetişkinlere yönelik reklam modu devre dışı bırakılacak şekilde ayarlanarak) ve bu reklamlar kapsamında çerezler <a href="https://adsterra.com" style="color:royalblue">Adsterra</a> tarafından sadece <a href="/ads" style="color:royalblue">o sayfayı</a> kullandığınız süre içerisinde anlık olarak kullanılabilir. Bu kullanım; reklamların sunulması, performans ölçümü, güvenlik ve kötüye kullanımın önlenmesi gibi belli amaçlar için gerçekleşebilir.</p>
 <?php else: ?>
-<p>The platform may use technically necessary session mechanisms to keep you signed in. You will also be notified if tracking cookies are used for a specific purpose.</p>
+<p>The platform is completely ad-free and does not use cookies, except for the <a href="/ads" style="color:royalblue">page designed for users who wish to support the platform by viewing advertisements</a>. However, the advertisements displayed on this page are provided by <a href="https://adsterra.com" style="color:royalblue">Adsterra</a> (configured with the adult advertising mode disabled). Within the scope of these advertisements, cookies may be used by <a href="https://adsterra.com" style="color:royalblue">Adsterra</a> only temporarily while you are using <a href="/ads" style="color:royalblue">that page</a>. This usage may occur for specific purposes such as delivering advertisements, measuring performance, ensuring security, and preventing abuse.</p>
 <?php endif; ?>
 
 <h2><?php echo $lang==='tr'?'4. Veri Paylaşımı':'4. Data Sharing'; ?></h2>
 <?php if($lang==='tr'): ?>
-<p>Verilerinizi satmayız. Yalnızca yasal zorunluluklar veya güvenlik gereklilikleri kapsamında paylaşım yapılabilir.</p>
+<p>Verileriniz satılmaz. Yalnızca yasal zorunluluklar ve/veya güvenlik gereklilikleri kapsamında paylaşım yapılabilir.</p>
+<p><a href="/ads" style="color:royalblue">Reklamların gösterildiği sayfada</a> üçüncü taraf reklam hizmeti çalışabilir.</p>
 <?php else: ?>
-<p>We do not sell your data. We may share data only when legally required or necessary for security purposes.</p>
+<p>Your data is not sold. It may only be shared in cases of legal obligations and/or security requirements.</p>
+<p><a href="/ads" style="color:royalblue">On the page where advertisements are displayed</a>, a third-party advertising service may operate.</p>
 <?php endif; ?>
 
 <h2><?php echo $lang==='tr'?'5. Veri Güvenliği':'5. Data Security'; ?></h2>
 <?php if($lang==='tr'): ?>
 <ul>
-<li>Şifreler düz metin tutulmaz; güvenli şekilde hashlenir.</li>
+<li>Şifreler düz metin tutulmaz, güvenli şekilde hashlenir.</li>
 <li>Yetkisiz erişimi önlemek için teknik ve organizasyonel önlemler uygulanır.</li>
 </ul>
 <?php else: ?>
@@ -132,5 +134,15 @@ hr{border:0;border-top:1px solid rgba(255,255,255,0.25);margin:18px 0}
 <?php endif; ?>
 </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+if(window.location.hash==='#cookied-sessions'){
+var el=document.getElementById('cookied-sessions');
+if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+}
+});
+</script>
+
 </body>
 </html>
