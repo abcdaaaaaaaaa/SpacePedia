@@ -96,7 +96,7 @@ button:hover{background:#0088cc;box-shadow:0 0 18px rgba(0,170,255,.9)}
 <body>
 
 <div class="badge-wrap">
-<div class="badge"><i class="fa-solid fa-stars"></i><span><?php echo $L[$lang]['badge_text']; ?></span></div>
+<div class="badge"><span><?php echo $L[$lang]['badge_text']; ?></span></div>
 </div>
 
 <table>
