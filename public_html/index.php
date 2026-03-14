@@ -52,7 +52,21 @@ require_once __DIR__.'/support_renew_check_auto.php';
 <link rel="shortcut icon" href="https://www.uzay.info/uzaylogo.ico">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <meta charset="utf-8">
+<meta name="description" content="<?php echo $lang==='tr' ? 'uzay.info, gezegenlerden yıldızlara, yıldızlardan galaksilere, galaksilerden kara deliklere kadar uzay hakkında kapsamlı bilgiler sunan özgür bir uzay ansiklopedisidir. Kullanıcılar interaktif şekilde: makale yazabilir, e-kitap oluşturabilir, forumlarda tartışmalara katılabilir ve uzay simülasyonlarını keşfedebilir.' : 'spacepedia.info is a free space encyclopedia offering comprehensive information about space, from planets to stars, from stars to galaxies, and from galaxies to black holes. Users can interactively: write articles, create e-books, participate in forum discussions and explore space simulations.'; ?>">
+<meta name="robots" content="index, follow">
+<meta name="author" content="SpacePedia">
+<meta name="keywords" content="uzay ansiklopedisi, space encyclopedia, uzay, space, gezegenler, planets, yıldızlar, stars, galaksiler, galaxies, kara delikler, black holes, astronomi, astronomy, uzay simülasyonları, space simulations">
+<meta property="og:title" content="<?php echo $lang==='tr' ? 'uzay.info - Dünyanın İlk ve Tek İnteraktif Uzay Ansiklopedisi' : 'spacepedia.info - The World’s First and Only Interactive Space Encyclopedia'; ?>">
+<meta property="og:description" content="<?php echo $lang==='tr' ? 'Gezegenler, yıldızlar, galaksiler ve kara delikler hakkında bilgi edinin. Makaleleri okuyun, simülasyonları keşfedin ve uzayı keşfetmeye başlayın.' : 'Learn about planets, stars, galaxies and black holes. Read articles, explore simulations and start discovering space.'; ?>">
+<meta property="og:image" content="/uzaylogo.png">
+<meta property="og:url" content="https://www.uzay.info">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<?php echo $lang==='tr' ? 'uzay.info - Dünyanın İlk ve Tek İnteraktif Uzay Ansiklopedisi' : 'spacepedia.info - The World’s First and Only Interactive Space Encyclopedia'; ?>">
+<meta name="twitter:description" content="<?php echo $lang==='tr' ? 'uzay.info ile gezegenleri, yıldızları, galaksileri ve kara delikleri keşfedin.' : 'Discover planets, stars, galaxies and black holes with spacepedia.info.'; ?>">
+<meta name="twitter:image" content="/uzaylogo.png">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="https://www.uzay.info">
 <link rel="stylesheet" href="https://www.uzay.info/template/backgroundonly.css">
 <style>
 .logo{width:30px;height:30px;border-radius:50%;vertical-align:-7.5px}
@@ -96,7 +110,7 @@ a.user:hover{background:#4654e1;color:#fff;transform:translateX(3px)}
 .lobbypanel a{color:white;text-decoration:none;margin:3px 0;}
 .lobbypanel h3{margin-top:15px;color:#7dd3fc;}
 .spacer{height:160px;}
-.hero-gap{height:10px}
+.hero-gap{height:1px}
 .mobil-ekstra{display: none;}
 .ayarlarbuton .menu-icerik{z-index:1000}
 .dropdown .dropdown-content{z-index:1000}
@@ -308,39 +322,48 @@ a.user:hover{background:#4654e1;color:#fff;transform:translateX(3px)}
 </div>
 </div>
 <?php if (!$is404) { ?>
-<div id="türkçe2">
-<div class="hero-gap"></div>
-<font face="Arial" size="6" color="blue">"Dünyanın İlk ve Tek Uzay Ansiklopedisi: uzay.info ile tanışın!"</font>
-<font color="white">
-<h2>uzay.info nedir?<h2>
-<h3>uzay.info, dünyanın her noktasından erişilebilen özgür bir bilgi topluluğudur. Kullanımı tamamen ücretsiz olan bu platform, uzay hakkında kapsamlı bir ansiklopedik bilgi sunmayı hedefliyor. 
-7'den 70'e herkesin uzay hakkında bilgi sahibi olmasını sağlamak için 7/24 aktif bir kaynak sunar.<h3>
-<h2>Uzay Ansiklopedileri Hangi Gruplara Hitap Ediyor?</h2>
-<h3>Hazırlanan Uzay Ansiklopedileri, öğrenmeden araştırmalara, araştırmalardan çalışmalara, çalışmalardan akademik makalelere kadar geniş bir yelpaze arayan kitleye hitap eder.</h3>
-<h2>Eğlenceli Oyunlarla Öğretmeyi Amaçlıyoruz!</h2>
-<h3>uzay.info, oyunlar aracılığıyla eğlendirerek öğretmeyi amaçlıyor. Ücretsiz oyunlarımızı oynayarak bilgi dağarcığınızı genişletebilir, destek bölümünde her türlü yardım alabilirsiniz. 
-Ayrıca, özgür ansiklopedimize makale ve e-kitap yazarak katkıda bulunabilir, forumlar bölümünde güncel tartışmalara katılabilirsiniz. Sorularınızı ise iletişim bölümünden info@uzay.info adresine yazarak iletebilirsiniz!</h3>
-<h2>uzay.info'yu Kullanmak Artık Çok Kolay!</h2>
-<h3>Her kullanıcıya hitap eden uzay.info, ana sayfada verilen bölümlere tıklayarak kolayca kullanılabilir. Akademik makalelerimize /@/uzayinfo/akademikmakaleler adresinden ulaşabilirsiniz.</h3>
-</font>
-</div>
-<div id="english2">
-<div class="hero-gap"></div>
-<font face="Arial" size="6" color="blue">"Meet spacepedia.info: the world's first and only Space Encyclopedia!"</font>
-<font color="white">
-<h2>What is spacepedia info?</h2>
-<h3>spacepedia info is a free information community that can be accessed from any point in the world. This platform, which is completely free to use, aims to provide comprehensive encyclopedic information about space. It offers a 24/7 active resource to ensure that everyone from 7 to 70 has information about space.<h3>
-<h2>To Which Groups Do Space Encyclopedias Address?</h2>
-<h3>The prepared Space Encyclopedias appeal to a wide audience, ranging from learners to researchers, from research to studies, and from studies to academic articles.</h3>
-<h2>We aims Teaching with Fun Games!</h2>
-<h3>Spacepedia info aims to entertain and teach through games. You can expand your knowledge by playing our free games and get all kinds of help in the support section. 
-You can also contribute to our free encyclopedia by writing articles and e-books, and participate in current discussions in the forums section. You can send your questions to info@uzay.info from the contact section!</h3>
-<h2>Using spacepedia.info is Now Very Easy!</h2>
-<h3> spacepedia.info, which appeals to every user, can be used easily by clicking on the sections provided on the home page. You can access our academic articles at /@/SpacePedia/academic_articles.</h3>
-</font>
-</div>
+    <div id="türkçe2">
+        <div class="hero-gap"></div>
+        <h1 style="color:blue">"Dünyanın İlk ve Tek İnteraktif Uzay Ansiklopedisi: uzay.info ile tanışın!"</h1>
+        <div style="color:white">
+        <h2>uzay.info nedir?<h2>
+        <h3>uzay.info, dünyanın her noktasından erişilebilen <a href="/privacy#cookied-sessions" style="color:royalblue;text-decoration:underline;">kullanımı tamamen ücretsiz ve reklamsız</a> özgür bir bilgi topluluğudur. Bu platform, uzay hakkında kapsamlı bir ansiklopedik bilgi sunmayı hedefliyor. 
+        7'den 70'e herkesin uzay hakkında bilgi sahibi olmasını sağlamak için 7/24 aktif bir kaynak sunar.<h3>
+        <h2>Uzay Ansiklopedileri Hangi Gruplara Hitap Ediyor?</h2>
+        <h3>Hazırlanan Uzay Ansiklopedileri, öğrenmeden araştırmalara, araştırmalardan çalışmalara, çalışmalardan akademik makalelere kadar geniş bir yelpaze arayan kitleye hitap eder.</h3>
+        <h2>İnteraktif Uzay Ansiklopedisi İle Çok Taraflı Etkileşim!</h2>
+        <h3>uzay.info yalnızca hazır içeriklerin sunulduğu bir platform değildir. Kullanıcılar da makale ve e-kitap yazarak katkıda bulunabilir, forumlarda tartışmalara katılabilir ve bilgi aktarımında aktif rol alabilir.</h3>
+        <h2>Uzay Simülasyonları ile Aktif Öğrenme!</h2>
+        <h3>uzay.info, uzayı daha anlaşılır hale getirmek için simülasyonlar sunar. Bu simülasyonlar sayesinde kullanıcılar gezegenlerin hareketlerini, yıldız sistemlerini ve diğer uzay olaylarını gözlemleyerek öğrenebilir. Böylece yalnızca okuyarak değil, inceleyerek ve deneyimleyerek aktif bir öğrenme süreci oluşur.</h3>
+        <h2>Eğlenceli Oyunlarla Öğretmeyi Amaçlıyoruz!</h2>
+        <h3>uzay.info, oyunlar aracılığıyla eğlendirerek öğretmeyi amaçlıyor. Oyunlarımızı oynayarak bilgi dağarcığınızı genişletebilir, destek bölümünde her türlü yardım alabilirsiniz. 
+        Ayrıca, özgür ansiklopedimize makale ve e-kitap yazarak katkıda bulunabilir, forumlar bölümünde güncel tartışmalara katılabilirsiniz. Sorularınızı ise iletişim bölümünden info@uzay.info adresine yazarak iletebilirsiniz.</h3>
+        <h2>uzay.info'yu Kullanmak Artık Çok Kolay!</h2>
+        <h3>Her kullanıcıya hitap eden uzay.info, ana sayfada verilen bölümlere tıklayarak kolayca kullanılabilir. Akademik makalelerimize /@/uzayinfo/akademikmakaleler adresinden ulaşabilirsiniz.</h3>
+        </div>
+    </div>
+    <div id="english2">
+        <div class="hero-gap"></div>
+        <h1 style="color:blue">"Meet spacepedia.info: The World's First and Only Interactive Space Encyclopedia!"</h1>
+        <div style="color:white">
+        <h2>What is Spacepedia?</h2>
+        <h3>SpacePedia is a free knowledge community accessible from anywhere in the world, offering <a href="/privacy#cookied-sessions" style="color:royalblue;text-decoration:underline;">completely free and ad-free usage</a>. This platform aims to provide comprehensive encyclopedic information about space. 
+        It offers a 24/7 active resource so that everyone from 7 to 70 can learn about space.</h3> 
+        <h2>To Which Groups Do Space Encyclopedias Address?</h2>
+        <h3>The prepared Space Encyclopedias appeal to a wide audience, ranging from learners to researchers, from research to studies, and from studies to academic articles.</h3>
+        <h2>Interactive Space Encyclopedia with Multi-Sided Interaction!</h2>
+        <h3>Spacepedia is not only a platform where ready content is presented. Users can also contribute by writing articles and e-books, participate in forum discussions and take an active role in sharing knowledge.</h3>
+        <h2>Active Learning with Space Simulations!</h2>
+        <h3>Spacepedia offers simulations to make space easier to understand. Through these simulations, users can observe planetary motions, star systems and other space phenomena. In this way, learning becomes active by exploring and experiencing rather than only reading.</h3>
+        <h2>We aims Teaching with Fun Games!</h2>
+        <h3>Spacepedia aims to entertain and teach through games. You can expand your knowledge by playing our games and get all kinds of help in the support section. 
+        You can also contribute to our free encyclopedia by writing articles and e-books, and participate in current discussions in the forums section. You can send your questions to info@uzay.info from the contact section.</h3>
+        <h2>Using SpacePedia Is Now Very Easy!</h2>
+        <h3>Spacepedia, which appeals to every user, can be used easily by clicking on the sections provided on the home page. You can access our academic articles at /@/SpacePedia/academic_articles.</h3>
+        </div>
+    </div>
 <?php } else { ?>
-<div class="container"><img class="img" src="https://www.uzay.info/static/404notfound.png" alt="404 NOT FOUND"></div>
+    <div class="container"><img class="img" src="https://www.uzay.info/static/404notfound.png" alt="404 NOT FOUND"></div>
 <?php } ?>
 <form class="butonkonum" role="search" id="form">
     <input type="search" id="query" name="q" placeholder="<?php echo $lang === 'tr' ? 'Ara...' : 'Search...'; ?>" aria-label="<?php echo $lang === 'tr' ? 'Sitede ara' : 'Search through site content'; ?>" autocomplete="off">
@@ -369,9 +392,9 @@ function truncateByWidth(e,w){let o=e.textContent,t=o;e.textContent=t;if(e.offse
 const userBtn=document.getElementById("userBtn");
 if(userBtn&&!userBtn.querySelector("a")){let i=userBtn.querySelector("i"),iw=i?i.offsetWidth+6:0,mw=116-iw,n=userBtn.childNodes[0],s=document.createElement("span");s.textContent=n.textContent.replace(/\s+$/,"");userBtn.insertBefore(s,i);userBtn.insertBefore(document.createTextNode(" "),i);userBtn.removeChild(n);truncateByWidth(s,mw)}
 var pageLang=document.documentElement.lang;var title=document.getElementById("dynamic-title");var baslikMetni;
-if(pageLang==="tr"){baslikMetni="Dünyanın İlk ve Tek Uzay Ansiklopedisi: uzay.info ile tanışın!";document.getElementById("english").style.display="none";document.getElementById("english2").style.display="none";document.getElementById("türkçe").style.display="block";document.getElementById("türkçe2").style.display="block"}
-if(pageLang==="en"){baslikMetni="Meet spacepedia.info: the world's first and only Space Encyclopedia!";document.getElementById("türkçe").style.display="none";document.getElementById("türkçe2").style.display="none";document.getElementById("english").style.display="block";document.getElementById("english2").style.display="block"}
-else{baslikMetni="Dünyanın İlk ve Tek Uzay Ansiklopedisi: uzay.info ile tanışın!";document.getElementById("english").style.display="none";document.getElementById("english2").style.display="none";document.getElementById("türkçe").style.display="block";document.getElementById("türkçe2").style.display="block"}
+if(pageLang==="tr"){baslikMetni="Dünyanın İlk ve Tek İnteraktif Uzay Ansiklopedisi: uzay.info ile tanışın!";document.getElementById("english").style.display="none";document.getElementById("english2").style.display="none";document.getElementById("türkçe").style.display="block";document.getElementById("türkçe2").style.display="block"}
+if(pageLang==="en"){baslikMetni="Meet spacepedia.info: The World's First and Only Interactive Space Encyclopedia!";document.getElementById("türkçe").style.display="none";document.getElementById("türkçe2").style.display="none";document.getElementById("english").style.display="block";document.getElementById("english2").style.display="block"}
+else{baslikMetni="Dünyanın İlk ve Tek İnteraktif Uzay Ansiklopedisi: uzay.info ile tanışın!";document.getElementById("english").style.display="none";document.getElementById("english2").style.display="none";document.getElementById("türkçe").style.display="block";document.getElementById("türkçe2").style.display="block"}
 title.textContent='"'+baslikMetni+'"';
 </script>
 </body>
