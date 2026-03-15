@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+<url><loc>https://simulate.uzay.info/</loc></url>
+
+<url><loc>https://simulate.uzay.info/planets</loc></url>
+<url><loc>https://simulate.uzay.info/stars</loc></url>
+<url><loc>https://simulate.uzay.info/galaxies</loc></url>
+<url><loc>https://simulate.uzay.info/blackholes</loc></url>
+<url><loc>https://simulate.uzay.info/nebulas</loc></url>
+<url><loc>https://simulate.uzay.info/comets</loc></url>
+<url><loc>https://simulate.uzay.info/neutrons</loc></url>
+<url><loc>https://simulate.uzay.info/deepspace</loc></url>
+<url><loc>https://simulate.uzay.info/constellations</loc></url>
+
+<url><loc>https://simulate.uzay.info/deepspace/lateral</loc></url>
+<url><loc>https://simulate.uzay.info/deepspace/frontal</loc></url>
+
+</urlset>
