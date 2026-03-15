@@ -18,7 +18,7 @@ $L=[
 'extra_container'=>'Mini Reklamlar Alanı',
 'direct_title'=>'Destek Linki',
 'direct_button'=>'Reklamı Aç',
-'cookie_notice'=>'Bu sayfada gösterilen reklamlar, <a href="https://adsterra.com" style="color:royalblue">Adsterra</a> tarafından sunulur (yetişkinlere yönelik reklam modu devre dışı bırakılacak şekilde ayarlanarak) ve bu reklamlar kapsamında çerezler <a href="https://adsterra.com" style="color:royalblue">Adsterra</a> tarafından sadece <a href="/ads" style="color:royalblue">o sayfayı</a> kullandığınız süre içerisinde anlık olarak kullanılabilir. Bu kullanım, reklamların sunulması, performans ölçümü, güvenlik ve kötüye kullanımın önlenmesi gibi belli amaçlar için gerçekleşebilir. Bu sayfada, üçüncü taraf bir reklam hizmeti faaliyet gösterebilir. Tamam’a basarak bu sayfadaki reklam hizmetinin çalışmasını ve bu kapsamda gerçekleşebilecek teknik işlemleri kabul etmiş olursunuz.<br><br> Değerli desteğiniz için çok teşekkür ederiz 💙',
+'cookie_notice'=>'Platform, bu sayfa haricinde tamamen reklamsızdır ve çerez kullanmamaktadır ancak bu sayfada gösterilen reklamlar, <a href="https://adsterra.com" style="color:royalblue">Adsterra</a> tarafından sunulur (yetişkinlere yönelik reklam modu devre dışı bırakılacak şekilde ayarlanarak) ve bu reklamlar kapsamında çerezler <a href="https://adsterra.com" style="color:royalblue">Adsterra</a> tarafından sadece <a href="/ads" style="color:royalblue">o sayfayı</a> kullandığınız süre içerisinde anlık olarak kullanılabilir. Bu kullanım, reklamların sunulması, performans ölçümü, güvenlik ve kötüye kullanımın önlenmesi gibi belli amaçlar için gerçekleşebilir. Bu sayfada, üçüncü taraf bir reklam hizmeti faaliyet gösterebilir. Tamam’a basarak bu sayfadaki reklam hizmetinin çalışmasını ve bu kapsamda gerçekleşebilecek teknik işlemleri kabul etmiş olursunuz.<br><br> Değerli desteğiniz için çok teşekkür ederiz 💙',
 'cookie_button'=>'Tamam'
 ],
 'en'=>[
@@ -35,7 +35,7 @@ $L=[
 'extra_container'=>'Mini Advertisements Area',
 'direct_title'=>'Support Link',
 'direct_button'=>'Open Advertisement',
-'cookie_notice'=>'The advertisements shown on this page are provided by <a href="https://adsterra.com" style="color:royalblue">Adsterra</a> with adult-oriented advertising mode disabled, and within this advertising process cookies may be used instantly by <a href="https://adsterra.com" style="color:royalblue">Adsterra</a> only while you are using <a href="/ads" style="color:royalblue">that page</a>. This use may take place for certain purposes such as delivering advertisements, measuring performance, security, and preventing abuse. A third-party advertising service may operate on this page. By pressing OK, you agree to the operation of the advertising service on this page and the related technical processes.<br><br> Thank you so much for your valuable support 💙',
+'cookie_notice'=>'The platform is completely ad-free and does not use cookies, except for this page. However, the advertisements shown on this page are provided by <a href="https://adsterra.com" style="color:royalblue">Adsterra</a> with adult-oriented advertising mode disabled, and within this advertising process cookies may be used instantly by <a href="https://adsterra.com" style="color:royalblue">Adsterra</a> only while you are using <a href="/ads" style="color:royalblue">that page</a>. This use may take place for certain purposes such as delivering advertisements, measuring performance, security, and preventing abuse. A third-party advertising service may operate on this page. By pressing OK, you agree to the operation of the advertising service on this page and the related technical processes.<br><br> Thank you so much for your valuable support 💙',
 'cookie_button'=>'OK'
 ]
 ];
@@ -120,7 +120,7 @@ h1{margin:0 0 14px 0}
 .top-notice-text{font-size:15px;line-height:1.8;text-align:left}
 .top-notice-actions{display:flex;justify-content:flex-end;margin-top:16px}
 .top-notice-btn{border:none;border-radius:12px;padding:12px 22px;background:linear-gradient(135deg,#00aaff,#0a6cff);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 0 20px rgba(0,170,255,.22)}
-.top-notice-btn:hover{transform:translateY(-1px)}
+.top-notice-btn:hover{transform:translateY(-2px);filter:brightness(.85)}
 @media(max-width:1024px){
 .ads-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
 .span-12,.span-6,.span-4,.span-3{grid-column:span 6}
