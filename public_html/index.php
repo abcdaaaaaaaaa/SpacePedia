@@ -18,7 +18,6 @@ if (isset($_SESSION['username']) && $lang === 'tr') {
         <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</a>
     ';
 }
-
 if (isset($_SESSION['username']) && $lang === 'en') {
     $dropdownLinks .= '
         <a href="/@/' . $username . '"><i class="fa-solid fa-user"></i> Profile</a>
@@ -35,9 +34,7 @@ if (isset($_SESSION['username']) && $lang === 'en') {
 }
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $is404 = ($path !== '/');
-
 try { $stmt = $db->query("SELECT username FROM users ORDER BY username ASC"); $users = $stmt->fetchAll(PDO::FETCH_ASSOC); } catch (PDOException $e) { die("Veritabanı hatası: " . htmlspecialchars($e->getMessage())); }
-
 require_once __DIR__.'/delete_inactive_users_auto.php';
 require_once __DIR__.'/update_gram_gold_prices_auto.php';
 require_once __DIR__.'/clean_expired_supports_auto.php';
