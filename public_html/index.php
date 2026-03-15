@@ -112,6 +112,7 @@ a.user:hover{background:#4654e1;color:#fff;transform:translateX(3px)}
 .spacer{height:160px;}
 .hero-gap{height:1px}
 .mobil-ekstra{display: none;}
+.link{color:royalblue;text-decoration:underline;}
 .ayarlarbuton .menu-icerik{z-index:1000}
 .dropdown .dropdown-content{z-index:1000}
 @media(max-width:1237px){.baslik{display:none}}
@@ -327,39 +328,39 @@ a.user:hover{background:#4654e1;color:#fff;transform:translateX(3px)}
         <h1 style="color:blue">"Dünyanın İlk ve Tek İnteraktif Uzay Ansiklopedisi: uzay.info ile tanışın!"</h1>
         <div style="color:white">
         <h2>uzay.info nedir?<h2>
-        <h3>uzay.info, dünyanın her noktasından erişilebilen <a href="/privacy#cookied-sessions" style="color:royalblue;text-decoration:underline;">kullanımı tamamen ücretsiz ve reklamsız</a> özgür bir bilgi topluluğudur. Bu platform, uzay hakkında kapsamlı bir ansiklopedik bilgi sunmayı hedefliyor. 
+        <h3>uzay.info, dünyanın her noktasından erişilebilen <a href="/privacy#cookied-sessions" class="link">kullanımı tamamen ücretsiz ve reklamsız</a> özgür bir bilgi topluluğudur. Bu platform, uzay hakkında kapsamlı bir ansiklopedik bilgi sunmayı hedefliyor. 
         7'den 70'e herkesin uzay hakkında bilgi sahibi olmasını sağlamak için 7/24 aktif bir kaynak sunar.<h3>
         <h2>Uzay Ansiklopedileri Hangi Gruplara Hitap Ediyor?</h2>
-        <h3>Hazırlanan Uzay Ansiklopedileri, öğrenmeden araştırmalara, araştırmalardan çalışmalara, çalışmalardan akademik makalelere kadar geniş bir yelpaze arayan kitleye hitap eder.</h3>
-        <h2>İnteraktif Uzay Ansiklopedisi İle Çok Taraflı Etkileşim!</h2>
-        <h3>uzay.info yalnızca hazır içeriklerin sunulduğu bir platform değildir. Kullanıcılar da makale ve e-kitap yazarak katkıda bulunabilir, forumlarda tartışmalara katılabilir ve bilgi aktarımında aktif rol alabilir.</h3>
+        <h3>Hazırlanan Uzay Ansiklopedileri, öğrenmeden araştırmalara, araştırmalardan çalışmalara, çalışmalardan <a href="/akademikmakaleler" class="link">akademik makalelere</a> ve <a href="/ogreticimakaleler" class="link">öğretici makalelere</a> kadar geniş bir yelpaze arayan kitleye hitap eder.</h3>
+        <h2>Çok Taraflı Etkileşim Özelliğine Sahip İnteraktif Uzay Ansiklopedisi!</h2>
+        <h3>uzay.info yalnızca hazır içeriklerin sunulduğu bir platform değildir. Kullanıcılar da özgür uzay ansiklopedisine <a href="/yeniakademikmakale" class="link">akademik makale</a>, <a href="/yeniogreticimakale" class="link">öğretici makale</a> ve <a href="/yeniekitap" class="link">e-kitap</a> yazarak katkıda bulunabilir, <a href="/forumlar" class="link">forumlarda</a> tartışmalara katılabilir ve bilgi aktarımında aktif rol alabilir.</h3>
         <h2>Uzay Simülasyonları ile Aktif Öğrenme!</h2>
-        <h3>uzay.info, uzayı daha anlaşılır hale getirmek için simülasyonlar sunar. Bu simülasyonlar sayesinde kullanıcılar gezegenlerin hareketlerini, yıldız sistemlerini ve diğer uzay olaylarını gözlemleyerek öğrenebilir. Böylece yalnızca okuyarak değil, inceleyerek ve deneyimleyerek aktif bir öğrenme süreci oluşur.</h3>
-        <h2>Eğlenceli Oyunlarla Öğretmeyi Amaçlıyoruz!</h2>
-        <h3>uzay.info, oyunlar aracılığıyla eğlendirerek öğretmeyi amaçlıyor. Oyunlarımızı oynayarak bilgi dağarcığınızı genişletebilir, destek bölümünde her türlü yardım alabilirsiniz. 
-        Ayrıca, özgür ansiklopedimize makale ve e-kitap yazarak katkıda bulunabilir, forumlar bölümünde güncel tartışmalara katılabilirsiniz. Sorularınızı ise iletişim bölümünden info@uzay.info adresine yazarak iletebilirsiniz.</h3>
+        <h3>uzay.info, uzayı daha anlaşılır hale getirmek için <a href="/simulate" class="link">simülasyonlar</a> sunar. Bu simülasyonlar sayesinde kullanıcılar gezegenlerin hareketlerini, yıldız sistemlerini ve diğer uzay olaylarını gözlemleyerek öğrenebilir. Böylece yalnızca okuyarak değil, inceleyerek ve deneyimleyerek aktif bir öğrenme süreci oluşur.</h3>
+        <h2>Eğlenceli Oyunlarla da Öğretmeyi Amaçlıyoruz!</h2>
+        <h3>uzay.info, kapsamlı interaktif ansiklopedisi ve simülasyonları yanında <a href="/oyunlar" class="link">oyunlar</a> aracılığıyla da eğlendirerek öğretmeyi amaçlıyor. Oyunları oynayarak bilgi dağarcığınızı genişletebilirsiniz.</h3>
         <h2>uzay.info'yu Kullanmak Artık Çok Kolay!</h2>
-        <h3>Her kullanıcıya hitap eden uzay.info, ana sayfada verilen bölümlere tıklayarak kolayca kullanılabilir. Akademik makalelerimize /@/uzayinfo/akademikmakaleler adresinden ulaşabilirsiniz.</h3>
+        <h3>Her kullanıcıya hitap eden uzay.info, ana sayfada verilen bölümlere tıklayarak kolayca kullanılabilir. Akademik makalelerimize <a href="/@/uzayinfo/akademikmakaleler" class="link">/@/uzayinfo/akademikmakaleler</a> adresinden ulaşabilir, 
+        öğretici makalelerimize ise <a href="/@/uzayinfo/ogreticimakaleler" class="link">/@/uzayinfo/ogreticimakaleler</a> adresinden ulaşabilirsiniz. Sorularınız olması durumunda ise iletişim bölümünden <a href="mailto:info@uzay.info" class="link">info@uzay.info</a> e-posta adresine e-posta göndererek iletebilirsiniz.</h3>
         </div>
     </div>
     <div id="english2">
         <div class="hero-gap"></div>
         <h1 style="color:blue">"Meet spacepedia.info: The World's First and Only Interactive Space Encyclopedia!"</h1>
         <div style="color:white">
-        <h2>What is Spacepedia?</h2>
-        <h3>SpacePedia is a free knowledge community accessible from anywhere in the world, offering <a href="/privacy#cookied-sessions" style="color:royalblue;text-decoration:underline;">completely free and ad-free usage</a>. This platform aims to provide comprehensive encyclopedic information about space. 
-        It offers a 24/7 active resource so that everyone from 7 to 70 can learn about space.</h3> 
-        <h2>To Which Groups Do Space Encyclopedias Address?</h2>
-        <h3>The prepared Space Encyclopedias appeal to a wide audience, ranging from learners to researchers, from research to studies, and from studies to academic articles.</h3>
-        <h2>Interactive Space Encyclopedia with Multi-Sided Interaction!</h2>
-        <h3>Spacepedia is not only a platform where ready content is presented. Users can also contribute by writing articles and e-books, participate in forum discussions and take an active role in sharing knowledge.</h3>
+        <h2>What is SpacePedia?<h2>
+        <h3>SpacePedia is a free knowledge community that can be accessed from anywhere in the world with <a href="/privacy#cookied-sessions" class="link">completely free and ad-free usage</a>. This platform aims to provide comprehensive encyclopedic information about space. 
+        It offers a 24/7 active resource to ensure that everyone from 7 to 70 has information about space.<h3>
+        <h2>Which Groups Do Space Encyclopedias Appeal To?</h2>
+        <h3>The prepared Space Encyclopedias appeal to an audience looking for a wide range from learning to research, from research to studies, and from studies to <a href="/academic_articles" class="link">academic articles</a> and <a href="/tutorial_articles" class="link">tutorial articles</a>.</h3>
+        <h2>An Interactive Space Encyclopedia With Multifaceted Interaction Capabilities!</h2>
+        <h3>SpacePedia is not only a platform where ready content is presented. Users can also contribute to its free space encyclopedia by writing <a href="/new_academic_article" class="link">academic articles</a>, <a href="/new_tutorial_article" class="link">tutorial articles</a> and <a href="/new_ebook" class="link">e-books</a>, participate in discussions in <a href="/forums" class="link">forums</a> and take an active role in sharing information.</h3>
         <h2>Active Learning with Space Simulations!</h2>
-        <h3>Spacepedia offers simulations to make space easier to understand. Through these simulations, users can observe planetary motions, star systems and other space phenomena. In this way, learning becomes active by exploring and experiencing rather than only reading.</h3>
-        <h2>We aims Teaching with Fun Games!</h2>
-        <h3>Spacepedia aims to entertain and teach through games. You can expand your knowledge by playing our games and get all kinds of help in the support section. 
-        You can also contribute to our free encyclopedia by writing articles and e-books, and participate in current discussions in the forums section. You can send your questions to info@uzay.info from the contact section.</h3>
+        <h3>SpacePedia offers <a href="/simulate" class="link">simulations</a> to make space easier to understand. Thanks to these simulations, users can learn by observing the movements of planets, star systems and other space events. Thus, an active learning process occurs not only by reading but also by examining and experiencing.</h3>
+        <h2>We Aim to Teach Through Fun Games Too!</h2>
+        <h3>SpacePedia aims to teach by entertaining, not only through its comprehensive interactive encyclopedia and simulations, but also through <a href="/games" class="link">games</a>. You can expand your knowledge by playing the games.</h3>
         <h2>Using SpacePedia Is Now Very Easy!</h2>
-        <h3>Spacepedia, which appeals to every user, can be used easily by clicking on the sections provided on the home page. You can access our academic articles at /@/SpacePedia/academic_articles.</h3>
+        <h3>SpacePedia, which appeals to every user, can be used easily by clicking the sections provided on the home page. You can reach our academic articles at <a href="/@/SpacePedia/academic_articles" class="link">/@/SpacePedia/academic_articles</a>, 
+        and our tutorial articles at <a href="/@/SpacePedia/tutorial_articles" class="link">/@/SpacePedia/tutorial_articles</a>. If you have questions, you can send them by sending an e-mail to <a href="mailto:info@uzay.info" class="link">info@uzay.info</a> from the contact section.</h3>
         </div>
     </div>
 <?php } else { ?>
