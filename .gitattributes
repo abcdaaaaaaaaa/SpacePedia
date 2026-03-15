@@ -2,8 +2,4 @@
 *.htaccess linguist-language=ApacheConf
 *.htaccess text
 
-*.xml linguist-detectable=true
-*.xml linguist-language=XML
-*.xml text
-
 public_html/template/PHPMailer/** linguist-vendored
