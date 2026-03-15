@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.uzay.info/sitemap.xml
+Sitemap: https://www.spacepedia.info/sitemap.xml
+Sitemap: https://simulate.uzay.info/sitemap.xml
+Sitemap: https://game.uzay.info/sitemap.xml
