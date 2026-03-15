@@ -121,28 +121,10 @@ h1{margin:0 0 14px 0}
 .top-notice-actions{display:flex;justify-content:flex-end;margin-top:16px}
 .top-notice-btn{border:none;border-radius:12px;padding:12px 22px;background:linear-gradient(135deg,#00aaff,#0a6cff);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 0 20px rgba(0,170,255,.22)}
 .top-notice-btn:hover{transform:translateY(-2px);filter:brightness(.85)}
-@media(max-width:1024px){
+@media(max-width:1113px){
 .ads-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
 .span-12,.span-6,.span-4,.span-3{grid-column:span 6}
 .ad-728x90,.ad-468x60,.ad-320x50,.ad-300x250,.ad-160x600,.ad-160x300{max-width:100%}
-}
-@media(max-width:768px){
-.container{width:calc(100% - 20px);margin:20px 10px;padding:18px}
-.badge-wrap{width:100%;margin:14px auto 8px auto}
-.badge{padding:12px 14px;border-radius:24px}
-.badge span{font-size:13px;line-height:1.8}
-.ads-grid{grid-template-columns:1fr}
-.span-12,.span-6,.span-4,.span-3{grid-column:span 1}
-.ad-728x90{width:100%;max-width:728px;height:90px}
-.ad-468x60{width:100%;max-width:468px;height:60px}
-.ad-320x50{width:100%;max-width:320px;height:50px}
-.ad-300x250{width:100%;max-width:300px;height:250px}
-.ad-160x600{width:160px;height:600px}
-.ad-160x300{width:160px;height:300px}
-.top-notice{top:10px;width:calc(100% - 16px);padding:16px}
-.top-notice-text{font-size:14px;line-height:1.7}
-.top-notice-actions{justify-content:center}
-.top-notice-btn{width:100%}
 }
 </style>
 </head>
