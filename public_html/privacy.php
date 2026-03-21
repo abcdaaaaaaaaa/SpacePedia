@@ -130,7 +130,7 @@ hr{border:0;border-top:1px solid rgba(255,255,255,0.25);margin:18px 0}
 <?php if($lang==='tr'): ?>
 <p>Kullanım koşulları için <a class="blue" href="/terms">Kullanım Şartları</a> sayfasını inceleyiniz.</p>
 <?php else: ?>
-<p>For usage rules, see our <a class="blue" href="/terms">Terms of Service</a>.</p>
+<p>For usage rules, see our <a class="blue" href="/terms">Terms of Use</a>.</p>
 <?php endif; ?>
 </div>
 </div>
