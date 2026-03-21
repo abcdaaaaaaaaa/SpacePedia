@@ -1,13 +1,6 @@
 <?php
 session_start();
-if (isset($_GET['lang'])) {
-	$lang = $_GET['lang'];
-	$_SESSION['lang'] = $lang;
-} elseif (isset($_SESSION['lang'])) {
-	$lang = $_SESSION['lang'];
-} else {
-	$lang = 'tr';
-}
+if(isset($_GET['lang'])){$lang=$_GET['lang'];$_SESSION['lang']=$lang;}elseif(isset($_SESSION['lang'])){$lang=$_SESSION['lang'];}else{$lang='tr';}
 header("Content-Type: text/html; charset=utf-8");
 require_once('db_config.php');
 if (!isset($_SESSION['user_id'])) {
