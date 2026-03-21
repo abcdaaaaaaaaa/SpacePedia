@@ -1,5 +1,4 @@
     RewriteEngine on
-    AddHandler application/x-httpd-ea-php74 .php .php7 .phtml
 
     RewriteRule ^simulate$ https://simulate.uzay.info/ [L,NC]
     RewriteRule ^oyunlar$ https://game.uzay.info/ [L,NC]
@@ -820,9 +819,4 @@ RewriteRule ^template/eng/user_simulation\.php$ /@/%1/simulations [R=301,L]
     RewriteCond %{HTTPS} on
     RewriteCond %{QUERY_STRING} !(^|&)lang= [NC]
     RewriteRule ^(.*)$ $1?lang=tr [QSA,NC]
-
-# BEGIN oPanel Denyip
-<RequireAll>
-	Require all granted
-</RequireAll>
 # END oPanel Denyip
