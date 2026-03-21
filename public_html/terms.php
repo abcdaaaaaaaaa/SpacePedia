@@ -7,7 +7,7 @@ if(isset($_GET['lang'])){$lang=$_GET['lang'];$_SESSION['lang']=$lang;}elseif(iss
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?php echo $lang==='tr'?'Kullanım Şartları':'Terms of Service'; ?></title>
+<title><?php echo $lang==='tr'?'Kullanım Şartları':'Terms of Use'; ?></title>
 <link rel="shortcut icon" href="https://www.uzay.info/uzaylogo.ico">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://www.uzay.info/template/backgroundonly.css">
@@ -32,7 +32,7 @@ hr{border:0;border-top:1px solid rgba(255,255,255,0.25);margin:18px 0}
 <body>
 <div class="wrap">
 <div class="topbar">
-<h1><?php echo $lang==='tr'?'Kullanım Şartları':'Terms of Service'; ?></h1>
+<h1><?php echo $lang==='tr'?'Kullanım Şartları':'Terms of Use'; ?></h1>
 <div class="btns">
 <a class="btn" href="/"><?php echo $lang==='tr'?'Ana Sayfa':'Home'; ?></a>
 <a class="btn" href="/privacy"><?php echo $lang==='tr'?'Gizlilik':'Privacy'; ?></a>
@@ -43,7 +43,7 @@ hr{border:0;border-top:1px solid rgba(255,255,255,0.25);margin:18px 0}
 <?php if($lang==='tr'): ?>
 <p>Bu Kullanım Şartları, SpacePedia/Uzay platformunu kullanırken uymanız gereken kuralları açıklar. Platformu kullanarak bu şartları kabul etmiş olursunuz.</p>
 <?php else: ?>
-<p>These Terms of Service describe the rules you must follow when using SpacePedia/Uzay. By using the platform, you agree to these terms.</p>
+<p>These Terms of Use describe the rules you must follow when using SpacePedia/Uzay. By using the platform, you agree to these terms.</p>
 <?php endif; ?>
 </div>
 
