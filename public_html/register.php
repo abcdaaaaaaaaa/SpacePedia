@@ -169,7 +169,7 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
             <div style="font-size:11px;color:#aaa;text-align:left;">
                 <?php echo $lang==='tr'
                 ?'Kayıt olarak <a href="/terms" class="blue">Kullanım Şartları</a>\'nı kabul etmiş olursunuz. <a href="/privacy" class="blue">Gizlilik Politikamızı</a> okuyunuz.'
-                :'By registering, you agree to the <a href="/terms" class="blue">Terms of Service</a>. Read about our <a href="/privacy" class="blue">Privacy policy</a>.'; ?>
+                :'By registering, you agree to the <a href="/terms" class="blue">Terms of Use</a>. Read about our <a href="/privacy" class="blue">Privacy Policy</a>.'; ?>
             </div>
             <br>
             <input type="submit" value="<?php echo $lang === 'tr' ? "Kayıt Ol" : "Sign Up"; ?>">
