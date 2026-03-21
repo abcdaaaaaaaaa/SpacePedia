@@ -2,6 +2,7 @@
 session_start();
 function goHome(){header("Location: /");exit;}
 if(!isset($_SESSION['user_id'])){goHome();}
+if($_SERVER["REQUEST_METHOD"]!=="POST"){goHome();}
 if(!empty($_POST['website'])){goHome();}
 if(!isset($_POST['csrf_token'])||$_POST['csrf_token']!==($_SESSION['csrf_token']??'')){goHome();}
 if(!isset($_SESSION['form_time'])||time()-$_SESSION['form_time']<8){goHome();}
@@ -14,20 +15,17 @@ if(count($matches[0])>3){goHome();}
 if(isset($_GET['lang'])){$lang=$_GET['lang'];$_SESSION['lang']=$lang;}elseif(isset($_SESSION['lang'])){$lang=$_SESSION['lang'];}else{$lang='tr';}
 require_once('db_config.php');
 
-function failAndGoHome(){goHome();}
+function failAndGoHome($coverTarget=null,$pdfTarget=null){
+	if($coverTarget&&file_exists($coverTarget)){unlink($coverTarget);}
+	if($pdfTarget&&file_exists($pdfTarget)){unlink($pdfTarget);}
+	goHome();
+}
 function hasDangerousName($name){
 	if($name===''||strlen($name)>255){return true;}
 	if(preg_match('/[\x00-\x1F\x7F]/u',$name)){return true;}
 	if(strpos($name,'..')!==false){return true;}
 	if(preg_match('/[\/\\\\]/',$name)){return true;}
-	if(substr_count($name,'.')<1){return true;}
 	return false;
-}
-function getMime($tmp){
-	$f=finfo_open(FILEINFO_MIME_TYPE);
-	$m=finfo_file($f,$tmp);
-	finfo_close($f);
-	return $m;
 }
 
 if($_SERVER["REQUEST_METHOD"]==="POST"){
@@ -38,66 +36,33 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 
 	$uploadDir=__DIR__.'/ebook/';
 	if(!is_dir($uploadDir)){
-		if(!mkdir($uploadDir,0755,true)){failAndGoHome();}
+		if(!mkdir($uploadDir,0755,true)){goHome();}
 	}
-	if(!is_dir($uploadDir)||!is_writable($uploadDir)){failAndGoHome();}
+	if(!is_dir($uploadDir)||!is_writable($uploadDir)){goHome();}
 
 	$coverTmp=$_FILES['cover']['tmp_name'];
 	$coverOriginal=(string)$_FILES['cover']['name'];
 	$coverSize=(int)$_FILES['cover']['size'];
 	$coverExt=strtolower(pathinfo($coverOriginal,PATHINFO_EXTENSION));
-	$coverBase=pathinfo($coverOriginal,PATHINFO_FILENAME);
-	$coverMime=getMime($coverTmp);
 	$coverImageInfo=@getimagesize($coverTmp);
 	$coverAllowedExt=['jpg','jpeg','png','webp'];
-	$coverAllowedMime=['image/jpeg','image/png','image/webp'];
 
-	if(hasDangerousName($coverOriginal)){failAndGoHome();}
-	if($coverBase===''||preg_match('/\.(php|phtml|php3|php4|php5|php7|php8|phar|cgi|pl|py|jsp|asp|aspx|sh|exe|js|html|htm)$/i',$coverBase)){failAndGoHome();}
-	if(!in_array($coverExt,$coverAllowedExt,true)){failAndGoHome();}
-	if(!in_array($coverMime,$coverAllowedMime,true)){failAndGoHome();}
-	if($coverImageInfo===false||!isset($coverImageInfo[0],$coverImageInfo[1])||$coverImageInfo[0]<1||$coverImageInfo[1]<1){failAndGoHome();}
-	if($coverSize<=0||$coverSize>5*1024*1024){failAndGoHome();}
-
-	$realImageType=$coverImageInfo[2]??null;
-	$allowedImageTypes=[IMAGETYPE_JPEG,IMAGETYPE_PNG,IMAGETYPE_WEBP];
-	if(!in_array($realImageType,$allowedImageTypes,true)){failAndGoHome();}
-	if(($coverExt==='jpg'||$coverExt==='jpeg')&&$realImageType!==IMAGETYPE_JPEG){failAndGoHome();}
-	if($coverExt==='png'&&$realImageType!==IMAGETYPE_PNG){failAndGoHome();}
-	if($coverExt==='webp'&&$realImageType!==IMAGETYPE_WEBP){failAndGoHome();}
-
-	$coverContent=file_get_contents($coverTmp,false,null,0,32);
-	if($coverContent===false||$coverContent===''){failAndGoHome();}
-	$coverStartsWithPhp=preg_match('/^\s*<\?(php|=)?/i',$coverContent);
-	if($coverStartsWithPhp){failAndGoHome();}
+	if(hasDangerousName($coverOriginal)){goHome();}
+	if(!in_array($coverExt,$coverAllowedExt,true)){goHome();}
+	if($coverImageInfo===false){goHome();}
+	if($coverSize<=0||$coverSize>5*1024*1024){goHome();}
 
 	$pdfTmp=$_FILES['pdf']['tmp_name'];
 	$pdfOriginal=(string)$_FILES['pdf']['name'];
 	$pdfSize=(int)$_FILES['pdf']['size'];
 	$pdfExt=strtolower(pathinfo($pdfOriginal,PATHINFO_EXTENSION));
-	$pdfBase=pathinfo($pdfOriginal,PATHINFO_FILENAME);
-	$pdfMime=getMime($pdfTmp);
 
-	if(hasDangerousName($pdfOriginal)){failAndGoHome();}
-	if($pdfBase===''||preg_match('/\.(php|phtml|php3|php4|php5|php7|php8|phar|cgi|pl|py|jsp|asp|aspx|sh|exe|js|html|htm)$/i',$pdfBase)){failAndGoHome();}
-	if($pdfExt!=='pdf'){failAndGoHome();}
-	if(!in_array($pdfMime,['application/pdf','application/x-pdf'],true)){failAndGoHome();}
-	if($pdfSize<=0||$pdfSize>25*1024*1024){failAndGoHome();}
+	if(hasDangerousName($pdfOriginal)){goHome();}
+	if($pdfExt!=='pdf'){goHome();}
+	if($pdfSize<=0||$pdfSize>25*1024*1024){goHome();}
 
-	$pdfHead=file_get_contents($pdfTmp,false,null,0,8);
-	if($pdfHead===false||strncmp($pdfHead,'%PDF-',5)!==0){failAndGoHome();}
-
-	$pdfTailSize=min($pdfSize,2048);
-	$pdfHandle=fopen($pdfTmp,'rb');
-	if($pdfHandle===false){failAndGoHome();}
-	if(fseek($pdfHandle,-$pdfTailSize,SEEK_END)!==0&&$pdfSize>$pdfTailSize){fclose($pdfHandle);failAndGoHome();}
-	$pdfTail=fread($pdfHandle,$pdfTailSize);
-	fclose($pdfHandle);
-	if($pdfTail===false||stripos($pdfTail,'%%EOF')===false){failAndGoHome();}
-
-	$pdfStartChunk=file_get_contents($pdfTmp,false,null,0,4096);
-	if($pdfStartChunk===false||$pdfStartChunk===''){failAndGoHome();}
-	if(preg_match('/<\?(php|=)?/i',$pdfStartChunk)){failAndGoHome();}
+	$pdfHead=file_get_contents($pdfTmp,false,null,0,5);
+	if($pdfHead===false||$pdfHead!=='%PDF-'){goHome();}
 
 	$cover_name='cover_'.$user_id.'_'.bin2hex(random_bytes(16)).'.'.$coverExt;
 	$pdf_name='pdf_'.$user_id.'_'.bin2hex(random_bytes(16)).'.pdf';
@@ -105,13 +70,10 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 	$coverTarget=$uploadDir.$cover_name;
 	$pdfTarget=$uploadDir.$pdf_name;
 
-	if(file_exists($coverTarget)||file_exists($pdfTarget)){failAndGoHome();}
+	if(file_exists($coverTarget)||file_exists($pdfTarget)){goHome();}
 
-	if(!move_uploaded_file($coverTmp,$coverTarget)){failAndGoHome();}
-	if(!move_uploaded_file($pdfTmp,$pdfTarget)){
-		if(file_exists($coverTarget)){unlink($coverTarget);}
-		failAndGoHome();
-	}
+	if(!move_uploaded_file($coverTmp,$coverTarget)){goHome();}
+	if(!move_uploaded_file($pdfTmp,$pdfTarget)){failAndGoHome($coverTarget,null);}
 
 	$table=$lang==='en'?'ebook_posts2':'ebook_posts';
 
@@ -143,10 +105,8 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 		$user=$stmt2->fetch(PDO::FETCH_ASSOC);
 
 		if(!$user||empty($user['username'])){
-			$db->rollBack();
-			if(file_exists($coverTarget)){unlink($coverTarget);}
-			if(file_exists($pdfTarget)){unlink($pdfTarget);}
-			failAndGoHome();
+			if($db->inTransaction()){$db->rollBack();}
+			failAndGoHome($coverTarget,$pdfTarget);
 		}
 
 		$db->commit();
@@ -161,9 +121,7 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 		exit();
 	}catch(Throwable $e){
 		if($db->inTransaction()){$db->rollBack();}
-		if(file_exists($coverTarget)){unlink($coverTarget);}
-		if(file_exists($pdfTarget)){unlink($pdfTarget);}
-		failAndGoHome();
+		failAndGoHome($coverTarget,$pdfTarget);
 	}
 }
 ?>
