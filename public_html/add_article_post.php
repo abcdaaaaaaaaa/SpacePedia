@@ -7,6 +7,10 @@ if(!empty($_POST['website'])){goHome();}
 if(!isset($_POST['csrf_token'])||$_POST['csrf_token']!==($_SESSION['csrf_token']??'')){goHome();}
 if(!isset($_SESSION['form_time'])||time()-$_SESSION['form_time']<8){goHome();}
 if(empty(trim($_POST['title']??''))){goHome();}
+if(empty(trim($_POST['subject']??''))){goHome();}
+if(empty(trim($_POST['summary']??''))){goHome();}
+if(empty(trim($_POST['purpose']??''))){goHome();}
+if(empty(trim($_POST['audience']??''))){goHome();}
 if(!isset($_POST['summary'])||mb_strlen(trim(strip_tags($_POST['summary'])))<100){goHome();}
 if(!isset($_FILES['cover'])||!is_array($_FILES['cover'])||($_FILES['cover']['error']??UPLOAD_ERR_NO_FILE)!==UPLOAD_ERR_OK||empty($_FILES['cover']['tmp_name'])||!is_uploaded_file($_FILES['cover']['tmp_name'])||empty($_FILES['cover']['name'])){goHome();}
 if(!isset($_FILES['pdf'])||!is_array($_FILES['pdf'])||($_FILES['pdf']['error']??UPLOAD_ERR_NO_FILE)!==UPLOAD_ERR_OK||empty($_FILES['pdf']['tmp_name'])||!is_uploaded_file($_FILES['pdf']['tmp_name'])||empty($_FILES['pdf']['name'])){goHome();}
@@ -28,98 +32,98 @@ function hasDangerousName($name){
 	return false;
 }
 
-$user_id=(int)$_SESSION['user_id'];
-$title=trim($_POST['title']);
-$summary=trim($_POST['summary']);
-$visibility=isset($_POST['visibility'])&&(string)$_POST['visibility']==='0'?0:1;
+if($_SERVER["REQUEST_METHOD"]==="POST"){
+	$user_id=(int)$_SESSION['user_id'];
+	$title=trim($_POST['title']);
+	$subject=trim($_POST['subject']);
+	$summary=trim($_POST['summary']);
+	$purpose=trim($_POST['purpose']);
+	$audience=trim($_POST['audience']);
+	$visibility=isset($_POST['visibility'])&&(string)$_POST['visibility']==='0'?0:1;
 
-$uploadDir=__DIR__.'/ebook/';
-if(!is_dir($uploadDir)){
-	if(!mkdir($uploadDir,0755,true)){goHome();}
-}
-if(!is_dir($uploadDir)||!is_writable($uploadDir)){goHome();}
+	$uploadDir=__DIR__.'/article/';
+	if(!is_dir($uploadDir)){
+		if(!mkdir($uploadDir,0755,true)){goHome();}
+	}
+	if(!is_dir($uploadDir)||!is_writable($uploadDir)){goHome();}
 
-$coverTmp=$_FILES['cover']['tmp_name'];
-$coverOriginal=(string)$_FILES['cover']['name'];
-$coverSize=(int)$_FILES['cover']['size'];
-$coverExt=strtolower(pathinfo($coverOriginal,PATHINFO_EXTENSION));
-$coverImageInfo=@getimagesize($coverTmp);
-$coverAllowedExt=['jpg','jpeg','png','webp'];
+	$coverTmp=$_FILES['cover']['tmp_name'];
+	$coverOriginal=(string)$_FILES['cover']['name'];
+	$coverSize=(int)$_FILES['cover']['size'];
+	$coverExt=strtolower(pathinfo($coverOriginal,PATHINFO_EXTENSION));
+	$coverImageInfo=@getimagesize($coverTmp);
+	$coverAllowedExt=['jpg','jpeg','png','webp'];
 
-if(hasDangerousName($coverOriginal)){goHome();}
-if(!in_array($coverExt,$coverAllowedExt,true)){goHome();}
-if($coverImageInfo===false){goHome();}
-if($coverSize<=0||$coverSize>5*1024*1024){goHome();}
+	if(hasDangerousName($coverOriginal)){goHome();}
+	if(!in_array($coverExt,$coverAllowedExt,true)){goHome();}
+	if($coverImageInfo===false){goHome();}
+	if($coverSize<=0||$coverSize>5*1024*1024){goHome();}
 
-$pdfTmp=$_FILES['pdf']['tmp_name'];
-$pdfOriginal=(string)$_FILES['pdf']['name'];
-$pdfSize=(int)$_FILES['pdf']['size'];
-$pdfExt=strtolower(pathinfo($pdfOriginal,PATHINFO_EXTENSION));
+	$pdfTmp=$_FILES['pdf']['tmp_name'];
+	$pdfOriginal=(string)$_FILES['pdf']['name'];
+	$pdfSize=(int)$_FILES['pdf']['size'];
+	$pdfExt=strtolower(pathinfo($pdfOriginal,PATHINFO_EXTENSION));
 
-if(hasDangerousName($pdfOriginal)){goHome();}
-if($pdfExt!=='pdf'){goHome();}
-if($pdfSize<=0||$pdfSize>25*1024*1024){goHome();}
+	if(hasDangerousName($pdfOriginal)){goHome();}
+	if($pdfExt!=='pdf'){goHome();}
+	if($pdfSize<=0||$pdfSize>25*1024*1024){goHome();}
 
-$pdfHead=file_get_contents($pdfTmp,false,null,0,5);
-if($pdfHead===false||$pdfHead!=='%PDF-'){goHome();}
+	$pdfHead=file_get_contents($pdfTmp,false,null,0,5);
+	if($pdfHead===false||$pdfHead!=='%PDF-'){goHome();}
 
-$cover_name='cover_'.$user_id.'_'.bin2hex(random_bytes(16)).'.'.$coverExt;
-$pdf_name='pdf_'.$user_id.'_'.bin2hex(random_bytes(16)).'.pdf';
+	$cover_name='cover_'.$user_id.'_'.bin2hex(random_bytes(16)).'.'.$coverExt;
+	$pdf_name='pdf_'.$user_id.'_'.bin2hex(random_bytes(16)).'.pdf';
 
-$coverTarget=$uploadDir.$cover_name;
-$pdfTarget=$uploadDir.$pdf_name;
+	$coverTarget=$uploadDir.$cover_name;
+	$pdfTarget=$uploadDir.$pdf_name;
 
-if(file_exists($coverTarget)||file_exists($pdfTarget)){goHome();}
+	if(file_exists($coverTarget)||file_exists($pdfTarget)){goHome();}
 
-if(!move_uploaded_file($coverTmp,$coverTarget)){goHome();}
-if(!move_uploaded_file($pdfTmp,$pdfTarget)){failAndGoHome($coverTarget,null);}
+	if(!move_uploaded_file($coverTmp,$coverTarget)){goHome();}
+	if(!move_uploaded_file($pdfTmp,$pdfTarget)){failAndGoHome($coverTarget,null);}
 
-$table=$lang==='en'?'ebook_posts2':'ebook_posts';
+	$table=$lang==='en'?'article_posts2':'article_posts';
 
-try{
-	$db->beginTransaction();
+	try{
+		$db->beginTransaction();
 
-	$stmt=$db->prepare("INSERT INTO {$table} (user_id,title,summary,cover,pdf,visibility) VALUES (:user_id,:title,:summary,:cover,:pdf,:visibility)");
-	$stmt->bindParam(':user_id',$user_id,PDO::PARAM_INT);
-	$stmt->bindParam(':title',$title,PDO::PARAM_STR);
-	$stmt->bindParam(':summary',$summary,PDO::PARAM_STR);
-	$stmt->bindParam(':cover',$cover_name,PDO::PARAM_STR);
-	$stmt->bindParam(':pdf',$pdf_name,PDO::PARAM_STR);
-	$stmt->bindParam(':visibility',$visibility,PDO::PARAM_INT);
-	$stmt->execute();
+		$stmt=$db->prepare("INSERT INTO {$table} (user_id,title,subject,summary,purpose,audience,cover,pdf,visibility) VALUES (:user_id,:title,:subject,:summary,:purpose,:audience,:cover,:pdf,:visibility)");
+		$stmt->bindParam(':user_id',$user_id,PDO::PARAM_INT);
+		$stmt->bindParam(':title',$title,PDO::PARAM_STR);
+		$stmt->bindParam(':subject',$subject,PDO::PARAM_STR);
+		$stmt->bindParam(':summary',$summary,PDO::PARAM_STR);
+		$stmt->bindParam(':purpose',$purpose,PDO::PARAM_STR);
+		$stmt->bindParam(':audience',$audience,PDO::PARAM_STR);
+		$stmt->bindParam(':cover',$cover_name,PDO::PARAM_STR);
+		$stmt->bindParam(':pdf',$pdf_name,PDO::PARAM_STR);
+		$stmt->bindParam(':visibility',$visibility,PDO::PARAM_INT);
+		$stmt->execute();
 
-	if($visibility===1){
+		$stmt2=$db->prepare("SELECT username FROM users WHERE id=:user_id LIMIT 1");
+		$stmt2->bindParam(':user_id',$user_id,PDO::PARAM_INT);
+		$stmt2->execute();
+		$user=$stmt2->fetch(PDO::FETCH_ASSOC);
+
+		if(!$user||empty($user['username'])){
+			if($db->inTransaction()){$db->rollBack();}
+			failAndGoHome($coverTarget,$pdfTarget);
+		}
+
 		$db->commit();
+
+		$username=$user['username'];
+
 		if($lang==='en'){
-			header("Location: /ebooks");
+			if($visibility===1){header("Location: /academic_articles");}
+			else{header("Location: /@/".rawurlencode($username)."/academic_articles");}
 		}else{
-			header("Location: /ekitaplar");
+			if($visibility===1){header("Location: /akademikmakaleler");}
+			else{header("Location: /@/".rawurlencode($username)."/akademikmakaleler");}
 		}
 		exit();
-	}
-
-	$stmt2=$db->prepare("SELECT username FROM users WHERE id=:user_id LIMIT 1");
-	$stmt2->bindParam(':user_id',$user_id,PDO::PARAM_INT);
-	$stmt2->execute();
-	$user=$stmt2->fetch(PDO::FETCH_ASSOC);
-
-	if(!$user||empty($user['username'])){
+	}catch(Throwable $e){
 		if($db->inTransaction()){$db->rollBack();}
 		failAndGoHome($coverTarget,$pdfTarget);
 	}
-
-	$db->commit();
-
-	$username=$user['username'];
-
-	if($lang==='en'){
-		header("Location: /@/".rawurlencode($username)."/ebooks");
-	}else{
-		header("Location: /@/".rawurlencode($username)."/ekitaplar");
-	}
-	exit();
-}catch(Throwable $e){
-	if($db->inTransaction()){$db->rollBack();}
-	failAndGoHome($coverTarget,$pdfTarget);
 }
 ?>
