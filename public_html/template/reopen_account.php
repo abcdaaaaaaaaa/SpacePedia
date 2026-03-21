@@ -1,5 +1,6 @@
 <?php
 session_start();
+if(isset($_GET['lang'])){$lang=$_GET['lang'];$_SESSION['lang']=$lang;}elseif(isset($_SESSION['lang'])){$lang=$_SESSION['lang'];}else{$lang='tr';}
 require_once '../db_config.php';
 require_once __DIR__.'/mailer.php';
 
@@ -39,6 +40,11 @@ if($_SERVER['REQUEST_METHOD']==='POST' && $step==='login'){
         $error=$lang==='tr'
             ?'Kullanıcı adı, e-posta veya parola hatalı.'
             :'Username, email or password is incorrect.';
+    }
+    elseif($user['account_closed']==-1){
+        $error=$lang==='tr'
+            ?'Bu Hesap SpacePedia/Uzay Platformunun Kullanım Şartlarını İhlâl Ettiği için Yeniden Açılamaz.'
+            :'This Account Cannot Be Reopened Because It Has Violated The SpacePedia/Uzay Platform Terms of Use.';
     }
     elseif($user['account_close_count']>=4){
         $error=$lang==='tr'
