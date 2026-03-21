@@ -5,8 +5,9 @@ require_once('db_config.php');
 
 $L = [
     'tr' => [
-        'user_not_found' => 'Kullanıcı bulunamadı.',
         'profile_not_found' => '../KullanıcıBulunamadı',
+        'account_closed' => 'Hesap Kapatılmıştır.',
+        'account_banned' => 'Bu Hesap SpacePedia/Uzay Platformunun Kullanım Şartlarını İhlâl Ettiği İçin Kapatılmıştır.',
         'no_info' => 'Henüz bir bilgi eklenmedi.',
         'edit_profile' => 'Profilini Düzenle',
         'home' => 'Ana Sayfa',
@@ -23,8 +24,9 @@ $L = [
         'last_online' => 'Son çevrim içi'
     ],
     'en' => [
-        'user_not_found' => 'User not found.',
         'profile_not_found' => '../UserNotFound',
+        'account_closed' => 'This Account Is Closed.',
+        'account_banned' => 'This Account Has Been Closed Due To Violation Of SpacePedia/Uzay Platform Terms Of Use.',
         'no_info' => 'No information added yet.',
         'edit_profile' => 'Edit Profile',
         'home' => 'Home',
@@ -59,15 +61,25 @@ $paths = [
     ]
 ];
 
+$closedMessage = '';
+$closedType = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['username'])) {
     $requestedUsername = $_GET['username'];
-    $stmt=$db->prepare("SELECT id,username,email,profile_info,profile_image,verified,last_online,supporter,support_start,mode FROM users WHERE username=:username AND account_closed=0");
+    $stmt=$db->prepare("SELECT id,username,email,profile_info,profile_image,verified,last_online,supporter,support_start,mode,account_closed FROM users WHERE username=:username");
     $stmt->bindParam(':username', $requestedUsername);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$user) {
         header("Location: " . $L[$lang]['profile_not_found']);
         exit();
+    }
+    if((int)$user['account_closed']===1){
+        $closedMessage=$L[$lang]['account_closed'];
+        $closedType='closed';
+    }elseif((int)$user['account_closed']===-1){
+        $closedMessage=$L[$lang]['account_banned'];
+        $closedType='banned';
     }
 }
 
@@ -128,14 +140,32 @@ body.dark-mode .card span{color:#fff}
 .support-7{color:#e74c3c;filter:drop-shadow(0 0 18px rgba(231,76,60,.95))}
 #verified{color:#1e90ff;filter:drop-shadow(0 0 18px rgba(30,144,255,.9))}
 .last-online{margin-top:8px;font-size:13px;color:#ddd}
+.closed-box{text-align:center;padding:35px 20px}
+.closed-box h1{font-size:30px;color:#fff;margin:10px 0 14px}
+.closed-box p{font-size:17px;line-height:1.6;max-width:760px;margin:0 auto}
+.closed-box.closed .closed-symbol{width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.28);backdrop-filter:blur(4px)}
+.closed-box.closed .closed-symbol i{font-size:34px;color:#fff}
+.closed-box.closed p{color:#f0f0f0}
+.closed-box.banned .closed-symbol{width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;background:rgba(255,0,0,.12);border:2px solid rgba(255,80,80,.35);backdrop-filter:blur(4px)}
+.closed-box.banned .closed-symbol i{font-size:34px;color:#ff8a8a}
+.closed-box.banned p{color:#ffb3b3}
 </style>
 </head>
 <body>
-<?php if($isLoggedInUser): ?>
+<?php if($isLoggedInUser && $closedMessage===''): ?>
 <button class="dark-mode-toggle" onclick="toggleDarkMode()"></button>
 <?php endif; ?>
 <a href="/" class="home-btn"><i class="fas fa-home"></i> <?php echo $L[$lang]['home']; ?></a>
 <div class="container">
+<?php if($closedMessage!==''): ?>
+    <div class="closed-box <?php echo $closedType==='banned'?'banned':'closed'; ?>">
+        <div class="closed-symbol">
+            <i class="fa-solid <?php echo $closedType==='banned'?'fa-triangle-exclamation':'fa-user-lock'; ?>"></i>
+        </div>
+        <h1><?php echo htmlspecialchars($user['username']); ?></h1>
+        <p><?php echo htmlspecialchars($closedMessage); ?></p>
+    </div>
+<?php else: ?>
     <div class="profile">
         <img src="https://uzay.info/<?php echo htmlspecialchars($user['profile_image'] ?? "profile_images/uzaylogo.png"); ?>" alt="Profil Resmi">
         <h1><?php echo htmlspecialchars($user['username']); ?></h1>
@@ -170,15 +200,21 @@ body.dark-mode .card span{color:#fff}
             <a class="card course" href="/@/<?php echo urlencode($user['username']); ?>/<?php echo $paths[$lang]['course']; ?>" target="_blank"><i class="fa-solid fa-chalkboard-teacher"></i><span><?php if ($lang === 'tr') echo $L[$lang]['course'] . ($isLoggedInUser ? 'ım' : 'ı'); else echo ($isLoggedInUser ? 'All My ' : 'All ') . substr($L[$lang]['course'], 4); ?></span></a>
         </div>
     </div>
+<?php endif; ?>
 </div>
 <script>
 function applyTheme(theme){
+    <?php if($closedType==='banned'): ?>
+    document.body.classList.add("dark-mode");
+    return;
+    <?php endif; ?>
+
     document.body.classList.toggle("dark-mode",theme==="dark");
     const btn=document.querySelector(".dark-mode-toggle");
     if(btn) btn.textContent=theme==="dark"?"<?php echo $L[$lang]['light']; ?>":"<?php echo $L[$lang]['dark']; ?>";
 }
 (function(){
-    const dbTheme="<?php echo ($user['mode']==='dark'?'dark':'light'); ?>";
+    const dbTheme="<?php echo (($user['mode']??'light')==='dark'?'dark':'light'); ?>";
     applyTheme(dbTheme);
 })();
 async function setThemeOnServer(theme){
