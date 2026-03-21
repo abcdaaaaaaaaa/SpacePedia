@@ -43,6 +43,11 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
             $_SESSION['resend_login']=$login;
             $show_resend=true;
         }
+        elseif((int)$user['account_closed']===-1){
+            $msg=$lang==='tr'
+                ? "Bu Hesap SpacePedia/Uzay Platformunun Kullanım Şartlarını İhlâl Ettiği için Kapatılmıştır."
+                : "This Account Has Been closed Due to Violation of SpacePedia/Uzay Platform Terms of Use.";
+        }
         elseif((int)$user['email_verified']===0){
             $msg=$lang==='tr'
                 ? "Hesabınız aktifleştirilmemiş. Lütfen e-postanızı kontrol edin."
