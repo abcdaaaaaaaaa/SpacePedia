@@ -45,6 +45,8 @@ require_once __DIR__.'/support_renew_check_auto.php';
 <!DOCTYPE html>
 <html lang="<?php echo $lang; ?>">
 <head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9872958805289346"
+     crossorigin="anonymous"></script>
 <title id="dynamic-title"></title>
 <link rel="shortcut icon" href="https://www.uzay.info/uzaylogo.ico">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -330,7 +332,7 @@ a.user:hover{background:#4654e1;color:#fff;transform:translateX(3px)}
         <h2>Uzay Ansiklopedileri Hangi Gruplara Hitap Ediyor?</h2>
         <h3>Hazırlanan Uzay Ansiklopedileri, öğrenmeden araştırmalara, araştırmalardan çalışmalara, çalışmalardan <a href="/akademikmakaleler" class="link">akademik makalelere</a> ve <a href="/ogreticimakaleler" class="link">öğretici makalelere</a> kadar geniş bir yelpaze arayan kitleye hitap eder.</h3>
         <h2>Çok Taraflı Etkileşim Özelliğine Sahip İnteraktif Uzay Ansiklopedisi!</h2>
-        <h3>uzay.info yalnızca hazır içeriklerin sunulduğu bir platform değildir. Kullanıcılar da özgür uzay ansiklopedisine <a href="/yeniakademikmakale" class="link">akademik makale</a>, <a href="/yeniogreticimakale" class="link">öğretici makale</a> ve <a href="/yeniekitap" class="link">e-kitap</a> yazarak katkıda bulunabilir, <a href="/forumlar" class="link">forumlarda</a> tartışmalara katılabilir ve bilgi aktarımında aktif rol alabilir.</h3>
+        <h3>uzay.info yalnızca hazır içeriklerin sunulduğu bir platform değildir. Kullanıcılar da özgür uzay ansiklopedisine <a href="/yeniakademikmakale" class="link">yeni akademik makale</a>, <a href="/yeniogreticimakale" class="link">yeni öğretici makale</a> ve <a href="/yeniekitap" class="link">yeni e-kitap</a> yazarak katkıda bulunabilir, <a href="/forumlar" class="link">forumlarda</a> tartışmalara katılabilir ve bilgi aktarımında aktif rol alabilir.</h3>
         <h2>Uzay Simülasyonları ile Aktif Öğrenme!</h2>
         <h3>uzay.info, uzayı daha anlaşılır hale getirmek için <a href="/simulate" class="link">simülasyonlar</a> sunar. Bu simülasyonlar sayesinde kullanıcılar gezegenlerin hareketlerini, yıldız sistemlerini ve diğer uzay olaylarını gözlemleyerek öğrenebilir. Böylece yalnızca okuyarak değil, inceleyerek ve deneyimleyerek aktif bir öğrenme süreci oluşur.</h3>
         <h2>Eğlenceli Oyunlarla da Öğretmeyi Amaçlıyoruz!</h2>
@@ -350,7 +352,7 @@ a.user:hover{background:#4654e1;color:#fff;transform:translateX(3px)}
         <h2>Which Groups Do Space Encyclopedias Appeal To?</h2>
         <h3>The prepared Space Encyclopedias appeal to an audience looking for a wide range from learning to research, from research to studies, and from studies to <a href="/academic_articles" class="link">academic articles</a> and <a href="/tutorial_articles" class="link">tutorial articles</a>.</h3>
         <h2>An Interactive Space Encyclopedia With Multifaceted Interaction Capabilities!</h2>
-        <h3>SpacePedia is not only a platform where ready content is presented. Users can also contribute to its free space encyclopedia by writing <a href="/new_academic_article" class="link">academic articles</a>, <a href="/new_tutorial_article" class="link">tutorial articles</a> and <a href="/new_ebook" class="link">e-books</a>, participate in discussions in <a href="/forums" class="link">forums</a> and take an active role in sharing information.</h3>
+        <h3>SpacePedia is not only a platform where ready content is presented. Users can also contribute to its free space encyclopedia by writing <a href="/new_academic_article" class="link">new academic articles</a>, <a href="/new_tutorial_article" class="link">new tutorial articles</a> and <a href="/new_ebook" class="link">new e-books</a>, participate in discussions in <a href="/forums" class="link">forums</a> and take an active role in sharing information.</h3>
         <h2>Active Learning with Space Simulations!</h2>
         <h3>SpacePedia offers <a href="/simulate" class="link">simulations</a> to make space easier to understand. Thanks to these simulations, users can learn by observing the movements of planets, star systems and other space events. Thus, an active learning process occurs not only by reading but also by examining and experiencing.</h3>
         <h2>We Aim to Teach Through Fun Games Too!</h2>
