@@ -1,9 +1,8 @@
 <?php
 session_start();
+if(isset($_GET['lang'])){$lang=$_GET['lang'];$_SESSION['lang']=$lang;}elseif(isset($_SESSION['lang'])){$lang=$_SESSION['lang'];}else{$lang='tr';}
 require_once '../db_config.php';
 require_once __DIR__.'/mailer.php';
-
-$lang=$_SESSION['lang'] ?? 'tr';
 
 $status_text='';
 $error_text='';
@@ -13,7 +12,7 @@ $show_form=true;
 $show_resend=false;
 
 function getUser($db,$username,$email){
-    $stmt=$db->prepare("SELECT id,username,email,reset_token_expires FROM users WHERE username=? AND email=?");
+    $stmt=$db->prepare("SELECT id,username,email,account_closed,email_verified,reset_token_expires FROM users WHERE username=? AND email=?");
     $stmt->execute([$username,$email]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
@@ -27,11 +26,26 @@ if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['username'],$_POST['email
             ?'Kullanıcı adı veya e-posta hatalı.'
             :'Username or email is incorrect.';
     }else{
-
-        if($user['reset_token_expires'] && strtotime($user['reset_token_expires']) > time()){
-            $expires_at=strtotime($user['reset_token_expires']);
-            $remaining=$expires_at-time();
-            $show_form=false;
+        
+        if($user['account_closed']==1){
+            $error_text=$lang==='tr'
+                ?'Bu hesap kapatıldığı için şu anda işlem yapılamaz.'
+                :'This account is closed, so processing cannot be done at this time.';
+        }
+        elseif($user['account_closed']==-1){
+            $error_text=$lang==='tr'
+                ?'Bu Hesap uzay.info Platformunun Kullanım Şartlarını İhlâl Ederek Kapatıldığı için İşlem Yapılamaz.'
+                :'This Account Has Been Closed Due to Violation of SpacePedia Platform Terms of Use, So Processing Cannot Be Done.';
+        }
+        elseif($user['email_verified']==0){
+            $error_text=$lang==='tr'
+                ?'Hesabınız aktifleştirilmemiş. Lütfen e-postanızı kontrol edin.'
+                :'Your account is not activated. Please check your email.';
+        }
+        elseif($user['reset_token_expires'] && strtotime($user['reset_token_expires']) > time()){
+            $error_text=$lang==='tr'
+                ?'Zaten aktif bir parola yenileme isteğiniz var. Lütfen sürenin bitmesini bekleyin.'
+                :'You already have an active password reset request. Please wait until it expires.';
         }else{
 
             $token=bin2hex(random_bytes(32));
