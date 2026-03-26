@@ -41,9 +41,9 @@ hr{border:0;border-top:1px solid rgba(255,255,255,0.25);margin:18px 0}
 
 <div class="card">
 <?php if($lang==='tr'): ?>
-<p>Bu Kullanım Şartları, SpacePedia/Uzay platformunu kullanırken uymanız gereken kuralları açıklar. Platformu kullanarak bu şartları kabul etmiş olursunuz.</p>
+<p>Bu Kullanım Şartları, uzay.info Platformunu kullanırken uymanız gereken kuralları açıklar. Platformu kullanarak bu şartları kabul etmiş olursunuz.</p>
 <?php else: ?>
-<p>These Terms of Use describe the rules you must follow when using SpacePedia/Uzay. By using the platform, you agree to these terms.</p>
+<p>These Terms of Use describe the rules you must follow when using SpacePedia Platform. By using the platform, you agree to these terms.</p>
 <?php endif; ?>
 </div>
 
