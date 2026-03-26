@@ -1,9 +1,9 @@
 <?php
+session_start();
 if(isset($_GET['lang'])){$lang=$_GET['lang'];$_SESSION['lang']=$lang;}elseif(isset($_SESSION['lang'])){$lang=$_SESSION['lang'];}else{$lang='tr';}
 require_once '../db_config.php';
 require_once __DIR__.'/mailer.php';
 
-$lang=$_GET['lang']??'tr';
 $token=$_GET['token']??null;
 
 $status='';
