@@ -4,8 +4,6 @@ if(isset($_GET['lang'])){$lang=$_GET['lang'];$_SESSION['lang']=$lang;}elseif(iss
 require_once '../db_config.php';
 require_once __DIR__.'/mailer.php';
 
-$lang=$_SESSION['lang'] ?? 'tr';
-
 $status_text='';
 $error_text='';
 $remaining=0;
@@ -13,13 +11,19 @@ $expires_at=0;
 $show_form=true;
 
 function getUser($db,$username,$password){
-    $stmt=$db->prepare("SELECT id,password,email_change_expires FROM users WHERE username=?");
+    $stmt=$db->prepare("SELECT id,username,password,email,email_change_expires,account_closed,email_verified FROM users WHERE username=?");
     $stmt->execute([$username]);
     $u=$stmt->fetch(PDO::FETCH_ASSOC);
     if($u && password_verify($password,$u['password'])){
         return $u;
     }
     return null;
+}
+
+function emailExistsForOtherUser($db,$email,$user_id){
+    $stmt=$db->prepare("SELECT id FROM users WHERE email=? AND id!=? LIMIT 1");
+    $stmt->execute([$email,$user_id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC)!==false;
 }
 
 if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['username'],$_POST['password'],$_POST['pending_email'])){
@@ -31,28 +35,72 @@ if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['username'],$_POST['passw
             ?'Kullanıcı adı veya parola hatalı.'
             :'Username or password is incorrect.';
     }else{
+        
+        if($user['account_closed']==1){
+            $error_text=$lang==='tr'
+                ?'Bu hesap kapatıldığı için şu anda işlem yapılamaz.'
+                :'This account is closed, so processing cannot be done at this time.';
+        }
+        elseif($user['account_closed']==-1){
+            $error_text=$lang==='tr'
+                ?'Bu Hesap uzay.info Platformunun Kullanım Şartlarını İhlâl Ederek Kapatıldığı için İşlem Yapılamaz.'
+                :'This Account Has Been Closed Due to Violation of SpacePedia Platform Terms of Use, So Processing Cannot Be Done.';
+        }
+        elseif($user['email_verified']==0){
+            $error_text=$lang==='tr'
+                ?'Hesabınız aktifleştirilmemiş. Lütfen e-postanızı kontrol edin.'
+                :'Your account is not activated. Please check your email.';
+        }
+        else{
+            $stmt=$db->prepare("SELECT email_change_expires FROM users WHERE id=?");
+            $stmt->execute([$user['id']]);
+            $u2=$stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($user['email_change_expires'] && strtotime($user['email_change_expires']) > time()){
-            $expires_at=strtotime($user['email_change_expires']);
-            $remaining=$expires_at-time();
-            $show_form=false;
-        }else{
+            if($u2 && $u2['email_change_expires'] && strtotime($u2['email_change_expires'])>time()){
+                $error_text=$lang==='tr'
+                    ?'Zaten aktif bir e-posta değiştirme isteğiniz var. Lütfen sürenin bitmesini bekleyin.'
+                    :'You already have an active email change request. Please wait until it expires.';
+            }
+            else{
+                $pending_email=trim($_POST['pending_email']);
 
-            $token=bin2hex(random_bytes(32));
-            $expires_at=time()+600;
+                if($pending_email===''){
+                    $error_text=$lang==='tr'
+                        ?'Lütfen geçerli bir e-posta adresi girin.'
+                        :'Please enter a valid email address.';
+                }
+                elseif(!filter_var($pending_email,FILTER_VALIDATE_EMAIL)){
+                    $error_text=$lang==='tr'
+                        ?'Geçersiz e-posta adresi.'
+                        :'Invalid email address.';
+                }
+                elseif(strtolower($pending_email)===strtolower(trim($user['email']))){
+                    $error_text=$lang==='tr'
+                        ?'Yeni e-posta mevcut e-posta ile aynı olamaz.'
+                        :'New email cannot be the same as the current email.';
+                }
+                elseif(emailExistsForOtherUser($db,$pending_email,$user['id'])){
+                    $error_text=$lang==='tr'
+                        ?'Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor.'
+                        :'This email address is already used by another user.';
+                }else{
+                    $token=bin2hex(random_bytes(32));
+                    $expires_at=time()+600;
 
-            $db->prepare("UPDATE users SET email_change_token=?,email_change_expires=?,pending_email=?,last_email_change_sent=NOW() WHERE id=?")
-               ->execute([$token,date('Y-m-d H:i:s',$expires_at),$_POST['pending_email'],$user['id']]);
+                    $db->prepare("UPDATE users SET email_change_token=?,email_change_expires=?,pending_email=?,last_email_change_sent=NOW() WHERE id=?")
+                       ->execute([$token,date('Y-m-d H:i:s',$expires_at),$pending_email,$user['id']]);
 
-            sendEmailChangeMail($_POST['pending_email'],$user['username'],$token,$lang);
+                    sendEmailChangeMail($pending_email,$user['username'],$token,$lang);
 
-            $_SESSION['email_change_user_id']=$user['id'];
-            $remaining=600;
-            $show_form=false;
+                    $_SESSION['email_change_user_id']=$user['id'];
+                    $remaining=600;
+                    $show_form=false;
 
-            $status_text=$lang==='tr'
-                ?"E-posta değiştirme bağlantısı gönderildi."
-                :"Email change link has been sent.";
+                    $status_text=$lang==='tr'
+                        ?"E-posta değiştirme bağlantısı gönderildi."
+                        :"Email change link has been sent.";
+                }
+            }
         }
     }
 }
@@ -108,7 +156,7 @@ if(isset($_SESSION['email_change_user_id'])){
 </div>
             
 <label><?php echo $lang==='tr'?'Yeni E-Posta:':'New Email:'; ?></label><br>
-<input type="text" name="pending_email" required><br>
+<input type="text" name="pending_email" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"><br>
 
 <?php if($error_text) echo "<p style='color:red;text-align:center;'>$error_text</p>"; ?>
 
