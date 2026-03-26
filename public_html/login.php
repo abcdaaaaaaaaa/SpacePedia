@@ -1,4 +1,5 @@
 <?php
+session_start();
 if(isset($_GET['lang'])){$lang=$_GET['lang'];$_SESSION['lang']=$lang;}elseif(isset($_SESSION['lang'])){$lang=$_SESSION['lang'];}else{$lang='tr';}
 require_once 'db_config.php';
 
@@ -41,8 +42,10 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
         }
         elseif((int)$user['account_closed']===-1){
             $msg=$lang==='tr'
-                ? "Bu Hesap SpacePedia/Uzay Platformunun Kullanım Şartlarını İhlâl Ettiği için Kapatılmıştır."
-                : "This Account Has Been closed Due to Violation of SpacePedia/Uzay Platform Terms of Use.";
+                ? "Bu Hesap uzay.info Platformunun Kullanım Şartlarını İhlâl Ettiği için Kapatılmıştır."
+                : "This Account Has Been closed Due to Violation of SpacePedia Platform Terms of Use.";
+            $_SESSION['resend_login']=$login;
+            $show_resend=true;
         }
         elseif((int)$user['email_verified']===0){
             $msg=$lang==='tr'
