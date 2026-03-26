@@ -45,8 +45,6 @@ require_once __DIR__.'/support_renew_check_auto.php';
 <!DOCTYPE html>
 <html lang="<?php echo $lang; ?>">
 <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9872958805289346"
-     crossorigin="anonymous"></script>
 <title id="dynamic-title"></title>
 <link rel="shortcut icon" href="https://www.uzay.info/uzaylogo.ico">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
