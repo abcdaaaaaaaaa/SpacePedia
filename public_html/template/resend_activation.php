@@ -1,9 +1,7 @@
 <?php
 session_start();
-require_once '../db_config.php';
+if(isset($_GET['lang'])){$lang=$_GET['lang'];$_SESSION['lang']=$lang;}elseif(isset($_SESSION['lang'])){$lang=$_SESSION['lang'];}else{$lang='tr';}require_once '../db_config.php';
 require_once __DIR__ . '/mailer.php';
-
-$lang = $_SESSION['lang'] ?? 'tr';
 
 $status_text = '';
 $error_text = '';
@@ -13,7 +11,7 @@ $show_form = false;
 $show_resend = false;
 
 function getUser($db, $login) {
-    $stmt = $db->prepare("SELECT id,username,email,password,email_verified,email_token_expires FROM users WHERE username=? OR email=?");
+    $stmt = $db->prepare("SELECT id,username,email,password,email_verified,email_token_expires,account_closed FROM users WHERE username=? OR email=?");
     $stmt->execute([$login, $login]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
@@ -31,7 +29,27 @@ if (!isset($_SESSION['resend_login'])) {
                 : "Username, email, or password is incorrect.";
             $show_form = true;
         } else {
-            $_SESSION['resend_login'] = $login;
+            if($user['account_closed']==1){
+                $error_text = $lang === 'tr'
+                    ? "Bu hesap kapatılmıştır."
+                    : "This account is closed.";
+                $show_form = true;
+            }
+            elseif($user['account_closed']==-1){
+                $error_text = $lang === 'tr'
+                    ? "Bu Hesap uzay.info Platformunun Kullanım Şartlarını İhlâl Ettiği için Kapatılmıştır."
+                    : "This Account Has Been closed Due to Violation of SpacePedia Platform Terms of Use.";
+                $show_form = true;
+            }
+            elseif($user['email_verified']==1){
+                $status_text = $lang === 'tr'
+                    ? "Bu hesap zaten aktive edilmiş. Ana sayfaya yönlendiriliyorsunuz."
+                    : "This account is already activated. Redirecting to index.";
+                header("Refresh:2; url=/logout");
+            }
+            else{
+                $_SESSION['resend_login'] = $login;
+            }
         }
     } else {
         $show_form = true;
@@ -44,6 +62,16 @@ if (isset($_SESSION['resend_login'])) {
     if (!$user) {
         session_destroy();
         $show_form = true;
+    } elseif ((int)$user['account_closed']===1) {
+        $status_text = $lang === 'tr'
+            ? "Bu hesap kapatılmıştır."
+            : "This account is closed.";
+        session_destroy();
+    } elseif ((int)$user['account_closed']===-1) {
+        $status_text = $lang === 'tr'
+            ? "Bu Hesap uzay.info Platformunun Kullanım Şartlarını İhlâl Ettiği için Kapatılmıştır."
+            : "This Account Has Been closed Due to Violation of SpacePedia Platform Terms of Use.";
+        session_destroy();
     } elseif ($user['email_verified']) {
         $status_text = $lang === 'tr'
             ? "Bu hesap zaten aktive edilmiş. Ana sayfaya yönlendiriliyorsunuz."
@@ -70,11 +98,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['resend'], $_SESSION['
 
     $user = getUser($db, $_SESSION['resend_login']);
 
-    if ($user && !$user['email_verified']) {
+    if ($user && !$user['email_verified'] && (int)$user['account_closed']===0) {
 
         if ($user['email_token_expires'] && strtotime($user['email_token_expires']) > time()) {
-            $expires_at = strtotime($user['email_token_expires']);
-            $remaining = $expires_at - time();
+            $status_text = $lang === 'tr'
+                ? "Zaten aktif bir aktivasyon bağlantısı gönderildi. Lütfen sürenin bitmesini bekleyin."
+                : "An activation link has already been sent. Please wait until it expires.";
+            $show_resend = false;
         } else {
 
             $token = bin2hex(random_bytes(32));
