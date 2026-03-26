@@ -41,9 +41,9 @@ hr{border:0;border-top:1px solid rgba(255,255,255,0.25);margin:18px 0}
 
 <div class="card">
 <?php if($lang==='tr'): ?>
-<p>Bu Gizlilik Politikası, SpacePedia/Uzay platformunda hangi verilerin işlendiğini, neden işlendiğini ve nasıl korunduğunu açıklar.</p>
+<p>Bu Gizlilik Politikası, uzay.info Platformunda hangi verilerin işlendiğini, neden işlendiğini ve nasıl korunduğunu açıklar.</p>
 <?php else: ?>
-<p>This Privacy Policy explains what data we process on SpacePedia/Uzay, why we process it, and how we protect it.</p>
+<p>This Privacy Policy explains what data we process on SpacePedia Platform, why we process it, and how we protect it.</p>
 <?php endif; ?>
 </div>
 
