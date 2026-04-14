@@ -108,6 +108,10 @@ a.user:hover{background:#4654e1;color:#fff;transform:translateX(3px)}
 .lobbypanel h3{margin-top:15px;color:#7dd3fc;}
 .spacer{height:160px;}
 .hero-gap{height:1px}
+.active-lang{background:#22c55e;color:#ffffff!important}
+.active-lang:hover{background:#22c55e!important;color:#fff!important}
+.lang-hover{background:#ffffff!important}
+.lang-hover:hover{background:rgba(34,197,94,0.45)!important}
 .mobil-ekstra{display: none;}
 .link{color:royalblue;text-decoration:underline;}
 .ayarlarbuton .menu-icerik{z-index:1000}
@@ -258,8 +262,8 @@ a.user:hover{background:#4654e1;color:#fff;transform:translateX(3px)}
 <div class="ayarlarbuton">
 <img src="https://www.uzay.info/static/ayarlar.png" width="40" height="40">
   <div class="menu-icerik">
-    <a href="/tr">Türkçe</a>
-    <a href="/eng">English</a>
+    <a href="/tr" class="<?php echo $lang==='tr'?'active-lang':''; ?>">Türkçe <i class="fa-solid fa-check"></i></a>
+    <a href="/eng" class="lang-hover">English</a>
   </div>
 </div>
 </div>
@@ -314,8 +318,8 @@ a.user:hover{background:#4654e1;color:#fff;transform:translateX(3px)}
 <div class="ayarlarbuton">
 <img src="https://www.uzay.info/static/ayarlar.png" width="40" height="40">
   <div class="menu-icerik">
-    <a href="/eng">English</a>
-    <a href="/tr">Türkçe</a>
+    <a href="/eng" class="<?php echo $lang==='en'?'active-lang':''; ?>">English <i class="fa-solid fa-check"></i></a>
+    <a href="/tr" class="lang-hover">Türkçe</a>
   </div>
 </div>
 </div>
