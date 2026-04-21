@@ -53,7 +53,7 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
             $activeStmt->execute();
             $activeCount=(int)$activeStmt->fetchColumn();
 
-            $closedStmt=$db->prepare("SELECT COUNT(*) FROM users WHERE register_ip=:ip AND account_closed=1");
+            $closedStmt=$db->prepare("SELECT COUNT(*) FROM users WHERE register_ip=:ip AND account_closed IN (1,-1)");
             $closedStmt->bindParam(':ip',$register_ip);
             $closedStmt->execute();
             $closedCount=(int)$closedStmt->fetchColumn();
