@@ -564,10 +564,6 @@
     RewriteCond %{THE_REQUEST} \s/+template/email\.php[\s?] [NC]
     RewriteRule ^template/email\.php$ /email [R=301,L]
 
-    #  RewriteCond %{REQUEST_FILENAME} !-f
-    #  RewriteCond %{REQUEST_FILENAME} !-d
-    #  RewriteRule ^(.*)$ 404notfound.php [L]
-
     RewriteRule ^@/([a-zA-Z0-9_-]+)$ profile.php?username=$1
     #  RewriteRule ^@/([A-Za-z0-9_-]+)$ profile.php?username=$1 [L]
     
@@ -773,6 +769,7 @@ RewriteRule ^template/eng/user_simulation\.php$ /@/%1/simulations [R=301,L]
     RewriteCond %{THE_REQUEST} \s/+template/eng/info\.html[\s?] [NC]
     RewriteRule ^template/eng/info\.html$ /space_arena [R=301,L]
 
+    ErrorDocument 403 /
     ErrorDocument 404 /
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
@@ -819,4 +816,3 @@ RewriteRule ^template/eng/user_simulation\.php$ /@/%1/simulations [R=301,L]
     RewriteCond %{HTTPS} on
     RewriteCond %{QUERY_STRING} !(^|&)lang= [NC]
     RewriteRule ^(.*)$ $1?lang=tr [QSA,NC]
-# END oPanel Denyip
